@@ -1,6 +1,7 @@
 <?php
 $languages = array(
 
+    
   //common
   "company_name" => "Welder",
   "company_logo_text" => "Welder",
