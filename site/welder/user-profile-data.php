@@ -7,12 +7,25 @@
   $customer_fullname = $_SESSION['customer_name'];
   
   if(isset($_POST['update_profile'])) {
-    //echo "<pre>";print_r($_POST);
+    print_array_for_debug($_POST);exit;
     
-    $customer_firstname = $_POST['customer_firstname'];
-    $customer_lastname = $_POST['customer_lastname'];
-    $customer_email = $_POST['customer_email'];
-    $customer_phone = $_POST['customer_phone'];
+    $customer_firstname = trim($_POST['customer_firstname']);
+    $customer_surname = trim($_POST['customer_surname']);
+    $customer_lastname = trim($_POST['customer_lastname']);
+    $customer_gender = $_POST['customer_gender'];
+    $customer_age = intval($_POST['customer_age']);
+    $customer_address_site_id = $_POST['customer_address_site_id'];
+    $customer_address_site_name = $_POST['customer_address_site_name'];
+    $customer_address_site_postcode = $_POST['customer_address_site_postcode'];
+    $customer_work_abroad = 0;
+      if(isset($_POST['customer_work_abroad'])) $customer_work_abroad = 1;
+    $customer_work_abroad_long_term = 0;
+      if(isset($_POST['customer_work_abroad_long_term'])) $customer_work_abroad_long_term = 1;
+    $customer_work_abroad_short_term = 0;
+      if(isset($_POST['customer_work_abroad_short_term'])) $customer_work_abroad_short_term = 1;
+    $customer_explanation_text = $_POST['customer_explanation_text'];
+    $customer_email = trim($_POST['customer_email']);
+    $customer_phone = trim($_POST['customer_phone']);
     $customer_is_in_mailist = 0;
       if(isset($_POST['customer_is_in_mailist'])) $customer_is_in_mailist = 1;
     if(!empty($_POST['customer_password'])) {
