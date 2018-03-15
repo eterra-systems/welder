@@ -1,0 +1,153 @@
+/*
+=================================================
+				UP FROM 1400PX
+=================================================
+*/ 
+@media (min-width: 1733px) {
+  nav.col-lg-1 {
+    width: 13%;
+  }
+  main.col-lg-11 {
+    width: 87%;
+  }
+  body.closed_nav nav.col-lg-1 {
+    width: 4%;
+  }
+  body.closed_nav main.col-lg-11 {
+    width: 96%;
+  }
+}
+
+
+/*============	Media Between Start ============ */
+@media screen and (min-width: 1421px) and (max-width: 1732px) {
+  nav.col-lg-1 {
+    width: 14%;
+  }
+  main.col-lg-11 {
+    width: 86%;
+  }
+  body.closed_nav nav.col-lg-1 {
+    width: 4%;
+  }
+  body.closed_nav main.col-lg-11 {
+    width: 96%;
+  }
+  .input_with_language {
+    width: 94%;
+  }
+}
+
+
+/*============	Media Between Start ============ */
+@media screen and (min-width: 1321px) and (max-width: 1420px) {
+  nav.col-lg-1 {
+    width: 14%;
+  }
+  main.col-lg-11 {
+    width: 86%;
+  }
+  body.closed_nav nav.col-lg-1 {
+    width: 4%;
+  }
+  body.closed_nav main.col-lg-11 {
+    width: 96%;
+  }
+  .input_with_language {
+    width: 93%;
+  }
+}
+
+
+/*============	Media Between Start ============ */
+@media screen and (min-width: 1200px) and (max-width: 1320px) {
+  nav.col-lg-1 {
+    width: 14%;
+  }
+  main.col-lg-11 {
+    width: 86%;
+  }
+  body.closed_nav nav.col-lg-1 {
+    width: 4%;
+  }
+  body.closed_nav main.col-lg-11 {
+    width: 96%;
+  }
+  .input_with_language {
+    width: 93%;
+  }
+}
+
+
+/*============	Media Between Start ============ */
+@media screen and (min-width: 991px) and (max-width: 1199px) {
+  .input_with_language {
+    width: 94%;
+  }
+  body.closed_nav nav .arrow {
+    display: none !important;
+  }
+  body.closed_nav nav.col-md-2 {
+    width: 5%;
+  }
+  body.closed_nav main.col-md-10 {
+    width: 95%;
+  }
+}
+
+
+/*============	Media 768Px Start ============ */ 
+@media (min-width: 768px) and (max-width: 990px) {
+  .input_with_language {
+    width: 94%;
+  }
+  body.closed_nav nav .arrow {
+    display: none !important;
+  }
+  body.closed_nav nav.col-md-2 {
+    width: 6%;
+  }
+  body.closed_nav main.col-md-10 {
+    width: 94%;
+  }
+}
+
+
+/*============ Media 767Px Start ============ */
+@media (max-width: 767px) {
+  .input_with_language {
+    width: 90%;
+  }
+  body.closed_nav .menu_a_1_level .menu_icon {
+    font-size: 1.8em;
+  }
+  body.closed_nav nav .arrow {
+    display: none !important;
+  }
+  body.closed_nav nav.col-md-2 {
+    width: 6.5%;
+  }
+  body.closed_nav main.col-md-10 {
+    width: 93.5%;
+  }
+}
+
+
+/*============ Media 480Px Star ============ */
+@media (max-width: 480px) {
+  body.closed_nav .menu_a_1_level .menu_icon {
+    font-size: 1.6em;
+  }
+  body.closed_nav nav .arrow {
+    display: none !important;
+  }
+  .input_with_language {
+    width: 86%;
+  }
+}
+
+
+/*============ Media 320Px Star ============ */
+@media (max-width: 320px) {
+
+}

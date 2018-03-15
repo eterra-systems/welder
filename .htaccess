@@ -1,0 +1,120 @@
+# Attempt to override some php settings, these settings may be helpful on some hosts if your
+# default configuration does not meet CMS's minimum requirements, and your host
+# has given your account appropriate permissions
+#php_value upload_max_filesize "10M"
+#php_value session_save_path "tmp/cache"
+
+#php_flag magic_quotes_gpc Off
+#php_flag register_globals Off
+#php_flag session.use_trans_sid Off
+
+# (this is important, so uncomment if your host permit)
+#Options -Indexes]
+
+ServerSignature Off
+
+#Options +FollowSymLinks
+
+# Prevent Directoy listing 
+#Options -Indexes
+
+# To prevent E_STRICT problems with PHP 5.3+ you can uncomment the following lines
+# Note: These settings should only be enabled for production sites!
+#php_flag display_startup_errors 0
+#php_flag display_errors 0
+#php_flag html_errors 0
+#php_value docref_root 0
+#php_value docref_ext 0
+
+#Redirect 301 /bg/женски-якета?cid=4&cpid=3 https://www.kan-tech.net/software/studioars/urbano-hydra
+
+<IfModule mod_rewrite.c>
+  RewriteEngine on
+  RewriteBase /
+  #
+  #Sub-dir e.g: /cmsms
+
+  # 301 Redirect all requests that don't contain a dot or trailing slash to
+  # include a trailing slash
+  # but ignore POST requests.
+  #RewriteCond %{REQUEST_URI} !/$
+  #RewriteCond %{REQUEST_URI} !\.
+  #RewriteCond %{REQUEST_METHOD} !POST$
+  #RewriteRule ^(.*) %{REQUEST_URI}/ [R=301,L]
+
+  # Rewrites urls in the form of /parent/child/
+  # but only rewrites if the requested URL is not a file or directory
+  #
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_URI} !.*\.(ico|gif|jpg|jpeg|png|js|css)
+  RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+  RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+  RewriteRule ^(.+)$ index.php?page=$1 [QSA,L]
+  RewriteCond %{HTTP_USER_AGENT} libwww-perl.* 
+#  RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+#  RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+  RewriteRule .* ? [F,L]
+</IfModule>
+
+<IfModule php5_module>
+    php_flag session.cookie_httponly on
+</IfModule>
+
+<IfModule mod_header.c>
+  Header set X-XSS-Protection "1; mode=block"
+  # Disable ETags
+  Header unset ETag
+  FileEtag None
+  FileETag INode MTime Size
+
+  # Setting cache control to public allowes proxy servers to cache the items too.
+  Header set Cache-Control "public"
+</IfModule>
+
+<IfModule mod_expires.c>
+  # Enable expirations
+  ExpiresActive On 
+  # Default directive
+  ExpiresDefault "access plus 1 month"
+  # My favicon
+  ExpiresByType image/ico "access plus 1 year"
+  ExpiresByType image/x-icon "access plus 1 year"
+  # Images
+  ExpiresByType image/gif "access plus 1 month"
+  ExpiresByType image/png "access plus 1 month"
+  ExpiresByType image/jpg "access plus 1 month"
+  ExpiresByType image/jpeg "access plus 1 month"
+  # CSS
+  ExpiresByType text/css "access plus 1 week"
+  # XML
+  ExpiresByType text/xml "access plus 1 month"
+  ExpiresByType application/xhtml+xml "access plus 1 month"
+  # Javascript
+  ExpiresByType text/javascript "access plus 1 week"
+  ExpiresByType application/javascript "access plus 1 week"
+  ExpiresByType application/x-javascript "access plus 1 week"
+  # PDF
+  ExpiresByType application/pdf "access plus 1 month"
+  # FLASH
+  ExpiresByType application/x-shockwave-flash "access plus 1 month"
+
+  <FilesMatch ".(flv|gif|jpg|jpeg|png|ico|swf|js|css|pdf)$">
+    # access plus 1 year
+    Header set Cache-Control "max-age=31536000"
+  </FilesMatch>
+</IfModule>
+
+<IfModule mod_deflate.c>
+  # Compress css, plaintext, xml, gif, and images in transport.
+  AddOutputFilterByType DEFLATE text/html
+  AddOutputFilterByType DEFLATE text/css
+  AddOutputFilterByType DEFLATE text/plain
+  AddOutputFilterByType DEFLATE text/xml
+  AddOutputFilterByType DEFLATE image/gif
+  AddOutputFilterByType DEFLATE image/jpeg
+  AddOutputFilterByType DEFLATE image/png
+  AddOutputFilterByType DEFLATE text/javascript
+  AddOutputFilterByType DEFLATE application/javascript
+  AddOutputFilterByType DEFLATE application/x-javascript
+</IfModule>

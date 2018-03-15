@@ -1,0 +1,9 @@
+User-agent: *
+Disallow: /
+Disallow: /bg/registration
+Disallow: /bg/product-quick-view
+Disallow: /bg/user-profiles/user-profile-data
+Disallow: /bg/user-profiles/user-profile-orders
+Disallow: /bg/user-profiles/user-profile-wishlist
+Disallow: /bg/shopping-cart/shopping-cart-overview
+Disallow: /bg/shopping-cart/shopping-cart-addresses
