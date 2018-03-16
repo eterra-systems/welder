@@ -29,20 +29,28 @@ function print_html_header($meta_title, $meta_description, $meta_keywords, $addi
   //unset($_SESSION);
   //session_destroy();
 
-  if (!$body_css) $body_css = "index";
+  if(!$body_css) $body_css = "home";
  ?>
 <!DOCTYPE html>
 <html dir="ltr" lang="<?=$current_lang;?>">
   <head>
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <!-- Title Of Site -->
     <title><?=strip_tags($meta_title);?></title>
     <meta name="description" content="<?=strip_tags($meta_description);?>">
     <meta name="keywords" content="<?=strip_tags($meta_keywords);?>" >
     <meta name="author" content="Eterrasystems Ltd.">
+    
+    <!-- Fav and Touch Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="<?=SITEFOLDERSL;?>/images/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="<?=SITEFOLDERSL;?>/images/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="<?=SITEFOLDERSL;?>/images/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="<?=SITEFOLDERSL;?>/images/ico/apple-touch-icon-57-precomposed.png">
+    <link rel="shortcut icon" href="<?=SITEFOLDERSL;?>/images/ico/favicon.png">
+    
     <meta name="robots" content="index, follow">
     <meta property="og:site_name" content="<?=$languages['e_shop_cms'];?>">
     <meta property="og:locale" content="bg_BG">
@@ -55,47 +63,51 @@ function print_html_header($meta_title, $meta_description, $meta_keywords, $addi
     <meta property="og:image:width" content="<?=$fb_width;?>" >
     <meta property="og:image:height" content="<?=$fb_height;?>" >
 <?php if(isset($canonical_link) && !empty($canonical_link)) { echo "$canonical_link \n"; } ?>
-    <!-- Favicon -->
-    <link rel="shortcut icon" href="<?=SITEFOLDERSL;?>/images/favicon.png" type="image/x-icon">
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="<?=SITEFOLDERSL;?>/css/bootstrap.css" type="text/css"  media="all" />
-    <link rel="stylesheet" href="<?=SITEFOLDERSL;?>/css/color.css" type="text/css"  media="all" />
-    <link rel="stylesheet" href="<?=SITEFOLDERSL;?>/css/flexslider.css" type="text/css"  media="all" />
-    <!--<link rel="stylesheet" href="<?=SITEFOLDERSL;?>/css/prettyPhoto.css" type="text/css"  media="all" />-->
-    <link rel="stylesheet" href="<?=SITEFOLDERSL;?>/css/idangerous.swiper.css" type="text/css"  media="all" />
-<?php if($body_css != "product_details") { ?>
-    <link rel="stylesheet" href="<?=SITEFOLDERSL;?>/css/jquery-ui-1.10.4.custom.min.css" type="text/css" />
-<?php } ?>
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" type='text/css'>
-    <link rel="stylesheet" href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' type='text/css'>
-    <link rel="stylesheet" href='http://fonts.googleapis.com/css?family=Vollkorn:400,400italic,700,700italic' type='text/css'>
-    <link rel="stylesheet" href="<?=SITEFOLDERSL;?>/css/style.css" type="text/css"  media="all" />
-    <link rel="stylesheet" href="<?=SITEFOLDERSL;?>/css/responsive.css" type="text/css"  media="all" />
+    
+    <!-- CSS Plugins -->
+    <link rel="stylesheet" type="text/css" href="<?=SITEFOLDERSL;?>/bootstrap/css/bootstrap.min.css" media="screen">	
+    <link rel="stylesheet" type="text/css" href="<?=SITEFOLDERSL;?>/css/animate.css">
+    <link rel="stylesheet" type="text/css" href="<?=SITEFOLDERSL;?>/css/main.css">
+    <link rel="stylesheet" type="text/css" href="<?=SITEFOLDERSL;?>/css/component.css">
 
-    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
+    <!-- CSS Font Icons -->
+    <link rel="stylesheet" href="<?=SITEFOLDERSL;?>/icons/linearicons/style.css">
+    <link rel="stylesheet" href="<?=SITEFOLDERSL;?>/icons/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="<?=SITEFOLDERSL;?>/icons/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="<?=SITEFOLDERSL;?>/icons/ionicons/css/ionicons.css">
+    <link rel="stylesheet" href="<?=SITEFOLDERSL;?>/icons/pe-icon-7-stroke/css/pe-icon-7-stroke.css">
+    <link rel="stylesheet" href="<?=SITEFOLDERSL;?>/icons/rivolicons/style.css">
+    <link rel="stylesheet" href="<?=SITEFOLDERSL;?>/icons/flaticon-line-icon-set/flaticon-line-icon-set.css">
+    <link rel="stylesheet" href="<?=SITEFOLDERSL;?>/icons/flaticon-streamline-outline/flaticon-streamline-outline.css">
+    <link rel="stylesheet" href="<?=SITEFOLDERSL;?>/icons/flaticon-thick-icons/flaticon-thick.css">
+    <link rel="stylesheet" href="<?=SITEFOLDERSL;?>/icons/flaticon-ventures/flaticon-ventures.css">
+
+    <!-- CSS Custom -->
+    <link rel="stylesheet" type="text/css" href="<?=SITEFOLDERSL;?>/css/style.css">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
     <script type="text/javascript">
       var sitefolder = '<?=SITEFOLDER;?>';
     </script>
-    <!--[if (gte IE 6)&(lte IE 8)]>
-      <script type="text/javascript" src="<?=SITEFOLDERSL;?>/js/selectivizr-min.js"></script>
-    <![endif]-->
     <?= $additional_css_javascript; ?>
   </head>
 
-  <body id="<?= $body_css; ?>" class="<?= $body_css; ?> loading homepage-template">
+  <body id="<?= $body_css; ?>" class="<?= $body_css; ?>">
 <?php
   if(!isset($_COOKIE['cookie_policy'])) {
 ?>
-  <div id="cookies_policy">
-    <a href="javascript:;" onclick="ConfirmCookiesPolicy()" class="pull-right btn"><?=$languages['btn_accept_cookie_policy'];?></a>
-    <p class="no_margin"><?=$languages['text_cookie_policy'];?>
-      <a href="/<?=$current_lang;?>/<?php if($current_lang == "bg") echo "политика-за-бисквитките";else echo "cookie-policy"; ?>" target="_blank">
-        <?=$languages['link_cookie_policy'];?>
-      </a>
-    </p>
-  </div>
+    <div id="cookies_policy">
+      <a href="javascript:;" onclick="ConfirmCookiesPolicy()" class="pull-right btn"><?=$languages['btn_accept_cookie_policy'];?></a>
+      <p class="no_margin"><?=$languages['text_cookie_policy'];?>
+        <a href="/<?=$current_lang;?>/<?php if($current_lang == "bg") echo "политика-за-бисквитките";else echo "cookie-policy"; ?>" target="_blank">
+          <?=$languages['link_cookie_policy'];?>
+        </a>
+      </p>
+    </div>
 <?php } ?>
 
     <div id="modal_window_backgr"></div>
@@ -129,129 +141,55 @@ function print_html_header($meta_title, $meta_description, $meta_keywords, $addi
       @$_SESSION['contact_mobile_phones'] = $default_contact_array['contact_mobile_phones'];
     }
 ?>
-    <div class="outer-wrapper">
+    <div class="container-wrapper">
 
-      <div class="site-wrapper">
+      <header id="header">
 
-        <div class="site-wrapper-overlay"></div>
+        <nav class="navbar navbar-default navbar-fixed-top navbar-sticky-function">
 
-        <header class="header">
+          <div class="container">
 
-          <div class="top-bar clearfix">
+            <div class="logo-wrapper">
+              <div class="logo">
+                <a href="<?=$home_page_url;?>" title="<?=$languages['company_logo_text'];?>">
+                  <?=$languages['company_logo_text'];?>
+                </a>
+              </div>
+            </div>
 
-            <div class="top-bar-wrapper">
+            <div id="navbar" class="navbar-nav-wrapper navbar-arrow">
 
-              <ul class="top-right-links">
+              <ul class="nav navbar-nav" id="responsive-menu">
+                <?php print_header_menu($category_parent_id = 0, $content_hierarchy_level_start = 0, $number_of_hierarchy_levels = 3); ?>
+              </ul>
+
+            </div><!--/.nav-collapse -->
+            
+            <div class="nav-mini-wrapper">
+              <ul class="nav-mini sign-in">
               <?php if (isset($_SESSION['customer_id'])) { ?>
                 <li>
-                  <i class="fa fa-user" aria-hidden="true"></i> 
                   <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-data" rel="nofollow"><?= $languages['customer_profile']; ?></a>
                 </li>
-                <li><i class="fa fa-sign-out" aria-hidden="true"></i> 
-                  <a href="/<?= $current_lang; ?>/logout" rel="nofollow"><?= $languages['logout']; ?></a></li>
+                <li><a href="/<?= $current_lang; ?>/logout" rel="nofollow"><?= $languages['logout']; ?></a></li>
               <?php } else { ?>
-                <li>
-                  <i class="fa fa-sign-in" aria-hidden="true"></i> 
-                  <a href="/<?= $current_lang; ?>/login" class="login_btn" rel="nofollow"><?= $languages['login_sign_in']; ?></a>
-                </li>
-                <li>
-                  <i class="fa fa-user" aria-hidden="true"></i> 
-                  <a href="/<?= $current_lang; ?>/registration" class="registration" rel="nofollow"><?= $languages['login_sign_up']; ?></a>
-                </li>
+                <li><a href="/<?= $current_lang; ?>/login" rel="nofollow"><?= $languages['login_sign_in']; ?></a></li>
+                <li><a href="/<?= $current_lang; ?>/registration" rel="nofollow"><?= $languages['login_sign_up']; ?></a></li>
               <?php } ?>
-
               </ul>
-
-              <ul class="social-links hidden">
-                <?php list_contacts_socials(); ?>
-              </ul>
-              
-              <div id="choose_language" class="language">
-                <a href="javascript:;" class="choose_language toggle-dropdown">
-
-                </a>
-                <ul class="dropdown-menu" id="languages">
-                  <?php print_header_language_menu(); ?>
-                </ul>
-              </div>
-
             </div>
-          </div>
-
-          <div id="logo-wrapper" class="clearfix">
-
-            <h2 id="logo">
-              <a href="<?=$home_page_url;?>" title="<?=$languages['company_logo_text'];?>">
-                <?=$languages['company_logo_text'];?>
-              </a>
-            </h2>
 
           </div>
 
-          <!-- BEGIN .mobile-nav -->
-          <ul class="mobile-nav">
+          <div id="slicknav-mobile"></div>
 
-            <li class="li-mobile-nav"><a href="javascript:;"><i class="fa fa-navicon" aria-hidden="true"></i></a></li>
-            <li class="li-mobile-search hidden"><a href="javascript:;"><i class="fa fa-search" aria-hidden="true"></i></a></li>
-
-          </ul>
-          <div class="clearfix"></div>
-
-          <!-- BEGIN .mobile-search-form -->
-          <form class="mobile-search-form mobile-search-form-hide" name="search_form" action="/<?=$current_lang;?>/search" method="post">
-
-            <input type="text" name="search_term" class="menu-search-field" onblur="if (this.value == '') this.value = '<?= $languages['text_search_term']; ?>';" onfocus="if (this.value == '<?= $languages['text_search_term']; ?>') this.value = '';" value="<?= $languages['text_search_term']; ?>" />
-
-            <ul class="mobile-nav">
-              <li class="li-mobile-search hidden"><a href="javascript:;"><i class="fa fa-search" aria-hidden="true"></i></a></li>
-            </ul>
-
-            <div class="clearfix"></div>
-          </form>
-
-      <nav id="primary-navigation" class="navigation-wrapper fixed-navigation clearfix" role="navigation">
-
-        <div class="navigation-inner">
-
-          <div class="navigation">
-            
-            <ul>
-<?php
-            print_header_menu($category_parent_id = 0, $content_hierarchy_level_start = 0, $number_of_hierarchy_levels = 3);
-?> 
-            </ul>
-            
-          </div>
-
-          <form class="search-form" name="search_form" action="/<?=$current_lang;?>/search" method="post">		
-
-            <i class="fa fa-close close-search" aria-hidden="true"></i>
-            <input type="text" name="search_term" class="menu-search-field" onblur="if (this.value == '') this.value = '<?= $languages['text_search_term']; ?>';" onfocus="if (this.value == '<?= $languages['text_search_term']; ?>') this.value = '';" value="<?= $languages['text_search_term']; ?>" />
-
-          </form>
-
-          <i class="fa fa-search search-button" aria-hidden="true"></i>
-
-        </div>
-      </nav>
-      
-      <div class="mobile-menu-wrapper">
-
-        <div class="mobile-menu-inner">
-
-          <ul class="mobile-menu">
-<?php 
-            print_header_menu($content_parent_id = 0, $content_hierarchy_level_start = 0, $number_of_hierarchy_levels = 3);
-?>   
-          </ul>
-          
-        </div>
+        </nav>
+        <!-- end Navbar (Header) -->
         
-      </div>
-
-    </header>
-    <input type="hidden" name="current_page_path_string" id="current_page_path_string" value="<?= htmlspecialchars($_SERVER['REQUEST_URI']); ?>">
-    <input type="hidden" name="current_lang" id="current_lang" value="<?= $current_lang; ?>">
+        <input type="hidden" name="current_page_path_string" id="current_page_path_string" value="<?= htmlspecialchars($_SERVER['REQUEST_URI']); ?>">
+        <input type="hidden" name="current_lang" id="current_lang" value="<?= $current_lang; ?>">
+      </header>
+    <div class="main-wrapper">
 <?php
 //    echo"<pre>";print_r($_SESSION);echo"</pre>";
 }
@@ -1447,110 +1385,189 @@ function print_html_footer() {
   global $current_lang;
   global $current_language_id;
 ?>
-  <!--footer-->
-  <footer id="footer" class="clearfix">
+        <!--footer-->
+        <footer class="footer-wrapper">
 
-    <div class="content-wrapper clearfix">
+          <div class="main-footer">
 
-      <div class="one-fourth clearfix hidden">
-        <h3 class="title-style2">Instagram<span class="title-block"></span></h3>
+            <div class="container">
 
-        <ul class="instagram-feed clearfix">
-          <li><a href="#"></a></li>
-        </ul>
+              <div class="row">
+
+                <div class="col-sm-12 col-md-9">
+
+                  <div class="row">
+
+                    <div class="col-sm-6 col-md-4">
+
+                      <div class="footer-about-us">
+                        <h5 class="footer-title">about HaNgan</h5>
+                        <p>Sudden looked elinor off gay estate nor silent. Son read such next see the rest two. Was use extent old entire sussex...</p>
+                        <a href="#">read more</a>
+                      </div>
+
+                    </div>
+
+                    <div class="col-sm-6 col-md-5 mt-30-xs">
+                      <h5 class="footer-title">quick links</h5>
+                      <ul class="footer-menu clearfix">
+                        <?php print_footer_menu($content_hierarchy_level_start = 1,$number_of_hierarchy_levels = 2); ?>
+                      </ul>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+                <div class="col-sm-12 col-md-3 mt-30-sm">
+
+                  <h5 class="footer-title">newsletter</h5>
+
+                  <p>Subsribe to get our latest updates and oeffers</p>
+
+                  <div class="footer-newsletter">
+
+                    <div class="form-group">
+                      <input class="form-control" placeholder="enter your email " />
+                      <button class="btn btn-primary">subsribe</button>
+                    </div>
+
+                    <p class="font-italic font13">*** Don't worry, we wont spam you!</p>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="bottom-footer">
+
+            <div class="container">
+
+              <div class="row">
+
+                <div class="col-sm-4 col-md-4">
+
+                  <p class="copy-right">
+                    &COPY; <?=$languages['e_shop_cms'];?> <?=date("Y");?>&nbsp; <?=$languages['text_all_rights_reserved'];?>.
+                    <?=$languages['text_developed_by'];?> <span><a href="http://www.eterrasystems.com/" target="_blank" class="noprint">Eterrasystems</a></span>
+                  </p>
+
+                </div>
+
+                <div class="col-sm-4 col-md-4">
+
+                  <ul class="bottom-footer-menu">
+                    <li><a href="#">Cookies</a></li>
+                    <li><a href="#">Policies</a></li>
+                    <li><a href="#">Terms</a></li>
+                    <li><a href="#">Blogs</a></li>
+                  </ul>
+
+                </div>
+
+                <div class="col-sm-4 col-md-4">
+                  <ul class="bottom-footer-menu for-social">
+                    <?php list_contacts_socials(); ?>
+                  </ul>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </footer>
+        <!--footer-->
 
       </div>
+      <!-- end Main Wrapper -->
 
-      <div class="one-fourth clearfix">
-        <h3 class="title-style2">Customer Care<span class="title-block"></span></h3>
-        <ul>
-          <?php print_footer_menu($content_hierarchy_level_start = 1,$number_of_hierarchy_levels = 2); ?>
-        </ul>
-      </div>
+    </div> <!-- / .wrapper -->
+    <!-- end Container Wrapper -->
 
-      <div class="one-fourth clearfix">
-        <h3 class="title-style2"><span class="title-block"></span></h3>
-        <div class="tagcloud">
-          
-        </div>
-      </div>
-
-      <div class="one-half last-col widget clearfix ">
-        <h3 class="title-style2"><?= $languages['header_news_in_footer']; ?><span class="title-block"></span></h3>
-        <ul class="latest-posts-list clearfix">
-          <?php list_news_in_footer("3"); ?>
-        </ul>
-      </div>
-
-      <div class="clearboth"></div>
-
-      <div class="footer-message clearfix">
-
-        <ul class="social-links-footer clearfix">
-          <?php list_contacts_socials(); ?>
-        </ul>
-
-        <p class="rights">
-          &COPY; <?=$languages['e_shop_cms'];?> <?=date("Y");?>&nbsp; <?=$languages['text_all_rights_reserved'];?>.
-          <?=$languages['text_developed_by'];?> <span><a href="http://www.eterrasystems.com/" target="_blank" class="noprint">Eterrasystems</a></span>
-        </p>
-      </div>
-	
+    <!-- start Back To Top -->
+    <div id="back-to-top">
+      <a href="#"><i class="ion-ios-arrow-up"></i></a>
     </div>
+    <!-- end Back To Top -->
 
-  </footer>
-  <script type="text/javascript">
-    $(function () {
-      $("#page-header").css("background-image","url('<?=SITEFOLDERSL;?>/images/page-header-<?=mt_rand(1, 1);?>.jpg')");
-      $("#primary-navigation .menu-item-has-children li.current-menu-item").parents("li").addClass("current-menu-item");
+    <!-- JS -->
+    <script type="text/javascript" src="<?=SITEFOLDERSL;?>/js/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="<?=SITEFOLDERSL;?>/js/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="<?=SITEFOLDERSL;?>/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="<?=SITEFOLDERSL;?>/js/bootstrap-modalmanager.js"></script>
+    <script type="text/javascript" src="<?=SITEFOLDERSL;?>/js/bootstrap-modal.js"></script>
+    <script type="text/javascript" src="<?=SITEFOLDERSL;?>/js/smoothscroll.js"></script>
+    <script type="text/javascript" src="<?=SITEFOLDERSL;?>/js/jquery.easing.1.3.js"></script>
+    <script type="text/javascript" src="<?=SITEFOLDERSL;?>/js/jquery.waypoints.min.js"></script>
+    <script type="text/javascript" src="<?=SITEFOLDERSL;?>/js/wow.min.js"></script>
+    <script type="text/javascript" src="<?=SITEFOLDERSL;?>/js/jquery.slicknav.min.js"></script>
+    <script type="text/javascript" src="<?=SITEFOLDERSL;?>/js/jquery.placeholder.min.js"></script>
+    <script type="text/javascript" src="<?=SITEFOLDERSL;?>/js/bootstrap-tokenfield.js"></script>
+    <script type="text/javascript" src="<?=SITEFOLDERSL;?>/js/typeahead.bundle.min.js"></script>
+    <script type="text/javascript" src="<?=SITEFOLDERSL;?>/js/bootstrap3-wysihtml5.min.js"></script>
+    <script type="text/javascript" src="<?=SITEFOLDERSL;?>/js/bootstrap-select.min.js"></script>
+    <script type="text/javascript" src="<?=SITEFOLDERSL;?>/js/jquery-filestyle.min.js"></script>
+    <script type="text/javascript" src="<?=SITEFOLDERSL;?>/js/bootstrap-select.js"></script>
+    <script type="text/javascript" src="<?=SITEFOLDERSL;?>/js/ion.rangeSlider.min.js"></script>
+    <script type="text/javascript" src="<?=SITEFOLDERSL;?>/js/handlebars.min.js"></script>
+    <script type="text/javascript" src="<?=SITEFOLDERSL;?>/js/jquery.countimator.js"></script>
+    <script type="text/javascript" src="<?=SITEFOLDERSL;?>/js/jquery.countimator.wheel.js"></script>
+    <script type="text/javascript" src="<?=SITEFOLDERSL;?>/js/slick.min.js"></script>
+    <script type="text/javascript" src="<?=SITEFOLDERSL;?>/js/easy-ticker.js"></script>
+    <script type="text/javascript" src="<?=SITEFOLDERSL;?>/js/jquery.introLoader.min.js"></script>
+    <script type="text/javascript" src="<?=SITEFOLDERSL;?>/js/jquery.responsivegrid.js"></script>
+    <script type="text/javascript" src="<?=SITEFOLDERSL;?>/js/customs.js"></script>
+    <script type="text/javascript">
+      $(function () {
+        $("#page-header").css("background-image","url('<?=SITEFOLDERSL;?>/images/page-header-<?=mt_rand(1, 1);?>.jpg')");
+        $("#primary-navigation .menu-item-has-children li.current-menu-item").parents("li").addClass("current-menu-item");
 
-      $(".choose_language").html($("#languages li.active a").html());
-      $("#languages li.active").hide();
-      $("#choose_language .choose_language").bind('click', function () {
-        if ($("#languages").css("display") == "block") {
-          $("#languages").slideUp();
-          $("#choose_language").removeClass("active");
-        }
-        else {
-          $("#languages").slideDown();
-          $("#choose_language").addClass("active");
-        }
-      });
-      
-      $('form[name="newsletter-form"]').submit(function (event) {
-
-        var This = $(this);
-        var action = $(This).attr('action');
-        var data_value = decodeURI($(This).serialize());
-        
-        $.ajax({
-          type: "POST",
-          url: action,
-          data: data_value,
-          error: function (xhr, status, error) {
-            confirm('The page save failed.');
-          },
-          success: function (response) {
-            $('.newsletter-wrapper').hide();
-            $('#ajax_subscribe_msg').html(response);
-            $('#ajax_subscribe_msg').slideDown('slow');
-            setTimeout(function () { $("#ajax_subscribe_msg").slideUp(); }, 5000);
+        $(".choose_language").html($("#languages li.active a").html());
+        $("#languages li.active").hide();
+        $("#choose_language .choose_language").bind('click', function () {
+          if ($("#languages").css("display") == "block") {
+            $("#languages").slideUp();
+            $("#choose_language").removeClass("active");
+          }
+          else {
+            $("#languages").slideDown();
+            $("#choose_language").addClass("active");
           }
         });
-    
-        event.preventDefault();
+
+        $('form[name="newsletter-form"]').submit(function (event) {
+
+          var This = $(this);
+          var action = $(This).attr('action');
+          var data_value = decodeURI($(This).serialize());
+
+          $.ajax({
+            type: "POST",
+            url: action,
+            data: data_value,
+            error: function (xhr, status, error) {
+              confirm('The page save failed.');
+            },
+            success: function (response) {
+              $('.newsletter-wrapper').hide();
+              $('#ajax_subscribe_msg').html(response);
+              $('#ajax_subscribe_msg').slideDown('slow');
+              setTimeout(function () { $("#ajax_subscribe_msg").slideUp(); }, 5000);
+            }
+          });
+
+          event.preventDefault();
+        });
       });
-    });
-  </script>
-  <!-- AlLL SCRIPTS & PLUGINS -->
-  
-  <!-- JavaScript -->
-  <script type="text/javascript" src="<?=SITEFOLDERSL;?>/js/idangerous.swiper.min.js"></script>
-  <!--<script type="text/javascript" src="<?=SITEFOLDERSL;?>/js/jquery.prettyPhoto.js"></script>-->
-  <script type="text/javascript" src="<?=SITEFOLDERSL;?>/js/scripts.js"></script>
-  <!--Custom scripts--> 
-  <script type="text/javascript" src="<?=SITEFOLDERSL;?>/js/functions.js"></script>
-  <!--footer-->
+    </script>
   </body>
 </html>
 

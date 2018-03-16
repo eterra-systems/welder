@@ -56,13 +56,13 @@
       print_html_header($content_meta_title, $content_meta_description, $content_meta_keywords, "<script src='https://www.google.com/recaptcha/api.js'></script>\n", $body_css = "registration");
 ?>
     <div id="page-header">
-      <div class="content-wrapper clearfix">
+      <div class="clearfix">
         <h1><?=$languages['header_registration'];?></h1>
         <p><?php print_content_breadcrumbs($content_hierarchy_ids, $languages['header_registration']) ?></p>	
       </div>
     </div>
 
-    <div class="content-wrapper clearfix">
+    <div class="clearfix">
       <main class="main-content main-content-full">
         <?php
           if(isset($page_params)) {
@@ -102,14 +102,14 @@
     print_html_header($content_meta_title, $content_meta_description, $content_meta_keywords, "<script src='https://www.google.com/recaptcha/api.js'></script>", $body_css = "login");
 ?>
     <div id="page-header">
-      <div class="content-wrapper clearfix">
+      <div class="clearfix">
         <h1 itemprop="name"><?=$languages['header_login'];?></h1>
         <p><?php print_content_breadcrumbs($content_hierarchy_ids, $languages['header_login']) ?></p>
       </div>
     </div>
     
-    <!-- BEGIN .content-wrapper -->
-    <div class="content-wrapper clearfix">
+    <!-- BEGIN .-->
+    <div class="clearfix">
       <main class="main-content main-content-full">
         <?php include_once 'login.php'; ?>
       </main>
@@ -121,13 +121,13 @@
     print_html_header($content_meta_title, $content_meta_description, $content_meta_keywords, $additional_css_javascript = false, $body_css = "search");
 ?>
     <div id="page-header">
-      <div class="content-wrapper clearfix">
+      <div class="clearfix">
         <h1><?=$languages['header_search'];?></h1>
         <p><?php print_content_breadcrumbs($content_hierarchy_ids, $languages['header_search']) ?></p>	
       </div>
     </div>
-    <!-- BEGIN .content-wrapper -->
-    <div class="content-wrapper clearfix">
+    <!-- BEGIN .-->
+    <div class="clearfix">
       <main class="main-content main-content-full">
         <?php include_once 'search.php'; ?>
       </main>
@@ -143,13 +143,13 @@
       print_html_header($content_meta_title, $content_meta_description, $content_meta_keywords,$additional_css_javascript = false, $body_css = "confirm-account");
 ?>
     <div id="page-header">
-      <div class="content-wrapper clearfix">
+      <div class="clearfix">
         <h1><?=$languages['header_registration_confirm_account'];?></h1>
         <p><?php print_content_breadcrumbs($content_hierarchy_ids, $languages['header_registration_confirm_account']) ?></p>	
       </div>
     </div>
-    <!-- BEGIN .content-wrapper -->
-    <div class="content-wrapper clearfix">
+    <!-- BEGIN .-->
+    <div class="clearfix">
       <main class="main-content main-content-full">
         <?php include_once 'confirm-account.php'; ?>
       </main>
@@ -164,12 +164,12 @@
     print_html_header($content_meta_title = $content_name, $content_meta_description, $content_meta_keywords, $additional_css_javascript = false, $body_css = "my-account");
 ?>
     <div id="page-header">
-      <div class="content-wrapper clearfix">
+      <div class="clearfix">
         <h1><?=$content_name;?></h1>
         <p><?php print_content_breadcrumbs($content_hierarchy_ids, $content_name) ?></p>	
       </div>
     </div>
-    <div class="content-wrapper clearfix">
+    <div class="clearfix">
       <div class="password">
         <main class="main-content main-content-full">
           <?php
@@ -187,12 +187,12 @@
     $content_name = $languages[$current_page_text];
 ?>
     <div id="page-header">
-      <div class="content-wrapper clearfix">
+      <div class="clearfix">
         <h1><?=$content_name;?></h1>
         <p><?php print_content_breadcrumbs($content_hierarchy_ids, $content_name) ?></p>	
       </div>
     </div>
-    <div class="content-wrapper clearfix">
+    <div class="clearfix">
       <div class="row">
 <?php 
   if(user_is_loged()) {
@@ -297,7 +297,7 @@
       
       $canonical_link = "<link rel=\"canonical\" href=\"".PROTOCOL.DOMAIN.urldecode($home_page_url)."\" />";
       
-      print_html_header($content_meta_title, $content_meta_description, $content_meta_keywords,$additional_css_javascript = false,$body_css = "index");
+      print_html_header($content_meta_title,$content_meta_description,$content_meta_keywords,$additional_css_javascript = false);
        
       $query_content = "SELECT `contents`.`content_id`,`contents_descriptions`.`content_name`,`contents_descriptions`.`content_pretty_url`
                           FROM `contents`
@@ -313,32 +313,45 @@
         $returns_policy_url = $content_array['content_pretty_url'];
       }
 ?>
-    <!-- BEGIN .content-wrapper -->
-    <div class="content-wrapper">
+        <!-- start hero-header -->
+        <div class="hero" style="background-image:url('<?=SITEFOLDERSL;?>/images/hero-header/01.jpg');">
+          <div class="container">
 
-      <main class="m-homepage-content">
-        
-        <!-- BEGIN .s-newsletter -->
-        <section class="s-newsletter hidden">
+            <h1>your future starts here now</h1>
+            <p>Finding your next job or career more 1000+ availabilities</p>
 
-          <div class="newsletter-wrapper clearfix">
+            <div class="main-search-form-wrapper">
 
-            <h3 class="newsletter-text"><?= $languages['header_newsletter_signup']; ?></h3>
-            <form action="<?=SITEFOLDERSL;?>/subscribe.php" name="newsletter-form" class="newsletter-form" id="newsletter-form" method="post">
-              <input type="email" id="newsletter_email" name="newsletter_email" required placeholder="<?= $languages['text_enter_email']; ?>">
-              <input type="hidden" id="current_lang" name="current_lang" value="<?= $current_lang; ?>">
-              <input type="submit" value="<?= $languages['btn_subscribe']; ?>" />
-            </form>
+              <form>
+
+                <div class="form-holder">
+                  <div class="row gap-0">
+
+                    <div class="col-xss-6 col-xs-6 col-sm-6">
+                      <input class="form-control" placeholder="Looking for job" />
+                    </div>
+
+                    <div class="col-xss-6 col-xs-6 col-sm-6">
+                      <input class="form-control" placeholder="Place to work" />
+                    </div>
+
+                  </div>
+
+                </div>
+
+                <div class="btn-holder">
+                  <button class="btn"><i class="ion-android-search"></i></button>
+                </div>
+
+              </form>
+
+            </div>
+
 
           </div>
-          
-          <div id="ajax_subscribe_msg" class="alert alert-success" style="display: none;margin: 0 0 50px 0;">&nbsp;</div>
 
-        </section>
-        
-      </main><!-- END .m-homepage-content -->
-
-    </div><!-- END .content-wrapper -->
+        </div>
+        <!-- end hero-header -->
 <?php
     }
     else {
@@ -348,12 +361,12 @@
         print_html_header($content_meta_title, $content_meta_description, $content_meta_keywords, $additional_css_javascript = false,$body_css = "error");
 ?>
     <div id="page-header">
-      <div class="content-wrapper clearfix">
+      <div class="clearfix">
         <h1><?=$content_name;?></h1>
         <p><?php print_content_breadcrumbs($content_hierarchy_ids, $content_name) ?></p>	
       </div>
     </div>
-    <div class="content-wrapper clearfix">
+    <div class="clearfix">
       <main class="main-content main-content-full">
         <?=$content_text;?>
       </main>
@@ -383,12 +396,12 @@
 
 ?>
     <div id="page-header">
-      <div class="content-wrapper clearfix">
+      <div class="clearfix">
         <h1><?=$news_cat_name;?></h1>
         <p><?php print_content_breadcrumbs($content_hierarchy_ids, $news_cat_name) ?></p>	
       </div>
     </div>
-    <div class="content-wrapper clearfix">
+    <div class="clearfix">
       <main class="main-content">
         <?php 
           list_news($offset = false,$news_count = false, $news_category_id); 
@@ -410,13 +423,13 @@
       //echo "<pre>";print_r($_SERVER);echo "</pre>";
 ?>
       <div id="page-header">
-        <div class="content-wrapper clearfix">
+        <div class="clearfix">
           <h1><?=$content_name;?></h1>
           <p><?php print_content_breadcrumbs($content_hierarchy_ids, $content_name) ?></p>	
         </div>
       </div>
       
-      <div class="content-wrapper clearfix">
+      <div class="clearfix">
 <?php
         include_once 'contacts-form.php';
 ?>
@@ -428,12 +441,12 @@
         print_html_header($content_meta_title, $content_meta_description, $content_meta_keywords, $additional_css_javascript = false,$body_css = "pages");
 ?>
     <div id="page-header">
-      <div class="content-wrapper clearfix">
+      <div class="clearfix">
         <h1><?=$content_name;?></h1>
         <p><?php print_content_breadcrumbs($content_hierarchy_ids, $content_name) ?></p>	
       </div>
     </div>
-    <div class="content-wrapper clearfix">
+    <div class="clearfix">
       <main class="main-content">
         <p><?=$content_text?></p>
       </main>
