@@ -2,9 +2,9 @@
 $languages = array(
 
   //common
-  "company_name" => "Welder",
-  "e_shop_cms" => "Welder",
-  "header_login_page" => "Welder вход към административния панел",
+  "company_name" => "Zavarka",
+  "e_shop_cms" => "Zavarka",
+  "header_login_page" => "Zavarka вход към административния панел",
   "welcome" => "Добре дошъл",
   "loading" => "Зареждане",
   "yes" => "Да",

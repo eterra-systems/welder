@@ -313,7 +313,7 @@ jQuery(function ($) {
     ]
   });
 
-})(jQuery);
+});
 
 
 

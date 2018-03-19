@@ -71,19 +71,23 @@ function print_html_header($meta_title, $meta_description, $meta_keywords, $addi
     <link rel="stylesheet" type="text/css" href="<?=SITEFOLDERSL;?>/css/component.css">
 
     <!-- CSS Font Icons -->
-    <link rel="stylesheet" href="<?=SITEFOLDERSL;?>/icons/linearicons/style.css">
-    <link rel="stylesheet" href="<?=SITEFOLDERSL;?>/icons/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="<?=SITEFOLDERSL;?>/icons/simple-line-icons/css/simple-line-icons.css">
-    <link rel="stylesheet" href="<?=SITEFOLDERSL;?>/icons/ionicons/css/ionicons.css">
-    <link rel="stylesheet" href="<?=SITEFOLDERSL;?>/icons/pe-icon-7-stroke/css/pe-icon-7-stroke.css">
-    <link rel="stylesheet" href="<?=SITEFOLDERSL;?>/icons/rivolicons/style.css">
-    <link rel="stylesheet" href="<?=SITEFOLDERSL;?>/icons/flaticon-line-icon-set/flaticon-line-icon-set.css">
-    <link rel="stylesheet" href="<?=SITEFOLDERSL;?>/icons/flaticon-streamline-outline/flaticon-streamline-outline.css">
-    <link rel="stylesheet" href="<?=SITEFOLDERSL;?>/icons/flaticon-thick-icons/flaticon-thick.css">
-    <link rel="stylesheet" href="<?=SITEFOLDERSL;?>/icons/flaticon-ventures/flaticon-ventures.css">
+    <link rel="stylesheet" type="text/css" href="<?=SITEFOLDERSL;?>/icons/linearicons/style.css">
+    <link rel="stylesheet" type="text/css" href="<?=SITEFOLDERSL;?>/icons/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="<?=SITEFOLDERSL;?>/icons/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" type="text/css" href="<?=SITEFOLDERSL;?>/icons/ionicons/css/ionicons.css">
+    <link rel="stylesheet" type="text/css" href="<?=SITEFOLDERSL;?>/icons/pe-icon-7-stroke/css/pe-icon-7-stroke.css">
+    <link rel="stylesheet" type="text/css" href="<?=SITEFOLDERSL;?>/icons/rivolicons/style.css">
+    <link rel="stylesheet" type="text/css" href="<?=SITEFOLDERSL;?>/icons/flaticon-line-icon-set/flaticon-line-icon-set.css">
+    <link rel="stylesheet" type="text/css" href="<?=SITEFOLDERSL;?>/icons/flaticon-streamline-outline/flaticon-streamline-outline.css">
+    <link rel="stylesheet" type="text/css" href="<?=SITEFOLDERSL;?>/icons/flaticon-thick-icons/flaticon-thick.css">
+    <link rel="stylesheet" type="text/css" href="<?=SITEFOLDERSL;?>/icons/flaticon-ventures/flaticon-ventures.css">
+    <link rel="stylesheet" type="text/css" href="/js/jquery-ui-1.12.1/jquery-ui.min.css">
 
     <!-- CSS Custom -->
     <link rel="stylesheet" type="text/css" href="<?=SITEFOLDERSL;?>/css/style.css">
+    
+    <script type="text/javascript" src="<?=SITEFOLDERSL;?>/js/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="<?=SITEFOLDERSL;?>/js/jquery-migrate-1.2.1.min.js"></script>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -171,7 +175,7 @@ function print_html_header($meta_title, $meta_description, $meta_keywords, $addi
                 <li>
                   <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-data" rel="nofollow"><?= $languages['customer_profile']; ?></a>
                 </li>
-                <li><a href="/<?= $current_lang; ?>/logout" rel="nofollow"><?= $languages['logout']; ?></a></li>
+                <!--<li><a href="/<?= $current_lang; ?>/logout" rel="nofollow"><?= $languages['logout']; ?></a></li>-->
               <?php } else { ?>
                 <li><a href="/<?= $current_lang; ?>/login" rel="nofollow"><?= $languages['login_sign_in']; ?></a></li>
                 <li><a href="/<?= $current_lang; ?>/registration" rel="nofollow"><?= $languages['login_sign_up']; ?></a></li>
@@ -346,10 +350,22 @@ function print_html_welder_profile_menu() {
     global $languages;
     global $current_lang;
 ?>
+  <li<?php if (is_active_page("user-profile-dashboard")) echo ' class="active"'; ?>>
+    <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-dashboard" rel="nofollow">
+      <i class="fa fa-tachometer" aria-hidden="true"></i>
+      <span><?= $languages['header_user_dashboard']; ?></span>
+    </a>
+  </li>
   <li<?php if (is_active_page("user-profile-data")) echo ' class="active"'; ?>>
     <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-data" rel="nofollow">
       <i class="fa fa-user" aria-hidden="true"></i>
       <span><?= $languages['header_user_data']; ?></span>
+    </a>
+  </li>
+  <li<?php if (is_active_page("user-profile-password")) echo ' class="active"'; ?>>
+    <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-password" rel="nofollow">
+      <i class="fa fa-key" aria-hidden="true"></i>
+      <span><?= $languages['header_customer_new_password']; ?></span>
     </a>
   </li>
   <li<?php if (is_active_page("user-profile-skills")) echo ' class="active"'; ?>>
@@ -362,6 +378,18 @@ function print_html_welder_profile_menu() {
     <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-certificates" rel="nofollow">
       <i class="fa fa-newspaper-o" aria-hidden="true"></i>
       <span><?= $languages['header_certificates']; ?></span>
+    </a>
+  </li>
+  <li<?php if (is_active_page("user-profile-bookmarks")) echo ' class="active"'; ?>>
+    <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-bookmarks" rel="nofollow">
+      <i class="fa fa-bookmark"></i>
+      <span><?= $languages['header_saved_jobs']; ?></span>
+    </a>
+  </li>
+  <li>
+    <a href="/<?= $current_lang; ?>/logout" rel="nofollow">
+      <i class="fa fa-sign-out"></i>
+      <?= $languages['logout']; ?>
     </a>
   </li>
 <?php
@@ -526,8 +554,8 @@ function list_categories_with_checkboxes($category_parent_id,$category_root_id,$
       } else {
 ?>
       <li class="level_<?= "$category_hierarchy_level $class_li"; ?>">
+        <input type="checkbox" value="<?=$category_id_tree;?>" id="<?=$category_id_tree;?>" class="categories_<?=$category_root_id;?>" name="categories[]" <?=$checkbox_checked;?> />
         <label for="<?=$category_id_tree;?>">
-          <input type="checkbox" value="<?=$category_id_tree;?>" id="<?=$category_id_tree;?>" class="categories_<?=$category_root_id;?>" name="categories[]" <?=$checkbox_checked;?> />
           <input type="hidden" value="<?=$category_id;?>" name="category_ids[<?=$category_id_tree;?>]" />
           <input type="hidden" value="<?=$category_hierarchy_ids;?>" name="category_hierarchy_ids[<?=$category_id_tree;?>]" />
           <?=$cd_name;?>
@@ -639,8 +667,7 @@ function print_content_breadcrumbs($content_hierarchy_ids, $current_content_name
 
   if ($ids_count > 2) {
 ?>
-    <a class="home" href="<?=$home_page_url;?>" title="<?= $languages['title_goto_homepage']; ?>"><i class="fa fa-home" aria-hidden="true"></i></a>
-    <i class="fa fa-angle-right" aria-hidden="true"></i>
+    <li><a href="<?=$home_page_url;?>" title="<?= $languages['title_goto_homepage']; ?>"><?= $languages['menu_home']; ?></a></li>
 <?php
     foreach ($content_hierarchy_ids_array as $key => $content_id) {
 
@@ -673,21 +700,23 @@ function print_content_breadcrumbs($content_hierarchy_ids, $current_content_name
           }
           if ($category_is_section_header == 0) { 
 ?>
-          <a href="<?= "/$current_lang/$content_pretty_url" ?>" title="<?= $content_menu_text; ?>" ><?= $content_menu_text; ?></a>
-          <i class="fa fa-angle-right" aria-hidden="true"></i>
+          <li><a href="<?= "/$current_lang/$content_pretty_url" ?>" title="<?= $content_menu_text; ?>" ><?= $content_menu_text; ?></a></li>
 <?php
           } else {
-            echo $content_menu_text.' <i class="fa fa-angle-right" aria-hidden="true"></i>';
+?>
+          <li><span><?= $content_menu_text; ?></span></li>
+<?php
           }
         }
       } //if($key != 0 || $key != $ids_count-1)
     } //foreach($content_hierarchy_ids_array
-    echo $current_content_name;
+?>
+    <li><span><?= $current_content_name; ?></span></li>
+<?php
   } else {
 ?>
-    <a class="home" href="<?=$home_page_url;?>" title="<?= $languages['title_goto_homepage']; ?>"><i class="fa fa-home" aria-hidden="true"></i></a>
-    <i class="fa fa-angle-right" aria-hidden="true"></i>
-    <?= $current_content_name; ?>
+    <li><a href="<?=$home_page_url;?>" title="<?= $languages['title_goto_homepage']; ?>"><?= $languages['menu_home']; ?></a></li>
+    <li><span><?= $current_content_name; ?></span></li>
 <?php
   }
 }
@@ -1499,9 +1528,8 @@ function print_html_footer() {
     <!-- end Back To Top -->
 
     <!-- JS -->
-    <script type="text/javascript" src="<?=SITEFOLDERSL;?>/js/jquery-1.11.3.min.js"></script>
-    <script type="text/javascript" src="<?=SITEFOLDERSL;?>/js/jquery-migrate-1.2.1.min.js"></script>
     <script type="text/javascript" src="<?=SITEFOLDERSL;?>/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/jquery-ui-1.12.1/jquery-ui.min.js"></script>
     <script type="text/javascript" src="<?=SITEFOLDERSL;?>/js/bootstrap-modalmanager.js"></script>
     <script type="text/javascript" src="<?=SITEFOLDERSL;?>/js/bootstrap-modal.js"></script>
     <script type="text/javascript" src="<?=SITEFOLDERSL;?>/js/smoothscroll.js"></script>
@@ -1525,6 +1553,7 @@ function print_html_footer() {
     <script type="text/javascript" src="<?=SITEFOLDERSL;?>/js/jquery.introLoader.min.js"></script>
     <script type="text/javascript" src="<?=SITEFOLDERSL;?>/js/jquery.responsivegrid.js"></script>
     <script type="text/javascript" src="<?=SITEFOLDERSL;?>/js/customs.js"></script>
+    <script type="text/javascript" src="<?=SITEFOLDERSL;?>/js/functions.js"></script>
     <script type="text/javascript">
       $(function () {
         $("#page-header").css("background-image","url('<?=SITEFOLDERSL;?>/images/page-header-<?=mt_rand(1, 1);?>.jpg')");

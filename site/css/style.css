@@ -81,12 +81,13 @@ Last change:    14/06/2015
 }
 
 .logo-wrapper .logo {
-    padding: 0;
-    -webkit-transition: all 0.3s ease-in-out 0s;
-    -moz-transition: all 0.3s ease-in-out 0s;
-    -ms-transition: all 0.3s ease-in-out 0s;
-    -o-transition: all 0.3s ease-in-out 0s;
-    transition: all 0.3s ease-in-out 0s;
+  padding-top: 5px;
+  font-size: 32px;
+  -webkit-transition: all 0.3s ease-in-out 0s;
+  -moz-transition: all 0.3s ease-in-out 0s;
+  -ms-transition: all 0.3s ease-in-out 0s;
+  -o-transition: all 0.3s ease-in-out 0s;
+  transition: all 0.3s ease-in-out 0s;
 }
 
 .not-transparent-header .navbar-default {
@@ -439,7 +440,9 @@ ul.nav-mini li a {
     top: 50px;
 }
 
-.navbar-sticky .logo-wrapper .logo {}
+.navbar-sticky .logo-wrapper .logo {
+  
+}
 
 @media only screen and (max-width: 1199px) {}
 
@@ -5783,6 +5786,10 @@ ul.static-page-menu li.active a {
  * Login and Register
  */
 
+#login_form {
+  float: none;
+  margin: 0 auto;
+}
 .login-box-wrapper .modal-header,
 .login-box-wrapper .modal-footer {
     background: #EEE;
@@ -5896,3 +5903,69 @@ ul.static-page-menu li.active a {
 }
 
 @media (max-width: 479px) {}
+
+/* Custom */
+
+#cookies_policy {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  padding: 0.4% 2%;
+  background: #222;
+  color: #fff;
+  box-sizing: border-box;
+  z-index: 9999;
+}
+#cookies_policy .btn {
+  border: 2px solid #33B6CB;
+  color: #33B6CB;
+  text-transform: uppercase;
+  margin: 2px;
+  padding: 4px 12px;
+  display: inline-block;
+  border-radius: 3px;
+  font-size: 11px;
+  letter-spacing: 2px;
+}
+#cookies_policy .btn:hover {
+    border-color: #2991A2;
+}
+#cookies_policy p a {
+  color: #33B6CB;
+}
+
+/*family tree*/
+
+.tree li {
+  margin-bottom: 4px;
+  padding: 0 15px;
+}
+.tree li label {
+  display: block;
+  position: relative;
+  text-align: left;
+}
+.tree li label .fa {
+  position: absolute;
+  top: 40%;
+  right: 10px;
+}
+.tree li .fa-angle-up {
+  display: none;
+}
+.tree li.active_parent_tree > label:first-child > .fa-angle-down:first-child {
+  display: none;
+}
+.tree li.active_parent_tree > label:first-child > .fa-angle-up {
+  display: block !important;
+}
+.tree .expandable_ul {
+  margin-top: 4px;
+  display: none;
+}
+
+.alert-info {
+  margin-bottom: 9px !important;
+}

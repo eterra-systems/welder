@@ -133,8 +133,81 @@
 ?>
     <h3 class="text-center"> <span> <i class="fa fa-user"></i> <?=$languages['header_registered_users'];?></span></h3>
 
-    <div class="form-wrapper row text-center">              
-      <form method="post" name="login_form" id="login_form" class="form-group col-lg-4 col-md-6 col-sm-10 col-xs-12">
+    <form method="post" name="login_form" id="login_form" class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+      <div class="row gap-20">
+
+        <div class="col-sm-6 col-md-6">
+          <button class="btn btn-facebook btn-block mb-5-xs">Log-in with Facebook</button>
+        </div>
+        <div class="col-sm-6 col-md-6">
+          <button class="btn btn-google-plus btn-block">Log-in with Google+</button>
+        </div>
+
+        <div class="col-md-12">
+          <div class="login-modal-or">
+            <div><span><?=$languages['text_or'];?></span></div>
+          </div>
+        </div>
+
+        <?php if(isset($_SESSION['error_login']['text'])) { ?>
+          <div class="alert alert-danger"><?=$_SESSION['error_login']['text'];?></div>
+        <?php } ?>
+          
+        <div class="col-sm-12 col-md-12">
+
+          <div class="form-group"> 
+            <label><?=$languages['header_customer_username'];?></label>
+            <input autofocus name="customer_email" class="form-control" autocomplete="off" type="text" required="required"> 
+          </div>
+
+        </div>
+
+        <div class="col-sm-12 col-md-12">
+
+          <div class="form-group"> 
+            <label><?=$languages['header_customer_password'];?></label>
+            <input class="form-control" name="customer_password" type="password" required="required"> 
+          </div>
+
+        </div>
+
+        <div class="col-sm-12 col-md-12">
+
+          <div class="g-recaptcha form-group" data-sitekey="<?=$sitekey?>"></div>
+          <?php if(isset($errors['recaptcha_response_field']) && !empty($errors['recaptcha_response_field'])) { ?>
+            <div class="alert alert-danger"><?=$errors['recaptcha_response_field'];?></div>
+          <?php } ?>
+
+        </div>
+
+        <div class="col-sm-6 col-md-6">
+          <div class="checkbox-block"> 
+            <input id="remember_me_checkbox" name="remember_me_checkbox" class="checkbox" type="checkbox"> 
+            <label for="remember_me_checkbox"><?= $languages['text_remember_me']; ?></label>
+          </div>
+        </div>
+
+        <div class="col-sm-6 col-md-6">
+          <div class="login-box-link-action">
+            <a href="/<?= $current_lang; ?>/forgotten-password" rel="nofollow"><?= $languages['link_forgotten_password']; ?></a>
+          </div>
+        </div>
+
+        <div class="col-sm-12 col-md-12">
+          <div class="login-box-box-action">
+            <?= $languages['text_no_account']; ?> <a href="/<?= $current_lang; ?>/registration" rel="nofollow"><?= $languages['login_sign_up']; ?></a>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="modal-footer text-center">
+        <input type="submit" name="login" class="btn btn-primary" value="<?=$languages['btn_login'];?>">
+      </div>
+    </form>
+    
+    <div class="form-wrapper row text-center hidden">       
+      <form method="post" name="login_form" class="form-group col-lg-4 col-md-6 col-sm-10 col-xs-12">
         <p>
           <input value="<?php if(isset($_POST['customer_email'])) echo $_POST['customer_email'];?>" autofocus name="customer_email" class="form-control" autocomplete="off" type="text" required="required" placeholder="<?=$languages['header_customer_username'];?>">
         </p>

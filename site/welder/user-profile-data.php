@@ -6,6 +6,10 @@
   $customer_id = $_SESSION['customer_id'];
   $customer_fullname = $_SESSION['customer_name'];
   
+  if(isset($_POST['cancel'])) {
+    header("Location: user-profile-dashboard.php");
+  }
+  
   if(isset($_POST['update_profile'])) {
     print_array_for_debug($_POST);exit;
     
@@ -28,37 +32,12 @@
     $customer_phone = trim($_POST['customer_phone']);
     $customer_is_in_mailist = 0;
       if(isset($_POST['customer_is_in_mailist'])) $customer_is_in_mailist = 1;
-    if(!empty($_POST['customer_password'])) {
-      $customer_password = $_POST['customer_password'];
-      $customer_password_retype = $_POST['customer_password_retype'];
-      
-      $uppercase = preg_match('@[A-Z]@', $customer_password);
-      $lowercase = preg_match('@[a-z]@', $customer_password);
-      $number    = preg_match('@[0-9]@', $customer_password);
-
-      if(!$uppercase || !$lowercase || !$number || strlen($customer_password) < 8) {
-        // tell the user something went wrong
-        $errors['customer_password'] = $languages['error_registration_password_is_not_valid'];
-      }
-    
-      $customer_passwords_mismatch = check_if_users_passwords_match($customer_password,$customer_password_retype);
-      if(!empty($customer_passwords_mismatch)) {
-        $errors['customer_passwords_mismatch'] = $customer_passwords_mismatch;
-      }
-    } 
       
     if(empty($errors)) {
       
-      $customer_hashed_password = password_hash($customer_password , PASSWORD_DEFAULT);
-      
-      $query_update_user = "UPDATE `customers` SET ";
-      
-      if(!empty($_POST['customer_password'])) {
-        $query_update_user .= "`customer_salted_password`='$customer_hashed_password',";
-      }
-      $query_update_user .= " `customer_email`='$customer_email',
-                              `customer_phone`='$customer_phone',
-                              `customer_is_in_mailist`='$customer_is_in_mailist' 
+      $query_update_user = "UPDATE `customers` SET `customer_email`='$customer_email',
+                                                  `customer_phone`='$customer_phone',
+                                                  `customer_is_in_mailist`='$customer_is_in_mailist' 
                         WHERE `customer_id` = '$customer_id'";
       //echo $query_update_user."<br>";
       $result_update_user = mysqli_query($db_link, $query_update_user);
@@ -211,24 +190,6 @@
       </div>
       <div class="clearfix">&nbsp;</div>
 
-      <div class="row">
-        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-          <label for="customer_password"><?=$languages['header_customer_new_password'];?></label>
-          <input type="password" name="customer_password" id="customer_password" class="form-control" onBlur="ValidateUserPassword(this.value,'<?=$current_lang;?>')"  />
-          <p class="alert alert-info" style="margin: 0"><i class="fa fa-info-circle"></i> <i class="info"><?=$languages['text_password_hint'];?></i></p>
-          <span id="customer_password_is_valid"></span>
-          <?php if(!empty($errors['customer_password'])) { ?><br><span class="alert alert-danger"><?=$errors['customer_password'];?></span><?php } ?>
-        </div>
-        <p class="clearfix hidden-lg hidden-md"></p>
-        
-        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-          <label for="customer_password_retype"><?=$languages['header_customer_password_retype'];?></label>
-          <input type="password" name="customer_password_retype" id="customer_password_retype" class="form-control" />
-          <?php if(!empty($errors['customer_passwords_mismatch'])) { ?><br><span class="alert alert-danger"><?=$errors['customer_passwords_mismatch'];?></span><?php } ?>
-        </div>
-      </div>
-      <div class="clearfix">&nbsp;</div>
-
       <div class="row hidden">
         <?php
           if(isset($customer_is_in_mailist)) {
@@ -243,8 +204,9 @@
       <div class="clearfix">&nbsp;</div>
 
       <div class="row">
-        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-          <button type="submit" name="update_profile" class="button2"><?=$languages['btn_save'];?></button>
+        <div class="col-sm-12 mt-10">
+          <button type="submit" name="update_profile" class="btn btn-primary">Save</button>
+          <button type="submit" name="cancel" class="btn btn-primary btn-inverse">Cancel</button>
         </div>
       </div>
       <div class="clearfix">&nbsp;</div>

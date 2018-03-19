@@ -52,19 +52,38 @@
 
   if(isset($current_page_pretty_url) && $current_page_pretty_url == "registration") {
     
-   //echo $current_page_pretty_url;
-      print_html_header($content_meta_title, $content_meta_description, $content_meta_keywords, "<script src='https://www.google.com/recaptcha/api.js'></script>\n", $body_css = "registration");
+    //echo $current_page_pretty_url;
+    
+    $additional_css_javascript = "<script src='https://www.google.com/recaptcha/api.js'></script>\n";
+    $body_css = "not-transparent-header registration";
+    print_html_header($content_meta_title, $content_meta_description, $content_meta_keywords, $additional_css_javascript, $body_css);
 ?>
-    <div id="page-header">
-      <div class="clearfix">
-        <h1><?=$languages['header_registration'];?></h1>
-        <p><?php print_content_breadcrumbs($content_hierarchy_ids, $languages['header_registration']) ?></p>	
+    <div class="breadcrumb-wrapper">
+      <div class="container">
+        <ol class="breadcrumb-list">
+          <?php print_content_breadcrumbs($content_hierarchy_ids, $languages['header_registration']) ?>
+        </ol>
       </div>
     </div>
 
-    <div class="clearfix">
-      <main class="main-content main-content-full">
-        <?php
+    <div class="section">
+      <div class="container">
+        
+        <div class="row">
+          <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
+
+            <div class="section-title bb">
+
+              <h2><?=$languages['header_registration'];?></h2>
+
+            </div>
+
+          </div>
+        </div>
+
+        <div class="row mb-30">
+          <div class="col-md-12">
+<?php
           if(isset($page_params)) {
             include_once "$page_params".DIRECTORY_SEPARATOR."$current_page_pretty_url.php";
           }
@@ -93,44 +112,50 @@
 <?php
           }
 ?>
-      </main>
+          </div>
+        </div>
+      </div>
     </div>
 <?php
   }
   elseif(isset($current_page_pretty_url) && ($current_page_pretty_url == "login")) {
     
-    print_html_header($content_meta_title, $content_meta_description, $content_meta_keywords, "<script src='https://www.google.com/recaptcha/api.js'></script>", $body_css = "login");
+    $additional_css_javascript = "<script src='https://www.google.com/recaptcha/api.js'></script>\n";
+    $body_css = "not-transparent-header login";
+    print_html_header($content_meta_title, $content_meta_description, $content_meta_keywords, $additional_css_javascript, $body_css);
 ?>
-    <div id="page-header">
-      <div class="clearfix">
-        <h1 itemprop="name"><?=$languages['header_login'];?></h1>
-        <p><?php print_content_breadcrumbs($content_hierarchy_ids, $languages['header_login']) ?></p>
+    <div class="breadcrumb-wrapper">
+      <div class="container">
+        <ol class="breadcrumb-list">
+          <?php print_content_breadcrumbs($content_hierarchy_ids, $languages['header_login']) ?>
+        </ol>
       </div>
     </div>
-    
-    <!-- BEGIN .-->
-    <div class="clearfix">
-      <main class="main-content main-content-full">
+
+    <div class="section">
+      <div class="container">
         <?php include_once 'login.php'; ?>
-      </main>
+      </div>
     </div>
 <?php
   }
   elseif(isset($current_page_pretty_url) && $current_page_pretty_url == "search") {
     
-    print_html_header($content_meta_title, $content_meta_description, $content_meta_keywords, $additional_css_javascript = false, $body_css = "search");
+    $body_css = "not-transparent-header search";
+    print_html_header($content_meta_title, $content_meta_description, $content_meta_keywords, $additional_css_javascript = false, $body_css);
 ?>
-    <div id="page-header">
-      <div class="clearfix">
-        <h1><?=$languages['header_search'];?></h1>
-        <p><?php print_content_breadcrumbs($content_hierarchy_ids, $languages['header_search']) ?></p>	
+    <div class="breadcrumb-wrapper">
+      <div class="container">
+        <ol class="breadcrumb-list">
+          <?php print_content_breadcrumbs($content_hierarchy_ids, $languages['header_search']) ?>
+        </ol>
       </div>
     </div>
-    <!-- BEGIN .-->
-    <div class="clearfix">
-      <main class="main-content main-content-full">
+
+    <div class="section">
+      <div class="container">
         <?php include_once 'search.php'; ?>
-      </main>
+      </div>
     </div>
 <?php
   }
@@ -140,19 +165,21 @@
     
     if(!empty($customer_id)) {
 
-      print_html_header($content_meta_title, $content_meta_description, $content_meta_keywords,$additional_css_javascript = false, $body_css = "confirm-account");
+      $body_css = "not-transparent-header confirm-account";
+      print_html_header($content_meta_title, $content_meta_description, $content_meta_keywords,$additional_css_javascript = false, $body_css);
 ?>
-    <div id="page-header">
-      <div class="clearfix">
-        <h1><?=$languages['header_registration_confirm_account'];?></h1>
-        <p><?php print_content_breadcrumbs($content_hierarchy_ids, $languages['header_registration_confirm_account']) ?></p>	
+    <div class="breadcrumb-wrapper">
+      <div class="container">
+        <ol class="breadcrumb-list">
+          <?php print_content_breadcrumbs($content_hierarchy_ids, $languages['header_registration_confirm_account']) ?>
+        </ol>
       </div>
     </div>
-    <!-- BEGIN .-->
-    <div class="clearfix">
-      <main class="main-content main-content-full">
+
+    <div class="section">
+      <div class="container">
         <?php include_once 'confirm-account.php'; ?>
-      </main>
+      </div>
     </div>
 <?php
     }
@@ -161,67 +188,101 @@
     
     $current_page_text = "header_".str_replace("-", "_", $current_page_pretty_url);
     $content_name = $languages[$current_page_text];
-    print_html_header($content_meta_title = $content_name, $content_meta_description, $content_meta_keywords, $additional_css_javascript = false, $body_css = "my-account");
+    $body_css = "not-transparent-header my-account";
+    print_html_header($content_meta_title = $content_name, $content_meta_description, $content_meta_keywords, $additional_css_javascript = false, $body_css);
 ?>
-    <div id="page-header">
-      <div class="clearfix">
-        <h1><?=$content_name;?></h1>
-        <p><?php print_content_breadcrumbs($content_hierarchy_ids, $content_name) ?></p>	
+    <div class="breadcrumb-wrapper">
+      <div class="container">
+        <ol class="breadcrumb-list">
+          <?php print_content_breadcrumbs($content_hierarchy_ids, $content_name) ?>
+        </ol>
       </div>
     </div>
-    <div class="clearfix">
-      <div class="password">
-        <main class="main-content main-content-full">
-          <?php
-            include_once "$current_page_pretty_url.php"; 
-          ?>
-        </main>
+
+    <div class="section">
+      <div class="container">
+        <?php include_once "$current_page_pretty_url.php"; ?>
       </div>
     </div>
 <?php
   }
   elseif(isset($current_page_pretty_url) && isset($_SESSION['customer_group_code']) && $current_page_pretty_url == $_SESSION['customer_group_code']) {
     
-    print_html_header($content_meta_title, $content_meta_description, $content_meta_keywords, $additional_css_javascript = false, $body_css = "my-account");
+    $body_css = "not-transparent-header my-account";
+    print_html_header($content_meta_title, $content_meta_description, $content_meta_keywords, $additional_css_javascript = false, $body_css);
+    
     $current_page_text = "header_".str_replace("-", "_", $page_params);
     $content_name = $languages[$current_page_text];
 ?>
-    <div id="page-header">
-      <div class="clearfix">
-        <h1><?=$content_name;?></h1>
-        <p><?php print_content_breadcrumbs($content_hierarchy_ids, $content_name) ?></p>	
+    <div class="breadcrumb-wrapper">
+      <div class="container">
+        <ol class="breadcrumb-list">
+          <?php print_content_breadcrumbs($content_hierarchy_ids, $content_name) ?>
+        </ol>
       </div>
     </div>
-    <div class="clearfix">
-      <div class="row">
+
+    <div class="admin-container-wrapper">
+
+      <div class="container">
+
+        <div class="GridLex-gap-15-wrappper">
+
+          <div class="GridLex-grid-noGutter-equalHeight">
 <?php 
   if(user_is_loged()) {
     $customer_fullname = $_SESSION['customer_name']; 
 ?>
-        <aside class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
-          <section class="widget clearfix">
-            <h4 class="title-style3"><?=$customer_fullname;?> <span class="title-block"></span></h4>
-            <ul class="user_menu unstyled clearfix">
-              <?php 
-                $function_name = "print_html_".$_SESSION['customer_group_code']."_profile_menu";
-                echo $function_name(); 
-              ?>
-            </ul>
-          </section>
-        </aside>
+            <div class="GridLex-col-3_sm-4_xs-12">
+
+              <div class="admin-sidebar">
+
+                <div class="admin-user-item">
+
+                  <div class="image">
+                    <img src="images/man/01.jpg" alt="image" class="img-circle" />
+                  </div>
+
+                  <h4><?=$customer_fullname;?></h4>
+                  <!--<p class="user-role">Professional</p>-->
+
+                </div>
+
+                <ul class="admin-user-menu clearfix">
+                  <?php
+                    $function_name = "print_html_".$_SESSION['customer_group_code']."_profile_menu";
+                    echo $function_name(); 
+                  ?>
+                </ul>
+
+              </div>
+
+            </div>
 <?php
-  } 
+  }
 ?>
-        <main class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
-          <?php 
-            if(!user_is_loged()) {
-              echo "<h1>".$languages['error_secured']."</h1>";
-            }
-            else {
-              include_once "$current_page_pretty_url/$page_params.php"; 
-            }
-          ?>
-        </main>
+            <div class="GridLex-col-9_sm-8_xs-12">
+
+              <div class="admin-content-wrapper">
+
+                <div class="admin-section-title">
+
+                  <h2><?=$content_name;?></h2>
+
+                </div>
+                <?php 
+                  if(!user_is_loged()) {
+                    echo "<h1>".$languages['error_secured']."</h1>";
+                  }
+                  else {
+                    include_once "$current_page_pretty_url/$page_params.php"; 
+                  }
+                ?>
+              </div>
+            </div>
+            
+          </div>
+        </div>
       </div>
     </div>
 <?php
@@ -358,25 +419,28 @@
       if($content_type == "error_page") {
         // error page
         
-        print_html_header($content_meta_title, $content_meta_description, $content_meta_keywords, $additional_css_javascript = false,$body_css = "error");
+        $body_css = "not-transparent-header error";
+        print_html_header($content_meta_title, $content_meta_description, $content_meta_keywords, $additional_css_javascript = false,$body_css);
 ?>
-    <div id="page-header">
-      <div class="clearfix">
-        <h1><?=$content_name;?></h1>
-        <p><?php print_content_breadcrumbs($content_hierarchy_ids, $content_name) ?></p>	
-      </div>
-    </div>
-    <div class="clearfix">
-      <main class="main-content main-content-full">
-        <?=$content_text;?>
-      </main>
-    </div>
+        <div class="breadcrumb-wrapper">
+          <div class="container">
+            <ol class="breadcrumb-list">
+              <?php print_content_breadcrumbs($content_hierarchy_ids, $content_name) ?>
+            </ol>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="container">
+            <?=$content_text;?>
+          </div>
+        </div>
 <?php
       }
       elseif($content_type == "news") {
         
         $news_category_id = 1; // all news
-        $body_css = "news-categories";
+        $body_css = "not-transparent-header news";
 
         $query_news_category = "SELECT `news_categories`.`news_category_id`,`news_cat_desc`.`news_cat_name`
                                   FROM `news_categories` 
@@ -392,65 +456,70 @@
           $news_cat_name = $news_cat_name_row['news_cat_name'];
         }
       
-        print_html_header($content_meta_title, $content_meta_description, $content_meta_keywords, $additional_css_javascript = false,$body_css = "news");
+        print_html_header($content_meta_title, $content_meta_description, $content_meta_keywords, $additional_css_javascript = false);
 
 ?>
-    <div id="page-header">
-      <div class="clearfix">
-        <h1><?=$news_cat_name;?></h1>
-        <p><?php print_content_breadcrumbs($content_hierarchy_ids, $news_cat_name) ?></p>	
+      <div class="breadcrumb-wrapper">
+        <div class="container">
+          <ol class="breadcrumb-list">
+            <?php print_content_breadcrumbs($content_hierarchy_ids, $news_cat_name) ?>
+          </ol>
+        </div>
       </div>
-    </div>
-    <div class="clearfix">
-      <main class="main-content">
-        <?php 
-          list_news($offset = false,$news_count = false, $news_category_id); 
-        ?>
-      </main>
-      <!--Aside bar Wrap Start-->
-      <aside class="sidebar-content">
-          <?php print_html_news_sidebar($print_latest_news = true);?>
-      </aside>
-    </div>
+
+      <div class="section">
+        <div class="container">
+          <?php 
+            list_news($offset = false,$news_count = false, $news_category_id); 
+          ?>
+          <aside class="sidebar-content">
+              <?php print_html_news_sidebar($print_latest_news = true);?>
+          </aside>
+        </div>
+      </div>
 <?php
       }
       elseif($content_type == "contacts") {
 
-      $body_css = "contacts";
+      $body_css = "not-transparent-header contacts";
       $sitekey = "6Le3IEYUAAAAAPssLvABf4DmEfxX5RLwb04bIRHw";
 
       print_html_header($content_meta_title, $content_meta_description, $content_meta_keywords, $additional_css_javascript = false,$body_css);
       //echo "<pre>";print_r($_SERVER);echo "</pre>";
 ?>
-      <div id="page-header">
-        <div class="clearfix">
-          <h1><?=$content_name;?></h1>
-          <p><?php print_content_breadcrumbs($content_hierarchy_ids, $content_name) ?></p>	
+      <div class="breadcrumb-wrapper">
+        <div class="container">
+          <ol class="breadcrumb-list">
+            <?php print_content_breadcrumbs($content_hierarchy_ids, $content_name) ?>
+          </ol>
         </div>
       </div>
-      
-      <div class="clearfix">
-<?php
-        include_once 'contacts-form.php';
-?>
+
+      <div class="section">
+        <div class="container">
+          <?php include_once 'contacts-form.php'; ?>
+        </div>
       </div>
 <?php
       }
       else {
         
-        print_html_header($content_meta_title, $content_meta_description, $content_meta_keywords, $additional_css_javascript = false,$body_css = "pages");
+        $body_css = "not-transparent-header pages";
+        print_html_header($content_meta_title, $content_meta_description, $content_meta_keywords, $additional_css_javascript = false,$body_css);
 ?>
-    <div id="page-header">
-      <div class="clearfix">
-        <h1><?=$content_name;?></h1>
-        <p><?php print_content_breadcrumbs($content_hierarchy_ids, $content_name) ?></p>	
-      </div>
-    </div>
-    <div class="clearfix">
-      <main class="main-content">
-        <p><?=$content_text?></p>
-      </main>
-    </div>
+        <div class="breadcrumb-wrapper">
+          <div class="container">
+            <ol class="breadcrumb-list">
+              <?php print_content_breadcrumbs($content_hierarchy_ids, $content_name) ?>
+            </ol>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="container">
+            <?=$content_text?>
+          </div>
+        </div>
 <?php
       }
     } // else of if($content_is_home_page == 1)
