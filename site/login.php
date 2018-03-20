@@ -224,6 +224,6 @@
         <p class="text-left">
           <a href="/<?= $current_lang; ?>/forgotten-password" class="f_pass" rel="nofollow"><?= $languages['link_forgotten_password']; ?></a>
         </p>
-        <input type="submit" name="login" class="button2" value="<?=$languages['btn_login'];?>">   
+        <input type="submit" name="login" class="btn btn-primary" value="<?=$languages['btn_login'];?>">   
       </form>
     </div>

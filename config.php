@@ -2,7 +2,7 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 'On');
 
-define("DOMAIN", "welder.eterrasystems.com");
+define("DOMAIN", "zavarka.bg");
 define("PROTOCOL", "http://");
 define("SITEFOLDER", "site");
 define("SITEFOLDERSL", "/site");
@@ -30,8 +30,8 @@ $_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stamp
 
 function DB_OpenI() {
 
-  $db_name = "eterrasy_weler";
-  $db_user = "eterrasy_weler";
+  $db_name = "zavarka_zavarka";
+  $db_user = "zavarka_zavarka";
   $db_password = "mZm8dTMvqLJu(!n8";
 
   $mysqli = new mysqli("localhost", $db_user, $db_password, $db_name);

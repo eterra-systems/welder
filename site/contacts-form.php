@@ -88,7 +88,7 @@
         </div>
         
         <input type="hidden" name="current_lang" value="<?=$current_lang;?>" >
-        <input class="submit-button button2" type="submit" value="<?=$languages['btn_submit_inquiry'];?>" id="submit" name="submit_inquiery">
+        <input class="btn btn-primary" type="submit" value="<?=$languages['btn_submit_inquiry'];?>" id="submit" name="submit_inquiery">
         
       </form>
       

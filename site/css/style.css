@@ -81,8 +81,9 @@ Last change:    14/06/2015
 }
 
 .logo-wrapper .logo {
-  padding-top: 5px;
+  padding-bottom: 5px;
   font-size: 32px;
+  margin-top: -6px;
   -webkit-transition: all 0.3s ease-in-out 0s;
   -moz-transition: all 0.3s ease-in-out 0s;
   -ms-transition: all 0.3s ease-in-out 0s;
@@ -5110,7 +5111,7 @@ ul.footer-menu li {
 }
 
 .bottom-footer a {
-    color: rgba(255, 255, 255, 0.5);
+    /*color: rgba(255, 255, 255, 0.5);*/
 }
 
 .bottom-footer a:hover {

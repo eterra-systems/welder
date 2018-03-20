@@ -14,5 +14,5 @@
 
     <h2 class="alert alert-success"><?=$languages['header_registration_confirmed_successfully'];?></h2>
     <p>&nbsp;</p>
-    <a href="/<?= $current_lang; ?>/login" class="button2"><?=$languages['login_sign_in'];?></a>
+    <a href="/<?= $current_lang; ?>/login" class="btn btn-primary"><?=$languages['login_sign_in'];?></a>
   </div>

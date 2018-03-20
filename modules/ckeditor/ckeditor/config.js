@@ -7,7 +7,7 @@ CKEDITOR.editorConfig = function( config ) {
 	// Define changes to default configuration here. For example:
 	// config.language = 'fr';
 	// config.uiColor = '#AADC6E';
-	config.filebrowserBrowseUrl = 'http://welder.eterrasystems.com/modules/ckeditor/file-browser/index.php';
+	config.filebrowserBrowseUrl = 'http://zavarka.bg/modules/ckeditor/file-browser/index.php';
 	config.enterMode = CKEDITOR.ENTER_BR;
 	config.language = 'bg';
 	//config.fontSize_sizes = '10%/10%;20%/20%;30%/30%;40%/40%;50%/50%;60%/60%;70%/70%;80%/80%;90%/90%;100%/100%;110%/110%;120%/120%;130%/130%;140%/140%;150%/150%;160%/160%;170%/170%;180%/180%;190%/190%;200%/200%;210%/210%;220%/220%;230%/230%;240%/240%;250%/250%;260%/260%;270%/270%;280%/280%;290%/290%;300%/300%';

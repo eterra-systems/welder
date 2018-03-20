@@ -73,7 +73,7 @@
       <div class="clearfix">&nbsp;</div>
 
       <div class="row">
-        <button type="submit" name="update_profile" class="button2"><?=$languages['btn_save'];?></button>
+        <button type="submit" name="update_profile" class="btn btn-primary"><?=$languages['btn_save'];?></button>
       </div>
       <div class="clearfix">&nbsp;</div>
     </form>

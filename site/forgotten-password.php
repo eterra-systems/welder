@@ -104,7 +104,7 @@
     <div class="clearfix">&nbsp;</div>
 
     <div>
-      <button type="submit" name="update_profile" class="button2"><?=$languages['btn_generate_password'];?></button>
+      <button type="submit" name="update_profile" class="btn btn-primary"><?=$languages['btn_generate_password'];?></button>
     </div>   
 <?php
   }

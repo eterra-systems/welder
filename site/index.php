@@ -102,7 +102,7 @@
               <div class="option_box inner-box">
                 <h3><?= $customer_group_name; ?></h3>
                 <p>.........</p>
-                <a href="/<?= $current_lang; ?>/registration/<?= $customer_group_code; ?>" class="button2" rel="nofollow"><?= $languages['login_sign_up']; ?></a>
+                <a href="/<?= $current_lang; ?>/registration/<?= $customer_group_code; ?>" class="btn btn-primary" rel="nofollow"><?= $languages['login_sign_up']; ?></a>
               </div>
             </div>
 <?php
@@ -456,7 +456,8 @@
           $news_cat_name = $news_cat_name_row['news_cat_name'];
         }
       
-        print_html_header($content_meta_title, $content_meta_description, $content_meta_keywords, $additional_css_javascript = false);
+        $body_css = "not-transparent-header news";
+        print_html_header($content_meta_title, $content_meta_description, $content_meta_keywords, $additional_css_javascript = false, $body_css);
 
 ?>
       <div class="breadcrumb-wrapper">
@@ -473,7 +474,7 @@
             list_news($offset = false,$news_count = false, $news_category_id); 
           ?>
           <aside class="sidebar-content">
-              <?php print_html_news_sidebar($print_latest_news = true);?>
+              <?php //print_html_news_sidebar($print_latest_news = true);?>
           </aside>
         </div>
       </div>

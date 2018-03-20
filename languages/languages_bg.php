@@ -592,7 +592,7 @@ $languages = array(
 
   //content types
   "content" => "Страница за съдържание",
-  "services" => "Страница за услуги",
+  "about_us" => "Страница за нас",
   "error_page" => "Страница за грешка",
   "redirecting_link" => "Препращащ линк",
   "section_header" => "Заглавна част",

@@ -156,7 +156,7 @@ function print_html_header($meta_title, $meta_description, $meta_keywords, $addi
             <div class="logo-wrapper">
               <div class="logo">
                 <a href="<?=$home_page_url;?>" title="<?=$languages['company_logo_text'];?>">
-                  <?=$languages['company_logo_text'];?>
+                  <img src="<?=SITEFOLDERSL;?>/images/logo.png" width="156" height="43" alt="<?=$languages['company_logo_text'];?>" />
                 </a>
               </div>
             </div>
@@ -175,7 +175,6 @@ function print_html_header($meta_title, $meta_description, $meta_keywords, $addi
                 <li>
                   <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-data" rel="nofollow"><?= $languages['customer_profile']; ?></a>
                 </li>
-                <!--<li><a href="/<?= $current_lang; ?>/logout" rel="nofollow"><?= $languages['logout']; ?></a></li>-->
               <?php } else { ?>
                 <li><a href="/<?= $current_lang; ?>/login" rel="nofollow"><?= $languages['login_sign_in']; ?></a></li>
                 <li><a href="/<?= $current_lang; ?>/registration" rel="nofollow"><?= $languages['login_sign_up']; ?></a></li>
@@ -279,49 +278,32 @@ function print_header_menu($content_parent_id, $content_hierarchy_level_start , 
       $content_is_last_child = check_if_this_is_content_last_child($content_parent_id,$content_menu_order);
       $url = "/$current_lang/$content_pretty_url";
 
-      if($content_type_id == 2) {
+      if($content_has_children == 1 && $content_hierarchy_level < $number_of_hierarchy_levels && $content_has_active_children) {
+        $dropdown_arrow = ($content_hierarchy_level == 1) ? '<b class="caret"></b>' : "";
 ?>
-        <li class="menu-item-has-children current_page_item<?=$class_active;?>">
-          <a href="javascript:;" class="<?=$a_class;?>">
-            <?="$content_menu_text";?>
-          </a>
-          <?php //if($is_mobile) echo $down_arrow; ?>
-          <ul class="level-<?=$content_hierarchy_level;?>">
+      <li class="menu-item-has-children current_page_item<?=$class_active;?>">
+        <a href="<?=$url;?>" class="<?=$a_class;?>">
+          <?="$content_menu_text";?>
+        </a>
+        <?php //if($is_mobile) echo $down_arrow; ?>
+        <ul class="level-<?=$content_hierarchy_level;?>">
 <?php
-          print_header_categories_menu($category_parent_id = 0, $number_of_hierarchy_levels = 3);
-?>
-          </ul>
-        </li>
-<?php
+        print_header_menu($content_id, $content_hierarchy_level_start = 0, $number_of_hierarchy_levels);
       }
       else {
-        if($content_has_children == 1 && $content_hierarchy_level < $number_of_hierarchy_levels && $content_has_active_children) {
-          $dropdown_arrow = ($content_hierarchy_level == 1) ? '<b class="caret"></b>' : "";
 ?>
-        <li class="menu-item-has-children current_page_item<?=$class_active;?>">
-          <a href="<?=$url;?>" class="<?=$a_class;?>">
-            <?="$content_menu_text";?>
-          </a>
-          <?php //if($is_mobile) echo $down_arrow; ?>
-          <ul class="level-<?=$content_hierarchy_level;?>">
+      <li class="<?=$class_active;?>">
+        <a href="<?=$url;?>" class="<?="$a_class$class_active";?>" <?=$content_target;?>><?="$content_menu_text";?></a>
+      </li>
 <?php
-          print_header_menu($content_id, $content_hierarchy_level_start = 0, $number_of_hierarchy_levels);
-        }
-        else {
-?>
-        <li class="<?=$class_active;?>">
-          <a href="<?=$url;?>" class="<?="$a_class$class_active";?>" <?=$content_target;?>><?="$content_menu_text";?></a>
-        </li>
-<?php
-        }
+      }
 
-        if($content_hierarchy_level > 1 && $content_is_last_child) {
+      if($content_hierarchy_level > 1 && $content_is_last_child) {
 ?>
-          </ul>
-        </li>
+        </ul>
+      </li>
 <?php
-        }
-      }  
+      }
     }
     mysqli_free_result($result_content);
   }
@@ -662,7 +644,7 @@ function print_content_breadcrumbs($content_hierarchy_ids, $current_content_name
   global $home_page_url;
 
   $content_hierarchy_ids_array = explode(".", $content_hierarchy_ids);
-  //echo "<pre>";print_r($content_hierarchy_ids_array);echo "</pre><br>";
+  //print_array_for_debug($content_hierarchy_ids_array);
   $ids_count = count($content_hierarchy_ids_array);
 
   if ($ids_count > 2) {
@@ -1430,15 +1412,15 @@ function print_html_footer() {
                     <div class="col-sm-6 col-md-4">
 
                       <div class="footer-about-us">
-                        <h5 class="footer-title">about HaNgan</h5>
-                        <p>Sudden looked elinor off gay estate nor silent. Son read such next see the rest two. Was use extent old entire sussex...</p>
-                        <a href="#">read more</a>
+                        <h5 class="footer-title"><?=$languages['header_about_us'];?></h5>
+                        <p><?=$languages['text_company_footer'];?></p>
+                        <a href="#"><?=$languages['btn_read_more'];?></a>
                       </div>
 
                     </div>
 
                     <div class="col-sm-6 col-md-5 mt-30-xs">
-                      <h5 class="footer-title">quick links</h5>
+                      <h5 class="footer-title"><?=$languages['header_menu'];?></h5>
                       <ul class="footer-menu clearfix">
                         <?php print_footer_menu($content_hierarchy_level_start = 1,$number_of_hierarchy_levels = 2); ?>
                       </ul>
@@ -1451,16 +1433,17 @@ function print_html_footer() {
 
                 <div class="col-sm-12 col-md-3 mt-30-sm">
 
-                  <h5 class="footer-title">newsletter</h5>
+                  <h5 class="footer-title"><?=$languages['header_newsletter'];?></h5>
 
-                  <p>Subsribe to get our latest updates and oeffers</p>
+                  <p><?=$languages['header_newsletter_signup'];?></p>
 
                   <div class="footer-newsletter">
 
-                    <div class="form-group">
-                      <input class="form-control" placeholder="enter your email " />
-                      <button class="btn btn-primary">subsribe</button>
-                    </div>
+                    <form name="newsletterform" method="post" action="<?=SITEFOLDERSL;?>/subscribe.php" class="form-group">
+                      <input name="newsletter_email" type="email" required="required" class="form-control" placeholder="<?=$languages['text_enter_your_email'];?>" />
+                      <input type="hidden" name="current_lang" value="<?=$current_lang;?>">
+                      <button type="submit" class="btn btn-primary"><?=$languages['btn_subscribe'];?></button>
+                    </form>
 
                     <p class="font-italic font13">*** Don't worry, we wont spam you!</p>
 
@@ -1480,7 +1463,7 @@ function print_html_footer() {
 
               <div class="row">
 
-                <div class="col-sm-4 col-md-4">
+                <div class="col-sm-6 col-md-8">
 
                   <p class="copy-right">
                     &COPY; <?=$languages['e_shop_cms'];?> <?=date("Y");?>&nbsp; <?=$languages['text_all_rights_reserved'];?>.
@@ -1489,7 +1472,7 @@ function print_html_footer() {
 
                 </div>
 
-                <div class="col-sm-4 col-md-4">
+                <div class="col-sm-4 col-md-4 hidden">
 
                   <ul class="bottom-footer-menu">
                     <li><a href="#">Cookies</a></li>
@@ -1500,7 +1483,7 @@ function print_html_footer() {
 
                 </div>
 
-                <div class="col-sm-4 col-md-4">
+                <div class="col-sm-6 col-md-4">
                   <ul class="bottom-footer-menu for-social">
                     <?php list_contacts_socials(); ?>
                   </ul>

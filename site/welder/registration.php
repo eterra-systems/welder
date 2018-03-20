@@ -488,7 +488,7 @@
         </p>
       </div>
 
-      <a href="javascript:;" class="button2 button green" onClick="ShowOneMoreCertificateInput('10')">
+      <a href="javascript:;" class="btn btn-success" onClick="ShowOneMoreCertificateInput('10')">
         <i class="icon icon_plus_sign"></i>
         <?=$languages['btn_add_certificates_inputs'];?>
       </a>
@@ -518,7 +518,7 @@
     <p class="clearfix"></p>
 
     <div>
-      <button type="submit" name="sign_up" class="button2"><span><?=$languages['btn_sign_up'];?></span></button>
+      <button type="submit" name="sign_up" class="btn btn-primary"><span><?=$languages['btn_sign_up'];?></span></button>
     </div>
 
   </form>
