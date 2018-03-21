@@ -30,41 +30,53 @@
 
   $page_array = get_page_by_type("news");
 
-  $content_name = stripslashes($page_array['content_name']);
   $current_content_menu_text = stripslashes($page_array['content_menu_text']);
-  $content_hierarchy_ids = $page_array['content_hierarchy_ids'];
   $content_pretty_url = $page_array['content_pretty_url'];
   $content_meta_title = stripslashes($page_array['content_meta_title']);
   $content_meta_keywords = stripslashes($page_array['content_meta_keywords']);
   $content_meta_description = stripslashes($page_array['content_meta_description']);
 
-      
-  print_html_header($content_meta_title, $content_meta_description, $content_meta_keywords, $additional_css_javascript = false, $body_css = "news-categories");
+  $body_css = "not-transparent-header news-categories";
+  
+  print_html_header($content_meta_title, $content_meta_description, $content_meta_keywords, $additional_css_javascript = false, $body_css);
 ?>
   <a name="news_anchor" id="news_anchor"></a>
   <!-- WRAPPER-->
   
-  <div id="page-header">
-    <div class="content-wrapper clearfix">
-      <h1><?=$news_cat_name;?></h1>
-      <p>
-        <a href="/<?=$home_page_url;?>"><i class="fa fa-home"></i></a> <i class="fa fa-angle-right" aria-hidden="true"></i>
-        <a href="/<?=$current_lang;?>/<?=$content_pretty_url;?>"><?=$current_content_menu_text;?></a> <i class="fa fa-angle-right" aria-hidden="true"></i>
-        <?=$news_cat_name;?>
-      </p>	
+  <div class="breadcrumb-wrapper">
+    <div class="container">
+      <ol class="breadcrumb-list">
+        <li><a href="<?=$home_page_url;?>" title="<?= $languages['title_goto_homepage']; ?>"><?= $languages['menu_home']; ?></a></li>
+        <li><a href="/<?=$current_lang;?>/<?=$content_pretty_url;?>"><?=$current_content_menu_text;?></a></li>
+        <li><span><?=$news_cat_name;?></span></li>
+      </ol>
     </div>
   </div>
   
-  <div class="content-wrapper clearfix">
-    <main class="main-content">
-      <?php 
-        list_news($offset = false,$news_count = false, $news_category_id); 
-      ?>
-    </main>
- 
-    <aside class="sidebar-content">
-      <?php print_html_news_sidebar($print_latest_news = true);?>
-    </aside>
+  <div class="section sm">
+    <div class="container">
+      <div class="row">
+
+        <div class="col-sm-8 col-md-9">
+          <div class="blog-wrapper">
+          <?php 
+            list_news($offset = false,$news_count = false, $news_category_id); 
+          ?>
+          </div>
+        </div>
+
+        <div class="col-sm-4 col-md-3 mt-50-xs">
+          <aside class="sidebar">
+            <div class="sidebar-inner no-border for-blog">
+
+              <?php print_html_news_sidebar($print_latest_news = true);?>
+
+            </div>
+          </aside>
+        </div>
+
+      </div>
+    </div>
   </div>
 <?php
   print_html_footer();  

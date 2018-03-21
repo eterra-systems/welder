@@ -8,7 +8,7 @@
   
   define("MAX_FILE_SIZE","8192000");
   $valid_formats = array("jpg", "jpeg", "png", "gif");
-  $upload_path = $_SERVER['DOCUMENT_ROOT']."/site/images/news/";
+  $upload_path = $_SERVER['DOCUMENT_ROOT'].SITEFOLDERSL."/images/news/";
   if(!is_dir($upload_path)) {
     mkdir($upload_path, 0777);
     chmod($upload_path, 0777);
@@ -16,9 +16,7 @@
 
   $news_id = $_POST['news_id'];
   
-  $query_news_details = "SELECT `news_image`
-                        FROM `news`
-                        WHERE `news_id` = '$news_id'";
+  $query_news_details = "SELECT `news_image` FROM `news` WHERE `news_id` = '$news_id'";
   //echo $query_news_details;exit;
   $result_news_details = mysqli_query($db_link, $query_news_details);
   if(!$result_news_details) echo mysqli_error($db_link);
@@ -122,11 +120,11 @@
 
     $image->save($file,$image_type);
 
-    $image->resizeToWidth(750);
+    $image->resizeToWidth(840);
 
     $image->save($image_thumb,$image_type);
 
-    $image->resizeToWidth(100);
+    $image->resizeToWidth(80);
 
     $image->save($image_sidebar_thumb,$image_type);
 

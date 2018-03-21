@@ -30,7 +30,7 @@
       $news_image_exploded = explode(".", $news_image);
       $current_news_image_name = $news_image_exploded[0];
       $current_news_image_exstension = $news_image_exploded[1];
-      $upload_path = $_SERVER['DOCUMENT_ROOT']."/site/images/news/";
+      $upload_path = $_SERVER['DOCUMENT_ROOT'].SITEFOLDERSL."/images/news/";
 
       $file = $upload_path."$current_news_image_name.$current_news_image_exstension";
 
@@ -53,6 +53,23 @@
     exit;
   }
   
+  $query_news_desc = "SELECT `news_id` FROM `news_to_news_category` WHERE `news_id` = '$news_id' LIMIT 1";
+  //echo $query_news_desc;exit;
+  $result_news_desc = mysqli_query($db_link, $query_news_desc);
+  if(!$result_news_desc) echo mysqli_error($db_link);
+  if(mysqli_num_rows($result_news_desc) > 0) {
+    
+    $query = "DELETE FROM `news_to_news_category` WHERE `news_id` = '$news_id'";
+    $all_queries .= $query."\n<br>";
+    //echo $query;exit;
+    $result = mysqli_query($db_link, $query);
+    if(mysqli_affected_rows($db_link) <= 0) {
+      echo $languages['sql_error_delete']." - ".mysqli_error($db_link);
+      mysqli_query($db_link,"ROLLBACK");
+      exit;
+    }
+  }
+  
   $query_news_desc = "SELECT `news_id` FROM `news_descriptions` WHERE `news_id` = '$news_id' LIMIT 1";
   //echo $query_news_desc;exit;
   $result_news_desc = mysqli_query($db_link, $query_news_desc);
@@ -70,28 +87,28 @@
     }
   }
   
-  $query_news_images = "SELECT `name` FROM `news_gallery` WHERE `news_id` = '$news_id' LIMIT 1";
+  $query_news_images = "SELECT `ng_name` FROM `news_galleries` WHERE `news_id` = '$news_id' LIMIT 1";
   //echo $query_news_images;exit;
   $result_news_images = mysqli_query($db_link, $query_news_images);
   if(!$result_news_images) echo mysqli_error($db_link);
   if(mysqli_num_rows($result_news_images) > 0) {
     while($news_images = mysqli_fetch_assoc($result_news_images)) {
       
-      $news_image = $news_images['name'];
+      $news_image = $news_images['ng_name'];
 
       if(!is_null($news_image) && !empty($news_image)) {
         
-        $file = $_SERVER['DOCUMENT_ROOT']."/site/images/news/large/$news_image";
+        $file = $_SERVER['DOCUMENT_ROOT'].SITEFOLDERSL."/images/news/large/$news_image";
 
         if(file_exists($file)) unlink($file);
 
-        $image_thumb = $_SERVER['DOCUMENT_ROOT']."/site/images/news/thumbs/$news_image";
+        $image_thumb = $_SERVER['DOCUMENT_ROOT'].SITEFOLDERSL."/images/news/thumbs/$news_image";
 
         if(file_exists($image_thumb)) unlink($image_thumb);
       }
     }
     
-    $query = "DELETE FROM `news_gallery` WHERE `news_id` = '$news_id'";
+    $query = "DELETE FROM `news_galleries` WHERE `news_id` = '$news_id'";
     $all_queries .= $query."\n<br>";
     //echo $query;exit;
     $result = mysqli_query($db_link, $query);

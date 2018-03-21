@@ -66,7 +66,7 @@
     } 
     $use_expiry_info = (is_null($news_start_time)) ? 0 : 1;
     $news_is_active = $news_details['news_is_active'];
-    $news_images_folder = "/site/images/news/";
+    $news_images_folder = SITEFOLDERSL."/images/news/";
     if(!empty($news_details['news_image'])) {
       $news_image = $news_details['news_image'];
       $news_image_exploded = explode(".", $news_image);
@@ -79,7 +79,7 @@
       @$thumb_image_dimensions = $thumb_image_params[3];
     }
     else {
-      $news_image_thumb = "/site/images/no_image_172x120.jpg";
+      $news_image_thumb = SITEFOLDERSL."/images/no_image_172x120.jpg";
       @$thumb_image_params = getimagesize($_SERVER['DOCUMENT_ROOT'].$news_image);
       $thumb_image_dimensions = $thumb_image_params[3];
     }
@@ -361,7 +361,7 @@
               <img src="<?=$news_image_thumb;?>" <?=$thumb_image_dimensions;?>>
             </div>
             <p>&nbsp;</p>
-            <h4><?=$languages['header_change_image'];?> (680x270px)</h4>
+            <h4><?=$languages['header_change_image'];?> (840x420px)</h4>
           </div>
           <div class="clearfix"></div>
         </form>
@@ -523,7 +523,7 @@
       <div id="news_gallery_tab" class="news_tab tab">
 <?php
         $news_gallery_images_array = get_news_images($current_news_id);
-        $news_images_folder = "/site/images/news/thumbs/";
+        $news_images_folder = SITEFOLDERSL."/images/news/thumbs/";
 ?>
         <h4><?=$languages['header_news_images'];?></h4>
         <p><i><?=$languages['info_image_default'];?></i></p>

@@ -42,12 +42,12 @@
       $image_name = $content_image_name_exploded[0];
       $image_exstension = mb_convert_case($content_image_name_exploded[1], MB_CASE_LOWER, "UTF-8");
       $image_thumb_name = $image_name."_thumb.".$image_exstension;
-      $content_image_thumb = "/site/images/contents/$image_thumb_name";
+      $content_image_thumb = SITEFOLDERSL."/images/contents/$image_thumb_name";
       @$thumb_image_params = getimagesize($_SERVER['DOCUMENT_ROOT'].$content_image_thumb);
       $thumb_image_dimensions = $thumb_image_params[3];
     }
     else {
-      $content_image_thumb = "/site/images/no_image_172x120.jpg";
+      $content_image_thumb = SITEFOLDERSL."/images/no_image_172x120.jpg";
       @$thumb_image_params = getimagesize($_SERVER['DOCUMENT_ROOT'].$content_image_thumb);
       $thumb_image_dimensions = $thumb_image_params[3];
     }

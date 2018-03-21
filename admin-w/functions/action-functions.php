@@ -193,7 +193,7 @@ function validate_upload_image($input_name, $upload_path, $max_image_size) {
   
   global $languages;
   
-  $max_image_size_error = $max_image_size/1048576; //1,048,576 bytes = 1MB
+  $max_image_size_bytes = 1048576*$max_image_size;
   $valid_formats = array("jpg", "jpeg", "png", "gif", "svg");
   $image_name = "";
   $error = array();
@@ -203,15 +203,15 @@ function validate_upload_image($input_name, $upload_path, $max_image_size) {
     $error['extension'] = $languages['image_extension_error']."$image_exstension<br>";
   }
   //echo"<pre>";print_r($image_exstension_array);echo $image_exstension;exit;
-  if(($_FILES[$input_name]['size'] < $max_image_size) && ($_FILES[$input_name]['error'] == 0)) {
+  if(($_FILES[$input_name]['size'] < $max_image_size_bytes) && ($_FILES[$input_name]['error'] == 0)) {
     // no error
     $origin_image_tmp_name  = $_FILES[$input_name]['tmp_name'];
     $origin_image_name = $_FILES[$input_name]['name'];
     $image_name = str_replace(".$extension", "", $origin_image_name);
     $image_name_fixed = "$image_name.$image_exstension";
   }
-  elseif(($_FILES[$input_name]['size'] > $max_image_size) || ($_FILES[$input_name]['error'] == 1 || $_FILES[$input_name]['error'] == 2)) {
-    $error['size'] = $languages['image_size_error'].$max_image_size_error."MB<br>";
+  elseif(($_FILES[$input_name]['size'] > $max_image_size_bytes) || ($_FILES[$input_name]['error'] == 1 || $_FILES[$input_name]['error'] == 2)) {
+    $error['size'] = $languages['image_size_error'].$max_image_size."MB<br>";
   }
   else {
     if($_FILES[$input_name]['error'] != 4) { // error 4 means no file was uploaded

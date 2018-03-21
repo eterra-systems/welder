@@ -43,7 +43,7 @@
 
       if(isset($_FILES['contact_social_image']) && $_FILES['contact_social_image']['error'] != 4) {
 
-        $upload_path = $_SERVER['DOCUMENT_ROOT']."/site/images/contact-socials/";
+        $upload_path = $_SERVER['DOCUMENT_ROOT'].SITEFOLDERSL."/images/contact-socials/";
         if(!is_dir($upload_path)) {
           mkdir($upload_path, 0777);
           chmod($upload_path, 0777);

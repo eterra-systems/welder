@@ -30,11 +30,11 @@
      * custom image icon is not used yet
      */
     $input_name = "contact_social_image";
-    $max_image_size = "2048000"; //2MB
+    $max_image_size = 2; //MB
     $contact_social_image_set = false;
     if(isset($_FILES[$input_name]) && ($_FILES[$input_name]['error'] != 4)) {
       $contact_social_image_set = true;
-      $upload_path = $_SERVER['DOCUMENT_ROOT']."/site/images/contact-socials/";
+      $upload_path = $_SERVER['DOCUMENT_ROOT'].SITEFOLDERSL."/images/contact-socials/";
       $image_params = validate_upload_image($input_name, $upload_path, $max_image_size);
       //echo "<pre>";print_r($image_params);exit;
       if(!empty($image_params['error'])) $contact_social_errors[$input_name] = $image_params['error']; // array that may contain extension, size, upload

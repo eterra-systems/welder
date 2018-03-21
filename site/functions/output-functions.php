@@ -884,35 +884,53 @@ function list_news($offset = false,$news_count = false, $news_category_id = fals
       $news_start_time = $news_row['news_start_time'];
       $news_end_time = $news_row['news_end_time'];
       $news_images_folder = SITEFOLDERSL."/images/news/";
-      $news_image = $news_images_folder.$news_row['news_image'];
-      $news_image_exploded = explode(".", $news_image);
-      $current_news_image_name = $news_image_exploded[0];
-      $current_news_image_exstension = $news_image_exploded[1];
-      $image_thumb_name = $current_news_image_name."_thumb.".$current_news_image_exstension;
-      @$thumb_image_params = getimagesize($_SERVER['DOCUMENT_ROOT'].$image_thumb_name);
-      $thumb_image_dimensions = $thumb_image_params[3];
+      if(!empty($news_row['news_image'])) {
+        $news_image = $news_row['news_image'];
+        $news_image_exploded = explode(".", $news_image);
+        $news_image_name = $news_image_exploded[0];
+        $news_image_exstension = $news_image_exploded[1];
+        $news_image_thumb = $news_images_folder.$news_image_name."_thumb.".$news_image_exstension;
+        @$thumb_image_params = getimagesize($_SERVER['DOCUMENT_ROOT'].$news_image_thumb);
+        $thumb_image_dimensions = $thumb_image_params[3];
+      }
+      else {
+        $news_image_thumb = SITEFOLDERSL."/images/no_image_172x120.jpg";
+        @$thumb_image_params = getimagesize($_SERVER['DOCUMENT_ROOT'].$news_image);
+        $thumb_image_dimensions = $thumb_image_params[3];
+      }
+      
       $news_views = $news_row['news_views'];
       $news_details_link = "/$current_lang/$news_pretty_url?nid=$news_id";
       
 ?>
-      <article class="blog-post-wrapper">
+      <div class="blog-item">
 
-        <a href="<?=$news_details_link;?>">
-          <img src="<?=$image_thumb_name;?>" alt="<?=$news_title;?>" <?=$thumb_image_dimensions;?> class="blog-image" />
-        </a>
-
-        <h3 class="blog-title">
-          <a href="<?=$news_details_link;?>"><?=$news_title;?></a>
-        </h3>
-
-        <div class="blog-meta">
-          <?=$news_post_date_day;?> <?=$news_post_date_month;?> <?=$news_post_date_year;?> / <i class="fa fa-eye" aria-hidden="true"></i><?=$news_views;?>
+        <div class="blog-media">
+          <div class="overlay-box">
+            <a class="blog-image" href="<?=$news_details_link;?>">
+              <img src="<?=$news_image_thumb;?>" alt="<?=$news_title;?>" <?=$thumb_image_dimensions;?> class="blog-image" />
+              <div class="image-overlay">
+                <div class="overlay-content">
+                  <div class="overlay-icon"><i class="pe-7s-link"></i></div>
+                </div>
+              </div>
+            </a>
+          </div>
         </div>
 
-        <p><?=$news_summary;?></p>
-        <p><a href="<?=$news_details_link;?>" class="more-link"><?=$languages['btn_read_more'];?></a></p>
-        
-      </article>
+        <div class="blog-content">
+          <h3><a href="<?=$news_details_link;?>" class="inverse"><?=$news_title;?></a></h3>
+          <ul class="blog-meta">
+            <li><?=$news_post_date_day;?> <?=$news_post_date_month;?> <?=$news_post_date_year;?></li>
+            <li><i class="fa fa-eye" aria-hidden="true"></i> <?=$news_views;?></li>
+          </ul>
+          <div class="blog-entry">  
+            <?=$news_summary;?> 
+          </div>
+          <a href="<?=$news_details_link;?>" class="btn-blog"><?=$languages['btn_read_more'];?> <i class="fa fa-long-arrow-right"></i></a>
+        </div>
+
+      </div>
 <?php
       $block++;
     }
@@ -1180,13 +1198,20 @@ function list_news_include_block($news_ids) {
       $news_post_date_month = $languages[$news_post_date_month_text];
       $news_post_date_year = date("Y", strtotime($news_row['news_post_date']));
       $news_images_folder = SITEFOLDERSL."/images/news/";
-      $news_image = $news_row['news_image'];
-      $news_image_exploded = explode(".", $news_image);
-      $current_news_image_name = $news_image_exploded[0];
-      $current_news_image_exstension = $news_image_exploded[1];
-      $image_thumb_name = $news_images_folder.$current_news_image_name."_thumb.".$current_news_image_exstension;
-      @$thumb_image_params = getimagesize($_SERVER['DOCUMENT_ROOT'].$image_thumb_name);
-      $thumb_image_dimensions = $thumb_image_params[3];
+      if(!empty($news_row['news_image'])) {
+        $news_image = $news_row['news_image'];
+        $news_image_exploded = explode(".", $news_image);
+        $news_image_name = $news_image_exploded[0];
+        $news_image_exstension = $news_image_exploded[1];
+        $news_image_thumb = $news_images_folder.$news_image_name."_thumb.".$news_image_exstension;
+        @$thumb_image_params = getimagesize($_SERVER['DOCUMENT_ROOT'].$news_image_thumb);
+        $thumb_image_dimensions = $thumb_image_params[3];
+      }
+      else {
+        $news_image_thumb = SITEFOLDERSL."/images/no_image_172x120.jpg";
+        @$thumb_image_params = getimagesize($_SERVER['DOCUMENT_ROOT'].$news_image);
+        $thumb_image_dimensions = $thumb_image_params[3];
+      }
       $news_views = $news_row['news_views'];
       $news_details_link = "/$current_lang/$news_pretty_url?ncid_d=$news_category_id&nid=$news_id";
 ?>
@@ -1194,7 +1219,7 @@ function list_news_include_block($news_ids) {
         <div class="kf_blog_post_wrap">
           <h6>.0<?=$news_counter;?></h6>
           <figure>
-            <img src="<?=$image_thumb_name;?>" alt="<?=$news_title;?>" <?=$thumb_image_dimensions;?>>
+            <img src="<?=$news_image_thumb;?>" alt="<?=$news_title;?>" <?=$thumb_image_dimensions;?>>
           </figure>
           <div class="kf_blog_des">
             <h6><a href="<?=$news_details_link;?>"><?=$news_title;?></a></h6>
@@ -1257,29 +1282,35 @@ function list_latest_news_for_category($news_category_id, $news_count = false) {
       $news_post_date_month = $languages[$news_post_date_month_text];
       $news_post_date_year = date("Y", strtotime($news_row['news_post_date']));
       $news_images_folder = SITEFOLDERSL."/images/news/";
-      $news_image = $news_row['news_image'];
-      $news_image_exploded = explode(".", $news_image);
-      $current_news_image_name = $news_image_exploded[0];
-      $current_news_image_exstension = $news_image_exploded[1];
-      $image_thumb_name = $news_images_folder.$current_news_image_name."_sidebar_thumb.".$current_news_image_exstension;
-      @$thumb_image_params = getimagesize($_SERVER['DOCUMENT_ROOT'].$image_thumb_name);
-      $thumb_image_dimensions = $thumb_image_params[3];
+      if(!empty($news_row['news_image'])) {
+        $news_image = $news_row['news_image'];
+        $news_image_exploded = explode(".", $news_image);
+        $news_image_name = $news_image_exploded[0];
+        $news_image_exstension = $news_image_exploded[1];
+        $news_image_thumb = $news_images_folder.$news_image_name."_sidebar_thumb.".$news_image_exstension;
+        @$thumb_image_params = getimagesize($_SERVER['DOCUMENT_ROOT'].$news_image_thumb);
+        $thumb_image_dimensions = $thumb_image_params[3];
+      }
+      else {
+        $news_image_thumb = SITEFOLDERSL."/images/no_image_172x120.jpg";
+        @$thumb_image_params = getimagesize($_SERVER['DOCUMENT_ROOT'].$news_image);
+        $thumb_image_dimensions = $thumb_image_params[3];
+      }
       $news_views = $news_row['news_views'];
       $news_details_link = "/$current_lang/$news_pretty_url?ncid_d=$news_category_id&nid=$news_id";
 ?>
       <li class="clearfix">
-        <div class="lpl-img">
-          <a href="<?=$news_details_link;?>">
-            <img src="<?=$image_thumb_name;?>" alt="<?=$news_title;?>" <?=$thumb_image_dimensions;?> />
-          </a>
-        </div>
-        <div class="lpl-content">
-          <h6>
-            <a href="<?=$news_details_link;?>"><?=$news_title;?></a> 
-            <span><i class="fa fa-calendar" aria-hidden="true"></i><?=$news_post_date_day;?> <?=$news_post_date_month;?> <?=$news_post_date_year;?></span>
-            <span><i class="fa fa-eye" aria-hidden="true"></i><?=$news_views;?></span>
-          </h6>
-        </div>
+        <a href="<?=$news_details_link;?>">
+          <div class="image">
+            <img src="<?=$news_image_thumb;?>" alt="<?=$news_title;?>" <?=$thumb_image_dimensions;?> />
+          </div>
+          <div class="content">
+            <h6><?=$news_title;?></h6>
+            <p class="recent-post-sm-meta">
+              <i class="fa fa-clock-o mr-5"></i><?=$news_post_date_day;?> <?=$news_post_date_month;?> <?=$news_post_date_year;?>
+            </p>
+          </div>
+        </a>
       </li>
 <?php
     } //while($news_row)
@@ -1296,25 +1327,26 @@ function print_html_news_sidebar($print_latest_news = true) {
   global $news_category_id;
 
 ?>
-    <section class="widget clearfix">
-      <h4 class="title-style3" style="margin-bottom: 20px !important"><?= $languages['header_news_categories']; ?>
-        <span class="title-block"></span>
-      </h4>
-      <ul class="clearfix" style="margin-bottom: 20px">
-        <?php list_news_categories($news_cat_parent_id = 0, $news_categories_count = false) ?>
-      </ul>
-    </section>
+    <div class="sidebar-module">
+      <h4 class="sidebar-title"><?= $languages['header_news_categories']; ?></h4>
+      <div class="sidebar-module-inner">
+        <ul class="sidebar-category">
+          <?php list_news_categories($news_cat_parent_id = 0, $news_categories_count = false) ?>
+        </ul>
+      </div>
+    </div>
+    <div class="clear"></div>
 <?php
     if($print_latest_news) {
 ?> 
-    <section class="widget clearfix">
-      <h4 class="title-style3"><?= $languages['header_latest_news_for_category']; ?>
-        <span class="title-block"></span>
-      </h4>
-      <ul class="latest-posts-list clearfix">
-        <?php list_latest_news_for_category($news_category_id, $news_count = 5) ?>
-      </ul>
-    </section>
+    <div class="sidebar-module">
+      <h4 class="sidebar-title"><?= $languages['header_latest_news_for_category']; ?></h4>
+      <div class="sidebar-module-inner">
+        <ul class="sidebar-post">
+          <?php list_latest_news_for_category($news_category_id, $news_count = 5) ?>
+        </ul>
+      </div>
+    </div>
 <?php
     }
 }

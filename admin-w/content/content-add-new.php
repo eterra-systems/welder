@@ -69,11 +69,11 @@
     $content_is_active = (isset($_POST['content_is_active'])) ? 1 : 0;
       
     $input_name = "content_image";
-    $max_image_size = "4194304"; //4MB
+    $max_image_size = 4; //MB
     $content_image_set = false;
     if(isset($_FILES[$input_name]) && ($_FILES[$input_name]['error'] != 4)) {
       $content_image_set = true;
-      $upload_path = $_SERVER['DOCUMENT_ROOT']."/site/images/contents/";
+      $upload_path = $_SERVER['DOCUMENT_ROOT'].SITEFOLDERSL."/images/contents/";
       $image_params = validate_upload_image($input_name, $upload_path, $max_image_size);
       //echo "<pre>";print_r($image_params);exit;
       if(!empty($image_params['error'])) {

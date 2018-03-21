@@ -41,11 +41,11 @@
   //echo $all_queries;mysqli_query($db_link,"ROLLBACK");exit;
   mysqli_query($db_link,"COMMIT");
   
-  $file = $_SERVER['DOCUMENT_ROOT']."/site/images/news/large/$news_image";
+  $file = $_SERVER['DOCUMENT_ROOT'].SITEFOLDERSL."/images/news/large/$news_image";
   
   if(file_exists($file)) unlink($file);
 
-  $image_thumb = $_SERVER['DOCUMENT_ROOT']."/site/images/news/thumbs/$news_image";
+  $image_thumb = $_SERVER['DOCUMENT_ROOT'].SITEFOLDERSL."/images/news/thumbs/$news_image";
 
   if(file_exists($image_thumb)) unlink($image_thumb);
 ?>

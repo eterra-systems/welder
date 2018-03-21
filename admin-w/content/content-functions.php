@@ -26,12 +26,12 @@ function list_sliders_include_block($menu_id,$blocks_ids_array) {
       if(!empty($slider_image)) {
         $slider_image_exstension = pathinfo($slider_image, PATHINFO_EXTENSION);
         $slider_image_name = str_replace(".$slider_image_exstension", "", $slider_image);
-        $slider_image_thumb = "/site/images/sliders/".$slider_image_name."_admin_thumb.".$slider_image_exstension;
+        $slider_image_thumb = SITEFOLDERSL."/images/sliders/".$slider_image_name."_admin_thumb.".$slider_image_exstension;
         @$thumb_image_params = getimagesize($_SERVER['DOCUMENT_ROOT'].$slider_image_thumb);
         $thumb_image_dimensions = $thumb_image_params[3];
       }
       else {
-        $slider_image_thumb = "/site/images/no_image_172x120.jpg";
+        $slider_image_thumb = SITEFOLDERSL."/images/no_image_172x120.jpg";
         @$thumb_image_params = getimagesize($_SERVER['DOCUMENT_ROOT'].$slider_image_thumb);
         $thumb_image_dimensions = $thumb_image_params[3];
       }
@@ -98,7 +98,7 @@ function list_news_include_block($menu_id,$blocks_ids_array) {
         while($news_row = mysqli_fetch_assoc($result_news)) {
           $news_id = $news_row['news_id'];
           $news_title = $news_row['news_title'];
-          $news_images_folder = "/site/images/news/";
+          $news_images_folder = SITEFOLDERSL."/images/news/";
           $news_image = $news_images_folder.$news_row['news_image'];
           $news_image_exstension = pathinfo($news_image, PATHINFO_EXTENSION);
           $news_image_name = str_replace(".$news_image_exstension", "", $news_image);
@@ -161,12 +161,12 @@ function list_clients_include_block($menu_id, $blocks_ids_array) {
       if(!empty($client_image)) {
         $client_image_exstension = pathinfo($client_image, PATHINFO_EXTENSION);
         $client_image_name = str_replace(".$client_image_exstension", "", $client_image);
-        $client_image_thumb = "/site/images/clients/".$client_image_name."_admin_thumb.".$client_image_exstension;
+        $client_image_thumb = SITEFOLDERSL."/images/clients/".$client_image_name."_admin_thumb.".$client_image_exstension;
         @$thumb_image_params = getimagesize($_SERVER['DOCUMENT_ROOT'].$client_image_thumb);
         $thumb_image_dimensions = $thumb_image_params[3];
       }
       else {
-        $client_image_thumb = "/site/images/no_image_172x120.jpg";
+        $client_image_thumb = SITEFOLDERSL."/images/no_image_172x120.jpg";
         @$thumb_image_params = getimagesize($_SERVER['DOCUMENT_ROOT'].$client_image_thumb);
         $thumb_image_dimensions = $thumb_image_params[3];
       }
@@ -223,12 +223,12 @@ function list_team_include_block($menu_id,$blocks_ids_array) {
       $team_member_desc = stripslashes($team_member_row['team_member_desc']);
       $team_member_image = $team_member_row['team_member_image'];
       if(!empty($team_member_image)) {
-        $team_member_image_thumb = "/site/images/team/".$team_member_image;
+        $team_member_image_thumb = SITEFOLDERSL."/images/team/".$team_member_image;
         @$thumb_image_params = getimagesize($_SERVER['DOCUMENT_ROOT'].$team_member_image_thumb);
         $thumb_image_dimensions = $thumb_image_params[3];
       }
       else {
-        $team_member_image_thumb = "/site/images/no_image_172x120.jpg";
+        $team_member_image_thumb = SITEFOLDERSL."/images/no_image_172x120.jpg";
         @$thumb_image_params = getimagesize($_SERVER['DOCUMENT_ROOT'].$team_member_image_thumb);
         $thumb_image_dimensions = $thumb_image_params[3];
       }
@@ -285,12 +285,12 @@ function list_partners_include_block($menu_id,$blocks_ids_array) {
       if(!empty($partner_image)) {
         $partner_image_exstension = pathinfo($partner_image, PATHINFO_EXTENSION);
         $partner_image_name = str_replace(".$partner_image_exstension", "", $partner_image);
-        $partner_image_thumb = "/site/images/partners/".$partner_image_name."_admin_thumb.".$partner_image_exstension;
+        $partner_image_thumb = SITEFOLDERSL."/images/partners/".$partner_image_name."_admin_thumb.".$partner_image_exstension;
         @$thumb_image_params = getimagesize($_SERVER['DOCUMENT_ROOT'].$partner_image_thumb);
         $thumb_image_dimensions = $thumb_image_params[3];
       }
       else {
-        $partner_image_thumb = "/site/images/no_image_172x120.jpg";
+        $partner_image_thumb = SITEFOLDERSL."/images/no_image_172x120.jpg";
         @$thumb_image_params = getimagesize($_SERVER['DOCUMENT_ROOT'].$partner_image_thumb);
         $thumb_image_dimensions = $thumb_image_params[3];
       }
@@ -347,12 +347,12 @@ function list_testimonials_include_block($menu_id,$blocks_ids_array) {
       if(!empty($testimonial_image)) {
         $testimonial_image_exstension = pathinfo($testimonial_image, PATHINFO_EXTENSION);
         $testimonial_image_name = str_replace(".$testimonial_image_exstension", "", $testimonial_image);
-        $testimonial_image_thumb = "/site/images/testimonials/".$testimonial_image_name."_site.".$testimonial_image_exstension;
+        $testimonial_image_thumb = SITEFOLDERSL."/images/testimonials/".$testimonial_image_name."_site.".$testimonial_image_exstension;
         @$thumb_image_params = getimagesize($_SERVER['DOCUMENT_ROOT'].$testimonial_image_thumb);
         $thumb_image_dimensions = $thumb_image_params[3];
       }
       else {
-        $testimonial_image_thumb = "/site/images/no_image_172x120.jpg";
+        $testimonial_image_thumb = SITEFOLDERSL."/images/no_image_172x120.jpg";
         @$thumb_image_params = getimagesize($_SERVER['DOCUMENT_ROOT'].$testimonial_image_thumb);
         $thumb_image_dimensions = $thumb_image_params[3];
       }
@@ -402,7 +402,7 @@ function list_galleries_include_block($menu_id,$blocks_ids_array) {
   $galleries_count = mysqli_num_rows($result_galleries);
   if($galleries_count > 0) {
     
-    $gallery_cover_images_folder = "/site/images/galleries/";
+    $gallery_cover_images_folder = SITEFOLDERSL."/images/galleries/";
     
     while($gallery_row = mysqli_fetch_assoc($result_galleries)) {
 
@@ -462,7 +462,7 @@ function list_banners_include_block($menu_id,$blocks_ids_array) {
     while($banner_row = mysqli_fetch_assoc($result_banners)) {
 
       $banner_id = $banner_row['banner_id'];
-      $banner_image = "/site/images/banners/".$banner_row['banner_image'];
+      $banner_image = SITEFOLDERSL."/images/banners/".$banner_row['banner_image'];
       @$image_params = getimagesize($_SERVER['DOCUMENT_ROOT'].$banner_image);
       $image_dimensions = $image_params[3];
       $banner_name = $banner_row['banner_name'];

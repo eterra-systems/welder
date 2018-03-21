@@ -9,7 +9,7 @@
   
   define("MAX_FILE_SIZE","8388608");
   $valid_formats = array("jpg", "jpeg", "png", "gif");
-  $upload_path = $_SERVER['DOCUMENT_ROOT']."/site/images/news";
+  $upload_path = $_SERVER['DOCUMENT_ROOT'].SITEFOLDERSL."/images/news";
   if(!is_dir($upload_path)) {
     mkdir($upload_path, 0777);
     chmod($upload_path, 0777);

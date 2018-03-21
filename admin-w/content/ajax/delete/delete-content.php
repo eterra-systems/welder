@@ -27,7 +27,7 @@
       $content_image_exploded = explode(".", $content_image);
       $current_content_image_name = $content_image_exploded[0];
       $current_content_image_exstension = $content_image_exploded[1];
-      $upload_path = $_SERVER['DOCUMENT_ROOT']."/site/images/contents/";
+      $upload_path = $_SERVER['DOCUMENT_ROOT'].SITEFOLDERSL."/images/contents/";
 
       $file = $upload_path."$current_content_image_name.$current_content_image_exstension";
 

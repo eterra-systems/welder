@@ -462,19 +462,11 @@
         $news_category_id = 1; // all news
         $body_css = "not-transparent-header news";
 
-        $query_news_category = "SELECT `news_categories`.`news_category_id`,`news_cat_desc`.`news_cat_name`
-                                  FROM `news_categories` 
-                            INNER JOIN `news_cat_desc` ON `news_cat_desc`.`news_category_id` = `news_categories`.`news_category_id`
-                                 WHERE `news_categories`.`news_category_id` = '$news_category_id' AND `news_cat_desc`.`language_id` = '$current_language_id'";
-        //echo $query_news_category;exit;
-        $result_news_category = mysqli_query($db_link, $query_news_category);
-        if(!$result_news_category) echo mysqli_error($db_link);
-        $news_count = mysqli_num_rows($result_news_category);
-        if(mysqli_num_rows($result_news_category) > 0) {
-
-          $news_cat_name_row = mysqli_fetch_array($result_news_category);
-          $news_cat_name = $news_cat_name_row['news_cat_name'];
-        }
+        $page_array = get_page_by_type("news");
+        $current_content_menu_text = stripslashes($page_array['content_menu_text']);
+        $content_meta_title = stripslashes($page_array['content_meta_title']);
+        $content_meta_keywords = stripslashes($page_array['content_meta_keywords']);
+        $content_meta_description = stripslashes($page_array['content_meta_description']);
       
         $body_css = "not-transparent-header news";
         print_html_header($content_meta_title, $content_meta_description, $content_meta_keywords, $additional_css_javascript = false, $body_css);
@@ -483,19 +475,35 @@
       <div class="breadcrumb-wrapper">
         <div class="container">
           <ol class="breadcrumb-list">
-            <?php print_content_breadcrumbs($content_hierarchy_ids, $news_cat_name) ?>
+            <li><a href="<?=$home_page_url;?>" title="<?= $languages['title_goto_homepage']; ?>"><?= $languages['menu_home']; ?></a></li>
+            <li><span><?=$current_content_menu_text;?></span></li>
           </ol>
         </div>
       </div>
 
-      <div class="section">
+      <div class="section sm">
         <div class="container">
-          <?php 
-            list_news($offset = false,$news_count = false, $news_category_id); 
-          ?>
-          <aside class="sidebar-content">
-              <?php //print_html_news_sidebar($print_latest_news = true);?>
-          </aside>
+          <div class="row">
+
+            <div class="col-sm-8 col-md-9">
+              <div class="blog-wrapper">
+              <?php 
+                list_news($offset = false,$news_count = false, $news_category_id); 
+              ?>
+              </div>
+            </div>
+
+            <div class="col-sm-4 col-md-3 mt-50-xs">
+              <aside class="sidebar">
+                <div class="sidebar-inner no-border for-blog">
+                  
+                  <?php print_html_news_sidebar($print_latest_news = true);?>
+                  
+                </div>
+              </aside>
+            </div>
+            
+          </div>
         </div>
       </div>
 <?php

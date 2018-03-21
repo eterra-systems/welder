@@ -118,11 +118,11 @@
     }
     
     $input_name = "news_image";
-    $max_image_size = "8388608"; //8MB
+    $max_image_size = 8; //MB
     $news_image_set = false;
     if(isset($_FILES[$input_name]) && ($_FILES[$input_name]['error'] != 4)) {
       $news_image_set = true;
-      $upload_path = $_SERVER['DOCUMENT_ROOT']."/site/images/news/";
+      $upload_path = $_SERVER['DOCUMENT_ROOT'].SITEFOLDERSL."/images/news/";
       $image_params = validate_upload_image($input_name, $upload_path, $max_image_size);
       //echo "<pre>";print_r($image_params);exit;
       if(!empty($image_params['error'])) {
@@ -272,11 +272,11 @@
 
         $image->save($file,$image_type);
 
-        $image->resizeToWidth(750);
+        $image->resizeToWidth(840);
 
         $image->save($image_thumb,$image_type);
 
-        $image->resizeToWidth(100);
+        $image->resizeToWidth(80);
 
         $image->save($image_sidebar_thumb,$image_type);
 
@@ -390,7 +390,7 @@
         <p class="clearfix"></p>
         
         <div>
-          <label for="news_image" class="title"><?=$languages['header_add_image'];?> (680x270px)</label>
+          <label for="news_image" class="title"><?=$languages['header_add_image'];?> (840x420px)</label>
           <?php
             if(isset($news_errors['news_image'])) {
               echo "<div class='error'>".$news_errors['news_image']."</div>";

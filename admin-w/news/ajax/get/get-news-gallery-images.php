@@ -10,7 +10,7 @@
   }
   
   $news_names_array = get_news_images($current_news_id);
-  $news_images_folder = "/site/images/news/thumbs/";
+  $news_images_folder = SITEFOLDERSL."/images/news/thumbs/";
 ?>
   <h2><?=$languages['header_news_images'];?></h2>
   <p><i><?=$languages['info_image_default'];?></i></p>

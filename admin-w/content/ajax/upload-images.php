@@ -8,7 +8,7 @@
   
   define ("MAX_FILE_SIZE","4096000");
   $valid_formats = array("jpg", "jpeg", "png", "gif");
-  $upload_path = $_SERVER['DOCUMENT_ROOT']."/site/images/contents/";
+  $upload_path = $_SERVER['DOCUMENT_ROOT'].SITEFOLDERSL."/images/contents/";
   if(!is_dir($upload_path)) {
     mkdir($upload_path, 0777);
     chmod($upload_path, 0777);
@@ -16,9 +16,7 @@
 
   $content_id = $_POST['content_id'];
   
-  $query_content_details = "SELECT `content_image`
-                            FROM `contents`
-                            WHERE `content_id` = '$content_id'";
+  $query_content_details = "SELECT `content_image` FROM `contents` WHERE `content_id` = '$content_id'";
   //echo $query_content_details;exit;
   $result_content_details = mysqli_query($db_link, $query_content_details);
   if(!$result_content_details) echo mysqli_error($db_link);
