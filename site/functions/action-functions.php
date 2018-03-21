@@ -361,6 +361,32 @@ function get_customers_groups() {
   return $customers_groups_array;
 }
 
+function get_page_by_type($page_type) {
+  
+  global $db_link;
+  global $current_language_id;
+  
+  $content_array = array();
+  $query_content = "SELECT `contents`.`content_hierarchy_ids`,`cd`.`content_summary`,`cd`.`content_pretty_url`,`cd`.`content_name`,
+                           `cd`.`content_menu_text`,`cd`.`content_meta_title`,
+                           `cd`.`content_meta_keywords`,`cd`.`content_meta_description`
+                      FROM `contents`
+                INNER JOIN `contents_descriptions` as `cd` ON `cd`.`content_id` = `contents`.`content_id`
+                INNER JOIN `contents_types` ON `contents_types`.`content_type_id` = `contents`.`content_type_id`
+                     WHERE `contents_types`.`content_type` = '$page_type' AND `cd`.`language_id` = '$current_language_id'";
+  //echo $query_content."<br><br>";
+  $result_content = mysqli_query($db_link, $query_content);
+  if(!$result_content) echo mysqli_error($db_link);
+  if(mysqli_num_rows($result_content) > 0) {
+    
+    $content_array = mysqli_fetch_assoc($result_content);
+    
+    mysqli_free_result($result_content);
+  }
+  
+  return $content_array;
+}
+
 function get_gallery_images($gallery_id,$count = false) {
   
   global $db_link;

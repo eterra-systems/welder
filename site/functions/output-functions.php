@@ -1413,8 +1413,14 @@ function print_html_footer() {
 
                       <div class="footer-about-us">
                         <h5 class="footer-title"><?=$languages['header_about_us'];?></h5>
-                        <p><?=$languages['text_company_footer'];?></p>
-                        <a href="#"><?=$languages['btn_read_more'];?></a>
+                        <?php
+                          $page_array = get_page_by_type("about_us");
+
+                          $content_summary = stripslashes($page_array['content_summary']);
+                          $content_pretty_url = $page_array['content_pretty_url'];
+                        ?>
+                        <p><?=$content_summary;?></p>
+                        <a href="/<?="$current_lang/$content_pretty_url";?>"><?=$languages['btn_read_more'];?></a>
                       </div>
 
                     </div>

@@ -81,33 +81,49 @@
   }
 
 ?>
-  <form name="user_profile_settings" id="user_profile_settings" class="form-group form-horizontal" method="post" action="/<?=$_GET['page'];?>">
+  <form name="user_profile_settings" id="user_profile_settings" method="post" action="/<?=$_GET['page'];?>">
     
+    <div class="modal-header">
+      <h4 class="modal-title text-center"><?=$languages['header_get_new_password'];?></h4>
+    </div>
+    
+    <div class="modal-body">
+      <div class="row gap-20">
 <?php
   if($success) {
 ?>
-    <p class="alert alert-success"><?=$languages['text_user_profile_forgotten_password_success']?></p>
+        <div class="col-sm-12 col-md-12">
+          <p class="mb-20 alert alert-success"><?=$languages['text_user_profile_forgotten_password_success']?></p>
+        </div>
+        
+      </div>
+    </div>
 <?php
   }
   else {
-    echo "<p></p>";
 ?>
-    <p class="alert alert-info"><?=$languages['text_user_profile_forgotten_password']?></p>
-    <div class="row">
-      <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12<?php if(!empty($errors['customer_email'])) echo ' error_field';?>">
-        <label for="customer_email"><?=$languages['header_customer_email'];?></label>
-        <input type="email" name="customer_email" id="customer_email" class="form-control" value="<?php if(isset($customer_email)) echo $customer_email;?>" required="required" />
+        
+        <div class="col-sm-12 col-md-12">
+          <p class="mb-20"><?=$languages['text_user_profile_forgotten_password']?></p>
+        </div>
+        
+        <div class="col-sm-12 col-md-12">
+
+          <div class="form-group"> 
+            <label for="customer_email"><?=$languages['header_customer_email'];?></label>
+            <input type="email" name="customer_email" id="customer_email" class="form-control" value="<?php if(isset($customer_email)) echo $customer_email;?>" required="required" />
+            <?php if(!empty($errors['customer_email'])) { ?><br><p class="alert alert-danger"><?=$errors['customer_email'];?></p><?php } ?>
+          </div>
+
+        </div>
+        
       </div>
     </div>
-    <?php if(!empty($errors['customer_email'])) { ?><br><p class="alert alert-danger"><?=$errors['customer_email'];?></p><?php } ?>
 
-    <div class="clearfix">&nbsp;</div>
-
-    <div>
+    <div class="modal-footer text-center">
       <button type="submit" name="update_profile" class="btn btn-primary"><?=$languages['btn_generate_password'];?></button>
     </div>   
 <?php
   }
 ?>
-    <div class="clearfix"></div>
   </form>

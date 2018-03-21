@@ -54,7 +54,8 @@ Last change:    14/06/2015
  */
 
 .navbar-default {
-    background: transparent;
+    background: #212124;
+    /*background: transparent;*/
 }
 
 .navbar {

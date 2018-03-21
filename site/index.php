@@ -127,34 +127,24 @@
     <div class="breadcrumb-wrapper">
       <div class="container">
         <ol class="breadcrumb-list">
-          <?php print_content_breadcrumbs($content_hierarchy_ids, $languages['header_login']) ?>
+          <?php print_content_breadcrumbs($content_hierarchy_ids, $languages['header_registered_users']) ?>
         </ol>
       </div>
     </div>
 
-    <div class="section">
+    <div class="login-container-wrapper">
       <div class="container">
-        <?php include_once 'login.php'; ?>
-      </div>
-    </div>
-<?php
-  }
-  elseif(isset($current_page_pretty_url) && $current_page_pretty_url == "search") {
-    
-    $body_css = "not-transparent-header search";
-    print_html_header($content_meta_title, $content_meta_description, $content_meta_keywords, $additional_css_javascript = false, $body_css);
-?>
-    <div class="breadcrumb-wrapper">
-      <div class="container">
-        <ol class="breadcrumb-list">
-          <?php print_content_breadcrumbs($content_hierarchy_ids, $languages['header_search']) ?>
-        </ol>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="container">
-        <?php include_once 'search.php'; ?>
+        <div class="row">
+          <div class="col-md-10 col-md-offset-1">
+            <div class="row">
+              <div class="col-sm-6 col-sm-offset-3">
+                <div class="login-box-wrapper">
+                  <?php include_once "$current_page_pretty_url.php"; ?>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 <?php
@@ -178,7 +168,7 @@
 
     <div class="section">
       <div class="container">
-        <?php include_once 'confirm-account.php'; ?>
+        <?php include_once "$current_page_pretty_url.php"; ?>
       </div>
     </div>
 <?php
@@ -198,10 +188,40 @@
         </ol>
       </div>
     </div>
+    
+    <div class="login-container-wrapper">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-10 col-md-offset-1">
+            <div class="row">
+              <div class="col-sm-6 col-sm-offset-3">
+                <div class="login-box-wrapper">
+                  <?php include_once "$current_page_pretty_url.php"; ?>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+<?php
+  }
+  elseif(isset($current_page_pretty_url) && $current_page_pretty_url == "search") {
+    
+    $body_css = "not-transparent-header search";
+    print_html_header($content_meta_title, $content_meta_description, $content_meta_keywords, $additional_css_javascript = false, $body_css);
+?>
+    <div class="breadcrumb-wrapper">
+      <div class="container">
+        <ol class="breadcrumb-list">
+          <?php print_content_breadcrumbs($content_hierarchy_ids, $languages['header_search']) ?>
+        </ol>
+      </div>
+    </div>
 
     <div class="section">
       <div class="container">
-        <?php include_once "$current_page_pretty_url.php"; ?>
+        <?php include_once 'search.php'; ?>
       </div>
     </div>
 <?php
