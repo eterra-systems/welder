@@ -432,6 +432,10 @@
       </ul>
     </div>
     <div class="clearfix">&nbsp;</div>
+    
+    <?php print_categories_info(); ?>
+    
+    <div class="clearfix">&nbsp;</div>
 
     <div class="row email">
       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">

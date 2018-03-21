@@ -2,7 +2,7 @@
   error_reporting(E_ALL);
   ini_set('display_errors', 'On');
   
-  //print_array_for_debug($_SESSION);
+  print_array_for_debug($_POST);
   $customer_id = $_SESSION['customer_id'];
   $customer_fullname = $_SESSION['customer_name'];
   
@@ -17,7 +17,8 @@
     }
   }
   
-  if(isset($_POST['update_profile'])) {
+  if(false) {
+  //if(isset($_POST['update_profile'])) {
     //echo "<pre>";print_r($_POST);
     
     
@@ -69,12 +70,13 @@
         </ul>
       </div>
       <p class="clearfix">&nbsp;</p>
+      
+      <?php print_categories_info(); ?>
 
       <div class="clearfix">&nbsp;</div>
 
-      <div class="row">
-        <button type="submit" name="update_profile" class="btn btn-primary"><?=$languages['btn_save'];?></button>
-      </div>
+      <button type="submit" name="update_profile" class="btn btn-primary"><?=$languages['btn_save'];?></button>
+   
       <div class="clearfix">&nbsp;</div>
     </form>
   <script>

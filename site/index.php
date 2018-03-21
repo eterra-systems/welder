@@ -281,7 +281,7 @@
                 
                 <div class="admin-section-title">
 
-                  <h2><?=$content_name;?></h2>
+                  <h2><?=$content_menu_text;?></h2>
 
                 </div>
                 <?php 

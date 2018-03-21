@@ -3,6 +3,60 @@ jQuery(function ($) {
 
   "use strict";
 
+  $('form#emailform').submit(function (event) {
+
+    ShowAjaxLoader();
+
+    var hasError = false;
+
+    $('form#emailform .required_field').each(function () {
+      var parent = $(this).parent();
+      if (jQuery.trim($(this).val()) == '') {
+        //console.log("empty");
+        if($(this).hasClass('email')) {
+          if (!parent.find('.invalid_email').hasClass('hidden')) {
+            parent.find('.invalid_email').addClass('hidden');
+          }
+        }
+        parent.find('.error').removeClass('hidden');
+        hasError = true;
+      } else if ($(this).hasClass('email')) {
+        var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+        if (!emailReg.test(jQuery.trim($(this).val()))) {
+          //console.log("invalid_email");
+          parent.find('.error').addClass('hidden');
+          parent.find('.invalid_email').removeClass('hidden');
+          hasError = true;
+        } else {
+          parent.find('.error').addClass('hidden');
+          parent.find('.invalid_email').addClass('hidden');
+        }
+      } else {
+        parent.find('.error').addClass('hidden');
+      }
+    });
+
+    if (!hasError) {
+      $('form#emailform input.submit').fadeOut('normal', function () {
+        $(this).parent().append('');
+      });
+      var formInput = $(this).serializeArray();
+      $.post($(this).attr('action'), formInput, function (data) {
+        //console.log(data)
+        if (data == "recaptcha_error") {
+          $("#contact-content .recaptcha_error").removeClass('hidden');
+        } else {
+          $('#emailform').slideUp();
+          $("#contact-content p.alert-success").removeClass("hidden");
+        }
+      });
+    }
+
+    HideAjaxLoader();
+    event.preventDefault();
+
+  });
+  
   /**
    * introLoader - Preloader
    */

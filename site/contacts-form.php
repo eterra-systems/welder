@@ -16,54 +16,62 @@
       </div>
 
       <div class="row">
-        <div class="col-sm-7 col-md-6 col-md-offset-1 mb-30">
+        <div id="contact-content" class="col-sm-7 col-md-6 col-md-offset-1 mb-30">
+          
           <p class="alert alert-success hidden"><?= $languages['text_inquiry_was_sended_successfully']; ?><span id="appointment_date"></span></p>
           <form id="emailform" class="contact-form-wrapper" action="<?=SITEFOLDERSL;?>/inquiry.php" method="post" data-toggle="validator">
+            <input type="hidden" name="current_lang" value="<?=$current_lang;?>" >
             
             <div class="row">
-              <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
-                <label for="fullname"><?=$languages['header_fullname'];?> <span>*</span></label>
-                <input name="fullname" id="fullname" type="text" required="required" class="form-control required_field">
-                <div class="alert alert-danger error hidden"><?= $languages['error_required_field']; ?></div>
+              
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="form-group">
+                  <label for="fullname"><?=$languages['header_fullname'];?> <span class="font10 text-danger">*</span></label>
+                  <input name="fullname" id="fullname" type="text" required="required" class="form-control required_field">
+                  <div class="alert alert-danger error hidden"><?= $languages['error_required_field']; ?></div>
+                </div>
               </div>
-              <p class="clearfix"></p>
 
-              <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
-                <label for="phone"><?=$languages['header_phone'];?> <span>*</span></label>
+              <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                <label for="phone"><?=$languages['header_phone'];?> <span class="font10 text-danger">*</span></label>
                 <input name="phone" id="phone" type="text" required="required" class="form-control required_field">
                 <div class="alert alert-danger error hidden"><?= $languages['error_required_field']; ?></div>
               </div>
-              <p class="clearfix"></p>
 
-              <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
-                <label for="email"><?=$languages['header_email'];?> <span>*</span></label>
-                <input name="email" id="email" type="email" required="required" class="form-control required_field email">
-                <div class="alert alert-danger invalid_email hidden"><?= $languages['error_email_is_not_valid']; ?></div>
+              <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                <div class="form-group">
+                  <label for="email"><?=$languages['header_email'];?> <span class="font10 text-danger">*</span></label>
+                  <input name="email" id="email" type="email" required="required" class="form-control required_field email">
+                  <div class="alert alert-danger error invalid_email hidden"><?= $languages['error_email_is_not_valid']; ?></div>
+                </div>
               </div>
-              <p class="clearfix"></p>
 
-              <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
-                <label for="subject"><?=$languages['header_subject'];?></label>
-                <input type="text" name="subject" id="subject" class="form-control">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="form-group">
+                  <label for="subject"><?=$languages['header_subject'];?></label>
+                  <input type="text" name="subject" id="subject" class="form-control">
+                </div>
               </div>
-              <p class="clearfix"></p>
 
-              <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
-                <label for="textarea"><?=$languages['header_inquiry'];?></label>
-                <textarea name="message" id="textarea" required="required" rows="4" class="form-control required_field form-textarea"></textarea>
-                <div class="alert alert-danger error hidden"><?= $languages['error_required_field']; ?></div>
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="form-group">
+                  <label for="textarea"><?=$languages['header_inquiry'];?> <span class="font10 text-danger">*</span></label>
+                  <textarea name="message" id="textarea" required="required" rows="4" class="form-control required_field form-textarea"></textarea>
+                  <div class="alert alert-danger error hidden"><?= $languages['error_required_field']; ?></div>
+                </div>
               </div>
-              <p class="clearfix"></p>
 
-              <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div id="g-recaptcha" data-sitekey="<?=$sitekey;?>"></div>
                 <div class="alert alert-danger error hidden recaptcha_error"><?=$languages['error_create_customer_recaptcha'];?></div>
               </div>
-              <p class="clearfix"></p>
+              <div class="clearfix"></div>
+              
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <button type="submit" name="submit_inquiery" id="submit" class="btn btn-primary mt-5"><?=$languages['btn_submit_inquiry'];?></button>
+              </div>
+              
             </div>
-
-            <input type="hidden" name="current_lang" value="<?=$current_lang;?>" >
-            <input class="btn btn-primary" type="submit" value="<?=$languages['btn_submit_inquiry'];?>" id="submit" name="submit_inquiery">
             
           </form>
         </div>

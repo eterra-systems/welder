@@ -2548,7 +2548,7 @@ label {
     font-size: 15px;
     color: #424242;
     font-weight: 400;
-    font-family: 'Montserrat', sans-serif;
+    /*font-family: 'Montserrat', sans-serif;*/
     display: block;
     margin: 0 0 10px;
     line-height: 1.2;

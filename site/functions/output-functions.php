@@ -205,7 +205,7 @@ function print_header_menu($content_parent_id, $content_hierarchy_level_start , 
   global $current_language_id;
   global $current_lang;
   global $current_page_path_string;
-  global $content_hierarchy_ids; //coming from site/index.php or site/categories.php
+  global $content_hierarchy_ids; //coming from site/index.php
 
   //echo $content_hierarchy_ids;
   if(strstr($content_hierarchy_ids, ".")) {
@@ -385,7 +385,7 @@ function print_index_sliders($count) {
   global $current_language_id;
   global $languages;
   global $current_lang;
-  global $content_hierarchy_ids; //coming from site/index.php or site/categories.php
+  global $content_hierarchy_ids; //coming from site/index.php
 
   $limit = ($count == 0) ? "" : "LIMIT $count";
 
@@ -557,6 +557,21 @@ function list_categories_with_checkboxes($category_parent_id,$category_root_id,$
     
     mysqli_free_result($result_categories);
   }
+}
+
+function print_categories_info() {
+  global $languages;
+?>
+  <div class="alert alert-info">
+    <i class="fa fa-info-circle"></i> <i>Пояснения:</i>
+    <ul>
+      <li><i>s – дебелина на материала за челно заварени съединения;</i></li>
+      <li><i>D –  външен диаметър на тръба;</i></li>
+      <li><i>t - дебелина на материала за ъглови заварени съединения;</i></li>
+    </ul>
+  </div>
+  <b><?=$languages['text_remark'];?></b>
+<?php
 }
 
 function list_contacts() {
@@ -1575,8 +1590,8 @@ function print_html_footer() {
     <script type="text/javascript" src="<?=SITEFOLDERSL;?>/js/easy-ticker.js"></script>
     <script type="text/javascript" src="<?=SITEFOLDERSL;?>/js/jquery.introLoader.min.js"></script>
     <script type="text/javascript" src="<?=SITEFOLDERSL;?>/js/jquery.responsivegrid.js"></script>
-    <script type="text/javascript" src="<?=SITEFOLDERSL;?>/js/customs.js"></script>
     <script type="text/javascript" src="<?=SITEFOLDERSL;?>/js/functions.js"></script>
+    <script type="text/javascript" src="<?=SITEFOLDERSL;?>/js/customs.js"></script>
     <script type="text/javascript">
       $(function () {
         $("#page-header").css("background-image","url('<?=SITEFOLDERSL;?>/images/page-header-<?=mt_rand(1, 1);?>.jpg')");
