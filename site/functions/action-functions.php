@@ -466,7 +466,8 @@ function get_default_contact() {
   global $current_language_id;
   
   $contact_array = array();
-  $query_contact = "SELECT `contacts`.`contact_id`,`contacts`.`contact_email`,`contact_city`,`contact_postcode`,`contacts_descriptions`.`contact_address` 
+  $query_contact = "SELECT `contacts`.`contact_id`,`contacts`.`contact_map_lat`,`contacts`.`contact_map_lng`,`contacts`.`contact_email`,`contact_city`,
+                           `contact_postcode`,`contacts_descriptions`.`contact_address` 
                       FROM `contacts` 
                 INNER JOIN `contacts_descriptions` ON `contacts_descriptions`.`contact_id` = `contacts`.`contact_id`
                      WHERE `contacts`.`contact_is_default` = '1' AND `contacts_descriptions`.`language_id` = '$current_language_id'";

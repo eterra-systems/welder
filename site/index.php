@@ -177,14 +177,14 @@
   elseif(isset($current_page_pretty_url) && $current_page_pretty_url == "forgotten-password") {
     
     $current_page_text = "header_".str_replace("-", "_", $current_page_pretty_url);
-    $content_name = $languages[$current_page_text];
+    $content_menu_text = $languages[$current_page_text];
     $body_css = "not-transparent-header my-account";
-    print_html_header($content_meta_title = $content_name, $content_meta_description, $content_meta_keywords, $additional_css_javascript = false, $body_css);
+    print_html_header($content_meta_title = $content_menu_text, $content_meta_description, $content_meta_keywords, $additional_css_javascript = false, $body_css);
 ?>
     <div class="breadcrumb-wrapper">
       <div class="container">
         <ol class="breadcrumb-list">
-          <?php print_content_breadcrumbs($content_hierarchy_ids, $content_name) ?>
+          <?php print_content_breadcrumbs($content_hierarchy_ids, $content_menu_text) ?>
         </ol>
       </div>
     </div>
@@ -232,29 +232,25 @@
     print_html_header($content_meta_title, $content_meta_description, $content_meta_keywords, $additional_css_javascript = false, $body_css);
     
     $current_page_text = "header_".str_replace("-", "_", $page_params);
-    $content_name = $languages[$current_page_text];
+    $content_menu_text = $languages[$current_page_text];
 ?>
     <div class="breadcrumb-wrapper">
       <div class="container">
         <ol class="breadcrumb-list">
-          <?php print_content_breadcrumbs($content_hierarchy_ids, $content_name) ?>
+          <?php print_content_breadcrumbs($content_hierarchy_ids, $content_menu_text) ?>
         </ol>
       </div>
     </div>
 
     <div class="admin-container-wrapper">
-
       <div class="container">
-
         <div class="GridLex-gap-15-wrappper">
-
           <div class="GridLex-grid-noGutter-equalHeight">
 <?php 
   if(user_is_loged()) {
     $customer_fullname = $_SESSION['customer_name']; 
 ?>
             <div class="GridLex-col-3_sm-4_xs-12">
-
               <div class="admin-sidebar">
 
                 <div class="admin-user-item">
@@ -276,15 +272,13 @@
                 </ul>
 
               </div>
-
             </div>
 <?php
   }
 ?>
             <div class="GridLex-col-9_sm-8_xs-12">
-
               <div class="admin-content-wrapper">
-
+                
                 <div class="admin-section-title">
 
                   <h2><?=$content_name;?></h2>
@@ -445,7 +439,7 @@
         <div class="breadcrumb-wrapper">
           <div class="container">
             <ol class="breadcrumb-list">
-              <?php print_content_breadcrumbs($content_hierarchy_ids, $content_name) ?>
+              <?php print_content_breadcrumbs($content_hierarchy_ids, $content_menu_text) ?>
             </ol>
           </div>
         </div>
@@ -511,7 +505,6 @@
       elseif($content_type == "contacts") {
 
       $body_css = "not-transparent-header contacts";
-      $sitekey = "6Le3IEYUAAAAAPssLvABf4DmEfxX5RLwb04bIRHw";
 
       print_html_header($content_meta_title, $content_meta_description, $content_meta_keywords, $additional_css_javascript = false,$body_css);
       //echo "<pre>";print_r($_SERVER);echo "</pre>";
@@ -519,16 +512,12 @@
       <div class="breadcrumb-wrapper">
         <div class="container">
           <ol class="breadcrumb-list">
-            <?php print_content_breadcrumbs($content_hierarchy_ids, $content_name) ?>
+            <?php print_content_breadcrumbs($content_hierarchy_ids, $content_menu_text) ?>
           </ol>
         </div>
       </div>
 
-      <div class="section">
-        <div class="container">
-          <?php include_once 'contacts-form.php'; ?>
-        </div>
-      </div>
+      <?php include_once 'contacts-form.php'; ?>
 <?php
       }
       else {
@@ -539,13 +528,25 @@
         <div class="breadcrumb-wrapper">
           <div class="container">
             <ol class="breadcrumb-list">
-              <?php print_content_breadcrumbs($content_hierarchy_ids, $content_name) ?>
+              <?php print_content_breadcrumbs($content_hierarchy_ids, $content_menu_text) ?>
             </ol>
           </div>
         </div>
 
-        <div class="section">
+        <div class="section sm pb-20">
           <div class="container">
+            
+            <div class="row">
+              <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
+                <div class="section-title">
+
+                  <h2><?=$content_name;?></h2>
+                  <p><?=$content_summary;?></p>
+
+                </div>
+              </div>
+            </div>
+            
             <?=$content_text?>
           </div>
         </div>

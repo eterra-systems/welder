@@ -29,7 +29,6 @@
   }
 
   $page_array = get_page_by_type("news");
-
   $current_content_menu_text = stripslashes($page_array['content_menu_text']);
   $content_pretty_url = $page_array['content_pretty_url'];
   $content_meta_title = stripslashes($page_array['content_meta_title']);

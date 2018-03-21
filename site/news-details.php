@@ -24,7 +24,7 @@
     $news_post_date_month_text = "text_date_month_" . date("m", strtotime($news_row['news_post_date']));
     $news_post_date_month = $languages[$news_post_date_month_text];
     $news_post_date_year = date("Y", strtotime($news_row['news_post_date']));
-    $news_images_folder = "/frontstore/images/news/";
+    $news_images_folder = SITEFOLDERSL."/images/news/";
     $news_image = $news_images_folder . $news_row['news_image'];
     @$news_image_params = getimagesize($_SERVER['DOCUMENT_ROOT'] . $news_image);
     $news_image_dimensions = @$news_image_params[3];
@@ -61,78 +61,79 @@
     $news_cat_name = $news_cat_name_row['news_cat_name'];
   }
 
-  $content_type_id = 7; // news
-  $query_content = "SELECT `contents`.`content_hierarchy_ids`,`contents_descriptions`.`content_name`,`contents_descriptions`.`content_menu_text`,
-                           `contents_descriptions`.`content_hierarchy_path`
-                      FROM `contents`
-                INNER JOIN `contents_descriptions` ON `contents_descriptions`.`content_id` = `contents`.`content_id`
-                     WHERE `content_type_id` = '$content_type_id' AND `contents_descriptions`.`language_id` = '$current_language_id'";
-  //echo $query_content."<br><br>";
-  $result_content = mysqli_query($db_link, $query_content);
-  if(!$result_content) echo mysqli_error($db_link);
-  if(mysqli_num_rows($result_content) > 0) {
-    $content_array = mysqli_fetch_assoc($result_content);
-    $content_name = stripslashes($content_array['content_name']);
-    $content_menu_text = stripslashes($content_array['content_menu_text']);
-    $content_hierarchy_ids = $content_array['content_hierarchy_ids'];
-    $content_hierarchy_path = $content_array['content_hierarchy_path'];
-  }
+  $page_array = get_page_by_type("news");
+  $current_content_menu_text = stripslashes($page_array['content_menu_text']);
+  $content_pretty_url = $page_array['content_pretty_url'];
+  $content_meta_title = stripslashes($page_array['content_meta_title']);
+  $content_meta_keywords = stripslashes($page_array['content_meta_keywords']);
+  $content_meta_description = stripslashes($page_array['content_meta_description']);
 
   $query_update_news = "UPDATE `news` SET `news_views`=`news_views`+1 WHERE `news_id` = '$current_news_id'";
   $result_update_news = mysqli_query($db_link, $query_update_news);
-  if (!$result_update_news) {
-    echo $languages['sql_error_update'] . " - " . mysqli_error($db_link);
-    mysqli_query($db_link, "ROLLBACK");
-    exit;
-  }
   
-  print_html_header($news_meta_title, $news_meta_description, $news_meta_keywords);
+  $body_css = "not-transparent-header news-details";
+  
+  print_html_header($news_meta_title, $news_meta_description, $news_meta_keywords, $additional_css_javascript = false, $body_css);
   //echo "<pre>";print_r($_SERVER);
   //echo "<pre>";print_r($_SESSION);
 ?>
     
-  <div id="page-header">
-    <div class="content-wrapper clearfix">
-      <h1><?=$news_title;?></h1>
-      <p>
-        <a href="<?=$home_page_url;?>"><i class="fa fa-home"></i></a> <i class="fa fa-angle-right" aria-hidden="true"></i>
-        <a href="/<?=$current_lang;?>/<?=$content_hierarchy_path;?>"><?=$content_menu_text;?></a> <i class="fa fa-angle-right" aria-hidden="true"></i>
-        <a href="/<?=$current_lang;?>/<?=$content_hierarchy_path;?>?ncid=<?=$news_category_id;?>"><?=$news_cat_name;?></a> <i class="fa fa-angle-right" aria-hidden="true"></i>
-        <?=$news_title;?>
-      </p>
+  <div class="breadcrumb-wrapper">
+    <div class="container">
+      <ol class="breadcrumb-list">
+        <li><a href="<?=$home_page_url;?>" title="<?= $languages['title_goto_homepage']; ?>"><?= $languages['menu_home']; ?></a></li>
+        <li><a href="/<?=$current_lang;?>/<?=$content_pretty_url;?>"><?=$current_content_menu_text;?></a></li>
+        <li><a href="/<?=$current_lang;?>/<?=$content_pretty_url;?>?ncid=<?=$news_category_id;?>"><?=$news_cat_name;?></a></li>
+        <li><span><?=$news_title;?></span></li>
+      </ol>
     </div>
   </div>
 
-  <div class="content-wrapper clearfix">
-    <main class="main-content">
+  <div class="section sm">
+    <div class="container">
+      <div class="row">
 
-      <article class="blog-post-wrapper">
-        
-        <div id="news_image"><img src="<?=$news_image;?>" <?=$news_image_dimensions;?> class="blog-image"></div>
-        
-        <h3 class="blog-title"><?=$news_title;?></h3>
-        
-        <div class="blog-meta">
-          <?=$news_post_date_day;?> <?=$news_post_date_month;?> <?=$news_post_date_year;?> / <i class="fa fa-eye"></i><?=$news_views;?>
-        </div>
-        
-        <div class="news_text clearfix">
-          <?=$news_text;?>
-        </div>
-        
-        <div class="news_back_link">
-          <a href="/<?=$current_lang;?>/<?=$content_hierarchy_path;?>?ncid=<?=$news_category_id;?>" class="btn btn-primary">
-            <i class="fa fa-angle-double-left" aria-hidden="true"></i> <?=$languages['btn_back_to_all_news'];?>
-          </a>
-        </div>
-        
-      </article>
+        <div class="col-sm-8 col-md-9">
+          <div class="blog-wrapper">
+            <div class="blog-item blog-single">
 
-    </main>
- 
-    <aside class="sidebar-content">
-      <?php print_html_news_sidebar($print_latest_news = true);?>
-    </aside>
+              <div class="blog-media">
+                <img src="<?=$news_image;?>" <?=$news_image_dimensions;?> alt="<?=$news_title;?>" class="blog-image">
+              </div>
+
+              <div class="blog-content">
+                <h3><?=$news_title;?></h3>
+                <ul class="blog-meta clearfix">
+                  <li><?=$news_post_date_day;?> <?=$news_post_date_month;?> <?=$news_post_date_year;?></li>
+                  <li><i class="fa fa-eye" aria-hidden="true"></i> <?=$news_views;?></li>
+                </ul>
+                <div class="blog-entry">
+                  <?=$news_text;?>
+                </div>
+              </div>
+
+              <div class="news_back_link">
+                <a href="/<?=$current_lang;?>/<?=$content_pretty_url;?>?ncid=<?=$news_category_id;?>" class="btn btn-primary">
+                  <i class="fa fa-angle-double-left" aria-hidden="true"></i> <?=$languages['btn_back_to_all_news'];?>
+                </a>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-4 col-md-3 mt-50-xs">
+          <aside class="sidebar">
+            <div class="sidebar-inner no-border for-blog">
+
+              <?php print_html_news_sidebar($print_latest_news = true);?>
+
+            </div>
+          </aside>
+        </div>
+        
+      </div>
+    </div>
   </div>
 <?php
   print_html_footer();

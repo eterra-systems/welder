@@ -137,6 +137,8 @@ function print_html_header($meta_title, $meta_description, $meta_keywords, $addi
     if(!isset($_SESSION['contact_address'])) {
       $default_contact_array = get_default_contact();
       //print_r($default_contact_array);
+      @$_SESSION['contact_map_lat'] = $default_contact_array['contact_map_lat'];
+      @$_SESSION['contact_map_lng'] = $default_contact_array['contact_map_lng'];
       @$_SESSION['contact_city'] = $default_contact_array['contact_city'];
       @$_SESSION['contact_postcode'] = $default_contact_array['contact_postcode'];
       @$_SESSION['contact_address'] = $default_contact_array['contact_address'];
