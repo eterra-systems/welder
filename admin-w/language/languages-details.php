@@ -39,7 +39,7 @@
     
     //$languages_for_file = $languages;
     $frontstore_languages_for_file = $_POST['frontstore_languages_array'];
-    $filename = $_SERVER['DOCUMENT_ROOT']."/frontstore/languages/languages_$language_code.php";
+    $filename = $_SERVER['DOCUMENT_ROOT'].SITEFOLDERSL."/languages/languages_$language_code.php";
     file_put_contents($filename, '<?php $languages = ' . var_export($frontstore_languages_for_file, true) . ';');
     
     //echo $all_queries;mysqli_query($db_link,"ROLLBACK");exit;
@@ -174,7 +174,7 @@
         
         <div id="translations_frontend_tab" class="translation_tab tab">
 <?php
-      require_once($_SERVER['DOCUMENT_ROOT']."/frontstore/languages/languages_$language_code.php");
+      require_once($_SERVER['DOCUMENT_ROOT'].SITEFOLDERSL."/languages/languages_$language_code.php");
       $blocks_counter = 1;
       $array_counter = 1;
       $array_count = count($languages);

@@ -2618,3 +2618,302 @@ function DeleteProductOptionValue(product_option_id, option_value_id, ov_is_cust
     console.log(error);
   });
 }
+
+function GetSliderImage(slider_id) {
+  ShowAjaxLoader();
+  $.ajax({
+    url: "/" + admin_dir_name + "/sliders/ajax/get/get-slider-image.php",
+    type: "POST",
+    data: {
+      slider_id: slider_id
+    }
+  }).done(function (current_image) {
+
+    $("#current_image").html(current_image);
+
+    HideAjaxLoader();
+  }).fail(function (error) {
+    console.log(error);
+  });
+}
+
+function SetSliderActiveInactive(link, slider_id, set_slider) {
+  ShowAjaxLoader();
+  //alert(friendly_url);return;
+  $.ajax({
+    url: "/" + admin_dir_name + "/sliders/ajax/edit/set-slider-active-inactive.php",
+    type: "POST",
+    data: {
+      slider_id: slider_id,
+      set_slider: set_slider
+    }
+  }).done(function () {
+
+    var img_active = $(".images_act_inact .act").html();
+    var img_inactive = $(".images_act_inact .inact").html();
+
+    if (set_slider == "0") {
+      $(link).attr("onClick", "SetSliderActiveInactive(this,'" + slider_id + "','1')");
+      $(link).html(img_inactive);
+    } else {
+      $(link).attr("onClick", "SetSliderActiveInactive(this,'" + slider_id + "','0')");
+      $(link).html(img_active);
+    }
+
+    $("#tr_" + slider_id).effect("highlight", {}, 1000);
+    HideAjaxLoader();
+  }).fail(function (error) {
+    console.log(error);
+  });
+}
+
+function MoveSliderForwardBackward(slider_id, slider_sort_order, action) {
+  ShowAjaxLoader();
+  //alert(friendly_url);return;
+  $.ajax({
+    url: "/" + admin_dir_name + "/sliders/ajax/edit/move-slider-forward-backward.php",
+    type: "POST",
+    data: {
+      slider_id: slider_id,
+      slider_sort_order: slider_sort_order,
+      action: action
+    }
+  }).done(function (sliders) {
+
+    $("#sliders_list").html(sliders);
+    $("#tr_" + slider_id).effect("highlight", {}, 1000);
+
+    HideAjaxLoader();
+  }).fail(function (error) {
+    console.log(error);
+  });
+}
+
+function DeleteSliderImage(dropzone_id) {
+  ShowAjaxLoader();
+  var dropzone_div = "#" + dropzone_id;
+  var slider_id = $(dropzone_div + " .slider_id").val();
+  var slider_type = $(dropzone_div + " .slider_type").val();
+  $.ajax({
+    url: "/" + admin_dir_name + "/sliders/ajax/delete/delete-slider-image.php",
+    type: "POST",
+    data: {
+      slider_id: slider_id,
+      slider_type: slider_type
+    }
+  }).done(function () {
+
+    if (slider_type == "background") {
+      $("#current_background_image").html("");
+    } else {
+      $("#current_forground_image").html("");
+    }
+
+    CalculateDropzoneBoxHeight();
+
+    HideAjaxLoader();
+  }).fail(function (e) {
+    console.log(e)
+  })
+}
+
+function DeleteSlider(page) {
+  if (CheckDeleteRights() === false)
+    return;
+  ShowAjaxLoader();
+  var slider_id = $(".delete_slider_link.active").attr("data-id");
+  $.ajax({
+    url: "/" + admin_dir_name + "/sliders/ajax/delete/delete-slider.php",
+    type: "POST",
+    data: {
+      slider_id: slider_id
+    }
+  }).done(function () {
+
+    $("#modal_confirm").dialog("close");
+
+    if (page == "details") {
+      window.location = "/" + admin_dir_name + "/sliders/sliders.php";
+    } else {
+      $("#sliders_list #tr_" + slider_id).remove();
+    }
+
+    HideAjaxLoader();
+  }).fail(function (error) {
+    console.log(error);
+  });
+}
+
+function GetBannerImage(banner_id) {
+  ShowAjaxLoader();
+  $.ajax({
+    url: "/" + admin_dir_name + "/banners/ajax/get/get-banner-image.php",
+    type: "POST",
+    data: {
+      banner_id: banner_id
+    }
+  }).done(function (current_image) {
+
+    $("#current_image").html(current_image);
+    var massage = $("#ajaxmessage_update_banner_success").val();
+    $("#ajax_notification .ajaxmessage").html(massage);
+    $("#ajax_notification").slideDown(500);
+    $("#ajax_notification").delay(3500).slideUp(900);
+
+    HideAjaxLoader();
+  }).fail(function (error) {
+    console.log(error);
+  });
+}
+
+function SetBannerActiveInactive(link, banner_id, set_banner) {
+  ShowAjaxLoader();
+  //alert(friendly_url);return;
+  $.ajax({
+    url: "/" + admin_dir_name + "/banners/ajax/edit/set-banner-active-inactive.php",
+    type: "POST",
+    data: {
+      banner_id: banner_id,
+      set_banner: set_banner
+    }
+  }).done(function () {
+
+    var img_active = $(".images_act_inact .act").html();
+    var img_inactive = $(".images_act_inact .inact").html();
+
+    if (set_banner == "0") {
+      $(link).attr("onClick", "SetBannerActiveInactive(this,'" + banner_id + "','1')");
+      $(link).html(img_inactive);
+    } else {
+      $(link).attr("onClick", "SetBannerActiveInactive(this,'" + banner_id + "','0')");
+      $(link).html(img_active);
+    }
+
+    $("#tr_" + banner_id).effect("highlight", {}, 1000);
+    HideAjaxLoader();
+  }).fail(function (error) {
+    console.log(error);
+  });
+}
+
+function MoveBannerForwardBackward(banner_id, banner_sort_order, action) {
+    return;
+  ShowAjaxLoader();
+  //alert(friendly_url);return;
+  $.ajax({
+    url: "/" + admin_dir_name + "/banners/ajax/edit/move-banner-forward-backward.php",
+    type: "POST",
+    data: {
+      banner_id: banner_id,
+      banner_sort_order: banner_sort_order,
+      action: action
+    }
+  }).done(function (banners) {
+
+    $("#banners_list").html(banners);
+    $("#tr_" + banner_id).effect("highlight", {}, 1000);
+
+    HideAjaxLoader();
+  }).fail(function (error) {
+    console.log(error);
+  });
+}
+
+function DeleteBanner(page) {
+  ShowAjaxLoader();
+  var banner_id = $(".delete_banner_link.active").attr("data-id");
+  $.ajax({
+    url: "/" + admin_dir_name + "/banners/ajax/delete/delete-banner.php",
+    type: "POST",
+    data: {
+      banner_id: banner_id
+    }
+  }).done(function () {
+
+    $("#modal_confirm").dialog("close");
+
+    if(page == "details") {
+      window.location = "/" + admin_dir_name + "/banners/banners.php";
+    } else {
+      $("#banners_list #banner_" + banner_id).remove();
+    }
+
+    HideAjaxLoader();
+  }).fail(function (error) {
+    console.log(error);
+  });
+}
+
+function SetTestimonialActiveInactive(link, testimonial_id, set_testimonial) {
+  ShowAjaxLoader();
+  //alert(friendly_url);return;
+  $.ajax({
+    url: "/" + admin_dir_name + "/testimonials/ajax/edit/set-testimonial-active-inactive.php",
+    type: "POST",
+    data: {
+      testimonial_id: testimonial_id,
+      set_testimonial: set_testimonial
+    }
+  }).done(function () {
+
+    var img_active = $(".images_act_inact .act").html();
+    var img_inactive = $(".images_act_inact .inact").html();
+
+    if (set_testimonial == "0") {
+      $(link).attr("onClick", "SetTestimonialActiveInactive(this,'" + testimonial_id + "','1')");
+      $(link).html(img_inactive);
+    } else {
+      $(link).attr("onClick", "SetTestimonialActiveInactive(this,'" + testimonial_id + "','0')");
+      $(link).html(img_active);
+    }
+
+    $("#tr_" + testimonial_id).effect("highlight", {}, 1000);
+    HideAjaxLoader();
+  }).fail(function (error) {
+    console.log(error);
+  });
+}
+
+function MoveTestimonialForwardBackward(testimonial_id, testimonial_sort_order, action) {
+  ShowAjaxLoader();
+  //alert(friendly_url);return;
+  $.ajax({
+    url: "/" + admin_dir_name + "/testimonials/ajax/edit/move-testimonial-forward-backward.php",
+    type: "POST",
+    data: {
+      testimonial_id: testimonial_id,
+      testimonial_sort_order: testimonial_sort_order,
+      action: action
+    }
+  }).done(function (testimonials) {
+
+    $("#testimonials_list").html(testimonials);
+    $("#tr_" + testimonial_id).effect("highlight", {}, 1000);
+
+    HideAjaxLoader();
+  }).fail(function (error) {
+    console.log(error);
+  });
+}
+
+function DeleteTestimonial() {
+  if (CheckDeleteRights() === false)
+    return;
+  ShowAjaxLoader();
+  var testimonial_id = $(".delete_testimonial_link.active").attr("data-id");
+  $.ajax({
+    url: "/" + admin_dir_name + "/testimonials/ajax/delete/delete-testimonial.php",
+    type: "POST",
+    data: {
+      testimonial_id: testimonial_id
+    }
+  }).done(function (testimonials) {
+
+    $("#modal_confirm").dialog("close");
+    $("#testimonials_list").html(testimonials);
+
+    HideAjaxLoader();
+  }).fail(function (error) {
+    console.log(error);
+  });
+}

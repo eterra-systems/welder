@@ -16,7 +16,7 @@
       $product_image_name_exploded = explode(".", $product_image_name);
       $image_name = $product_image_name_exploded[0];
       $image_exstension = mb_convert_case($product_image_name_exploded[1], MB_CASE_LOWER, "UTF-8");
-      $upload_path = $_SERVER['DOCUMENT_ROOT']."/frontstore/images/products/";
+      $upload_path = $_SERVER['DOCUMENT_ROOT'].SITEFOLDERSL."/images/products/";
 
       $file = $upload_path.$product_image_name;
       

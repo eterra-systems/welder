@@ -1524,6 +1524,427 @@ function list_categories_with_checkboxes($category_parent_id,$category_root_id,$
   }
 }
 
+function list_sliders() {
+  
+  global $db_link;
+  global $current_language_id;
+  global $languages;
+  global $current_lang;
+  global $class;
+  
+  $query_sliders = "SELECT `sliders`.`slider_id`,`sliders`.`slider_image`,`sliders`.`slider_is_active`,`sliders`.`slider_sort_order`,
+                           `sliders_descriptions`.`slider_header`,`sliders_descriptions`.`slider_text`
+                      FROM `sliders`
+                INNER JOIN `sliders_descriptions` ON `sliders_descriptions`.`slider_id` = `sliders`.`slider_id`
+                     WHERE `sliders_descriptions`.`language_id` = '$current_language_id'
+                  ORDER BY `sliders`.`slider_sort_order` ASC";
+  //echo $query_sliders;exit;
+  $result_sliders = mysqli_query($db_link, $query_sliders);
+  if(!$result_sliders) echo mysqli_error($db_link);
+  $sliders_count = mysqli_num_rows($result_sliders);
+  if($sliders_count > 0) {
+    $key = 0;
+    
+    while($slider_row = mysqli_fetch_assoc($result_sliders)) {
+      $slider_id = $slider_row['slider_id'];
+      $slider_header = stripslashes($slider_row['slider_header']);
+      $slider_text = stripslashes($slider_row['slider_text']);
+      $slider_is_active = $slider_row['slider_is_active'];
+      $slider_sort_order = $slider_row['slider_sort_order'];
+      $set_sliders = ($slider_is_active == 1) ? 0 : 1;
+      $slider_image = $slider_row['slider_image'];
+      if(!empty($slider_image)) {
+        $slider_image_exploded = explode(".", $slider_image);
+        $slider_image_name = $slider_image_exploded[0];
+        $slider_image_exstension = $slider_image_exploded[1];
+        $slider_image_thumb = SITEFOLDERSL."/images/sliders/".$slider_image_name."_admin_thumb.".$slider_image_exstension;
+        @$thumb_image_params = getimagesize($_SERVER['DOCUMENT_ROOT'].$slider_image_thumb);
+        $thumb_image_dimensions = $thumb_image_params[3];
+      }
+      else {
+        $slider_image_thumb = SITEFOLDERSL."/images/no_image_172x120.jpg";
+        @$thumb_image_params = getimagesize($_SERVER['DOCUMENT_ROOT'].$slider_image_thumb);
+        $thumb_image_dimensions = $thumb_image_params[3];
+      }
+      if(!isset($class)) $class = "even";
+      $class = (($class == "odd") ? "even" : "odd");
+      $edit_link = "/".$_SESSION['admin_dir_name']."/sliders/sliders.php?slider_id=$slider_id";
+?>
+    <table class="row_over">
+      <tbody>
+        <tr id="tr_<?=$slider_id;?>" class="<?=$class?>">
+          <td width="2%" class="text_left"><?=$slider_id;?></td>
+          <td width="43%" class="text_left">
+            <span class="red_link"><img src="<?=$slider_image_thumb;?>" alt="<?=$slider_header;?>" <?=$thumb_image_dimensions;?>></span>
+          </td>
+          <td width="30%" class="text_left"><?=$slider_header;?></td>
+          <td width="5%">
+            <a href="javascript:;" class="edit_link" onclick="SetSliderActiveInactive(this,'<?=$slider_id;?>', '<?=$set_sliders;?>')">
+              <?php if($slider_is_active == 1) { ?>
+                <img src="/<?=$_SESSION['admin_dir_name'];?>/images/true.gif" class="systemicon img_active" alt="<?=$languages['alt_deactivate'];?>" title="<?=$languages['title_deactivate'];?>" width="16" height="16" />
+              <?php } else { ?>
+                <img src="/<?=$_SESSION['admin_dir_name'];?>/images/false.gif" class="systemicon img_inactive" alt="<?=$languages['alt_activate'];?>" title="<?=$languages['title_activate'];?>" width="16" height="16" />
+              <?php } ?>
+            </a>
+          </td>
+          <td width="10%">
+            <?php
+              // if($sliders_count > 1) we gonna give the appropriate moving options
+              // else we gonna leave this empty
+              if($sliders_count > 1) {
+                if($key == 0) {
+            ?>
+                <a href="javascript:;" class="edit_link" onclick="MoveSliderForwardBackward('<?=$slider_id;?>','<?=$slider_sort_order;?>','backward')">
+                  <img src="/<?=$_SESSION['admin_dir_name'];?>/images/arrow-d.gif" class="systemicon" alt="<?=$languages['alt_move_backward'];?>" title="<?=$languages['title_move_backward'];?>" width="16" height="16" />
+                </a>
+              <?php } elseif($key == $sliders_count-1) { ?>
+                <a href="javascript:;" class="edit_link" onclick="MoveSliderForwardBackward('<?=$slider_id;?>','<?=$slider_sort_order;?>','forward')">
+                  <img src="/<?=$_SESSION['admin_dir_name'];?>/images/arrow-u.gif" class="systemicon" alt="<?=$languages['alt_move_forward'];?>" title="<?=$languages['title_move_forward'];?>" width="16" height="16" />
+                </a>
+              <?php } else { ?>
+                <a href="javascript:;" class="edit_link" onclick="MoveSliderForwardBackward('<?=$slider_id;?>','<?=$slider_sort_order;?>','backward')">
+                  <img src="/<?=$_SESSION['admin_dir_name'];?>/images/arrow-d.gif" class="systemicon" alt="<?=$languages['alt_move_backward'];?>" title="<?=$languages['title_move_backward'];?>" width="16" height="16" />
+                </a>
+                <a href="javascript:;" class="edit_link" onclick="MoveSliderForwardBackward('<?=$slider_id;?>','<?=$slider_sort_order;?>','forward')">
+                  <img src="/<?=$_SESSION['admin_dir_name'];?>/images/arrow-u.gif" class="systemicon" alt="<?=$languages['alt_move_forward'];?>" title="<?=$languages['title_move_forward'];?>" width="16" height="16" />
+                </a>
+            <?php 
+                }
+              } // if($count_options > 1)
+            ?>
+          </td>
+          <td width="5%">
+            <a href="<?=$edit_link;?>" class="edit_link">
+              <img src="/<?=$_SESSION['admin_dir_name'];?>/images/edit.gif" class="systemicon" alt="<?=$languages['alt_edit'];?>" title="<?=$languages['title_edit'];?>" width="16" height="16" />
+            </a>
+          </td>
+          <td width="5%">
+            <a href="javascript:;" class="delete_slider_link delete_link" data-id="<?=$slider_id;?>">
+              <img src="/<?=$_SESSION['admin_dir_name'];?>/images/delete.gif" class="systemicon" alt="<?=$languages['alt_delete'];?>" title="<?=$languages['title_delete'];?>" width="16" height="16" />
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+<?php
+      $key++;
+    }
+    mysqli_free_result($result_sliders);
+    
+    if($_SESSION['users_rights_delete'] == 1) {
+?>
+    <div style="display:none;" id="modal_confirm" class="clearfix" title="<?=$languages['text_are_you_sure']?>">
+      <p style="padding:0;margin:0;width:100%;float:left;"><?=$languages['delete_slider_warning']?></p>
+    </div>
+    <script>
+    $(function() {
+      $("#modal_confirm").dialog({
+        resizable: false,
+        width: 400,
+        height: 200,
+        autoOpen: false,
+        modal: true,
+        draggable: false,
+        closeOnEscape: true,
+        dialogClass: "modal_confirm",
+        buttons: {
+          "<?=$languages['btn_delete'];?>": function() {
+            DeleteSlider();
+          },
+          "<?=$languages['btn_cancel'];?>": function() {
+            $(".delete_slider_link").removeClass("active");
+            $(this).dialog("close");
+          }
+        }
+      });
+      $(".delete_slider_link").click(function() {
+        $(".delete_slider_link").removeClass("active");
+        $(this).addClass("active");
+        $("#modal_confirm").dialog("open");
+      });
+    });
+    </script>
+<?php
+    }
+  }
+}
+
+function list_testimonials() {
+  
+  global $db_link;
+  global $current_language_id;
+  global $languages;
+  global $current_lang;
+  global $class;
+  
+  $query_testimonials = "SELECT `testimonials`.`testimonial_id`,`testimonials`.`testimonial_image`,`testimonials`.`testimonial_is_active`,`testimonials`.`testimonial_sort_order`,
+                                `testimonials_descriptions`.`testimonial_author`,`testimonials_descriptions`.`testimonial_text`
+                           FROM `testimonials`
+                     INNER JOIN `testimonials_descriptions` ON `testimonials_descriptions`.`testimonial_id` = `testimonials`.`testimonial_id`
+                          WHERE `testimonials_descriptions`.`language_id` = '$current_language_id'
+                       ORDER BY `testimonial_sort_order` ASC";
+  //echo $query_testimonials;exit;
+  $result_testimonials = mysqli_query($db_link, $query_testimonials);
+  if(!$result_testimonials) echo mysqli_error($db_link);
+  $testimonials_count = mysqli_num_rows($result_testimonials);
+  if($testimonials_count > 0) {
+    $key = 0;
+    
+    while($testimonial_row = mysqli_fetch_assoc($result_testimonials)) {
+      $testimonial_id = $testimonial_row['testimonial_id'];
+      $testimonial_author = stripslashes($testimonial_row['testimonial_author']);
+      $testimonial_text = stripslashes($testimonial_row['testimonial_text']);
+      $testimonial_is_active = $testimonial_row['testimonial_is_active'];
+      $testimonial_sort_order = $testimonial_row['testimonial_sort_order'];
+      $set_testimonials = ($testimonial_is_active == 1) ? 0 : 1;
+      $testimonial_image = $testimonial_row['testimonial_image'];
+      if(!empty($testimonial_image)) {
+        $testimonial_image_exstension = pathinfo($testimonial_image, PATHINFO_EXTENSION);
+        $testimonial_image_name = str_replace(".$testimonial_image_exstension", "", $testimonial_image);
+        $testimonial_image_thumb = SITEFOLDERSL."/images/testimonials/".$testimonial_image_name."_site.".$testimonial_image_exstension;
+        @$thumb_image_params = getimagesize($_SERVER['DOCUMENT_ROOT'].$testimonial_image_thumb);
+        $thumb_image_dimensions = $thumb_image_params[3];
+      }
+      else {
+        $testimonial_image_thumb = SITEFOLDERSL."/images/no_image_172x120.jpg";
+        @$thumb_image_params = getimagesize($_SERVER['DOCUMENT_ROOT'].$testimonial_image_thumb);
+        $thumb_image_dimensions = $thumb_image_params[3];
+      }
+      if(!isset($class)) $class = "even";
+      $class = (($class == "odd") ? "even" : "odd");
+      $edit_link = "/".$_SESSION['admin_dir_name']."/testimonials/testimonials.php?testimonial_id=$testimonial_id";
+?>
+    <table class="row_over">
+      <tbody>
+        <tr id="tr_<?=$testimonial_id;?>" class="<?=$class?>">
+          <td width="2%" class="text_left"><?=$testimonial_id;?></td>
+          <td width="43%" class="text_left">
+            <span class="red_link"><img src="<?=$testimonial_image_thumb;?>" alt="<?=$testimonial_author;?>" <?=$thumb_image_dimensions;?>></span>
+          </td>
+          <td width="30%" class="text_left"><?=$testimonial_author;?></td>
+          <td width="5%">
+            <a href="javascript:;" class="edit_link" onclick="SetTestimonialActiveInactive(this,'<?=$testimonial_id;?>', '<?=$set_testimonials;?>')">
+              <?php if($testimonial_is_active == 1) { ?>
+                <img src="/<?=$_SESSION['admin_dir_name'];?>/images/true.gif" class="systemicon img_active" alt="<?=$languages['alt_deactivate'];?>" title="<?=$languages['title_deactivate'];?>" width="16" height="16" />
+              <?php } else { ?>
+                <img src="/<?=$_SESSION['admin_dir_name'];?>/images/false.gif" class="systemicon img_inactive" alt="<?=$languages['alt_activate'];?>" title="<?=$languages['title_activate'];?>" width="16" height="16" />
+              <?php } ?>
+            </a>
+          </td>
+          <td width="10%">
+            <?php
+              // if($testimonials_count > 1) we gonna give the appropriate moving options
+              // else we gonna leave this empty
+              if($testimonials_count > 1) {
+                if($key == 0) {
+            ?>
+                <a href="javascript:;" class="edit_link" onclick="MoveTestimonialForwardBackward('<?=$testimonial_id;?>','<?=$testimonial_sort_order;?>','backward')">
+                  <img src="/<?=$_SESSION['admin_dir_name'];?>/images/arrow-d.gif" class="systemicon" alt="<?=$languages['alt_move_backward'];?>" title="<?=$languages['title_move_backward'];?>" width="16" height="16" />
+                </a>
+              <?php } elseif($key == $testimonials_count-1) { ?>
+                <a href="javascript:;" class="edit_link" onclick="MoveTestimonialForwardBackward('<?=$testimonial_id;?>','<?=$testimonial_sort_order;?>','forward')">
+                  <img src="/<?=$_SESSION['admin_dir_name'];?>/images/arrow-u.gif" class="systemicon" alt="<?=$languages['alt_move_forward'];?>" title="<?=$languages['title_move_forward'];?>" width="16" height="16" />
+                </a>
+              <?php } else { ?>
+                <a href="javascript:;" class="edit_link" onclick="MoveTestimonialForwardBackward('<?=$testimonial_id;?>','<?=$testimonial_sort_order;?>','backward')">
+                  <img src="/<?=$_SESSION['admin_dir_name'];?>/images/arrow-d.gif" class="systemicon" alt="<?=$languages['alt_move_backward'];?>" title="<?=$languages['title_move_backward'];?>" width="16" height="16" />
+                </a>
+                <a href="javascript:;" class="edit_link" onclick="MoveTestimonialForwardBackward('<?=$testimonial_id;?>','<?=$testimonial_sort_order;?>','forward')">
+                  <img src="/<?=$_SESSION['admin_dir_name'];?>/images/arrow-u.gif" class="systemicon" alt="<?=$languages['alt_move_forward'];?>" title="<?=$languages['title_move_forward'];?>" width="16" height="16" />
+                </a>
+            <?php 
+                }
+              } // if($count_options > 1)
+            ?>
+          </td>
+          <td width="5%">
+            <a href="<?=$edit_link;?>" class="edit_link">
+              <img src="/<?=$_SESSION['admin_dir_name'];?>/images/edit.gif" class="systemicon" alt="<?=$languages['alt_edit'];?>" title="<?=$languages['title_edit'];?>" width="16" height="16" />
+            </a>
+          </td>
+          <td width="5%">
+            <a href="javascript:;" class="delete_testimonial_link delete_link" data-id="<?=$testimonial_id;?>">
+              <img src="/<?=$_SESSION['admin_dir_name'];?>/images/delete.gif" class="systemicon" alt="<?=$languages['alt_delete'];?>" title="<?=$languages['title_delete'];?>" width="16" height="16" />
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+<?php
+      $key++;
+    }
+    mysqli_free_result($result_testimonials);
+    
+    if($_SESSION['users_rights_delete'] == 1) {
+?>
+    <div style="display:none;" id="modal_confirm" class="clearfix" title="<?=$languages['text_are_you_sure']?>">
+      <p style="padding:0;margin:0;width:100%;float:left;"><?=$languages['delete_testimonial_warning']?></p>
+    </div>
+    <script>
+    $(function() {
+      $("#modal_confirm").dialog({
+        resizable: false,
+        width: 400,
+        height: 200,
+        autoOpen: false,
+        modal: true,
+        draggable: false,
+        closeOnEscape: true,
+        dialogClass: "modal_confirm",
+        buttons: {
+          "<?=$languages['btn_delete'];?>": function() {
+            DeleteTestimonial();
+          },
+          "<?=$languages['btn_cancel'];?>": function() {
+            $(".delete_testimonial_link").removeClass("active");
+            $(this).dialog("close");
+          }
+        }
+      });
+      $(".delete_testimonial_link").click(function() {
+        $(".delete_testimonial_link").removeClass("active");
+        $(this).addClass("active");
+        $("#modal_confirm").dialog("open");
+      });
+    });
+    </script>
+<?php
+    }
+  }
+}
+
+function list_banners() {
+  
+  global $db_link;
+  global $current_language_id;
+  global $languages;
+  global $current_lang;
+  global $class;
+  
+  $query_banners = "SELECT `banner_id`, `banner_image`, `banner_is_active`, `banner_sort_order` FROM `banners` ORDER BY `banner_sort_order` ASC";
+  //echo $query_banners;exit;
+  $result_banners = mysqli_query($db_link, $query_banners);
+  if(!$result_banners) echo mysqli_error($db_link);
+  $banners_count = mysqli_num_rows($result_banners);
+  if($banners_count > 0) {
+    $key = 0;
+    
+    while($banner_row = mysqli_fetch_assoc($result_banners)) {
+
+      $banner_id = $banner_row['banner_id'];
+      $banner_image = $banner_row['banner_image'];
+      $banner_image_exstension = pathinfo($banner_image, PATHINFO_EXTENSION);
+      $banner_image_name = str_replace(".$banner_image_exstension", "", $banner_image);
+      $banner_image_thumb = SITEFOLDERSL."/images/banners/".$banner_image_name."_admin_thumb.".$banner_image_exstension;
+      @$thumb_image_params = getimagesize($_SERVER['DOCUMENT_ROOT'].$banner_image_thumb);
+      $thumb_image_dimensions = $thumb_image_params[3];
+      @$image_params = getimagesize($_SERVER['DOCUMENT_ROOT'].$banner_image);
+      $image_dimensions = $image_params[3];
+      $banner_is_active = $banner_row['banner_is_active'];
+      $banner_sort_order = $banner_row['banner_sort_order'];
+      $set_banners = ($banner_is_active == 1) ? 0 : 1;
+      if(!isset($class)) $class = "even";
+      $class = (($class == "odd") ? "even" : "odd");
+      $edit_link = "/".$_SESSION['admin_dir_name']."/banners/banners.php?banner_id=$banner_id";
+?>
+    <table id="banner_<?=$banner_id;?>" class="row_over">
+      <tbody>
+        <tr class="<?=$class?>">
+          <td width="2%" class="text_left"><?=$banner_id;?></td>
+          <td width="63%" class="text_left">
+            <span class="red_link"><img src="<?=$banner_image_thumb;?>" alt="" <?=$image_dimensions;?>></span>
+          </td>
+          <td width="10%">
+            <a href="javascript:;" class="edit_link" onclick="SetBannerActiveInactive(this,'<?=$banner_id;?>', '<?=$set_banners;?>')">
+              <?php if($banner_is_active == 1) { ?>
+                <img src="/<?=$_SESSION['admin_dir_name'];?>/images/true.gif" class="systemicon img_active" alt="<?=$languages['alt_deactivate'];?>" title="<?=$languages['title_deactivate'];?>" width="16" height="16" />
+              <?php } else { ?>
+                <img src="/<?=$_SESSION['admin_dir_name'];?>/images/false.gif" class="systemicon img_inactive" alt="<?=$languages['alt_activate'];?>" title="<?=$languages['title_activate'];?>" width="16" height="16" />
+              <?php } ?>
+            </a>
+          </td>
+          <td width="10%">
+            <?php
+              // if($banners_count > 1) we gonna give the appropriate moving options
+              // else we gonna leave this empty
+              if($banners_count > 1) {
+                if($key == 0) {
+            ?>
+                <a href="javascript:;" class="edit_link" onclick="MoveBannerForwardBackward('<?=$banner_id;?>','<?=$banner_sort_order;?>','backward')">
+                  <img src="/<?=$_SESSION['admin_dir_name'];?>/images/arrow-d.gif" class="systemicon" alt="<?=$languages['alt_move_backward'];?>" title="<?=$languages['title_move_backward'];?>" width="16" height="16" />
+                </a>
+              <?php } elseif($key == $banners_count-1) { ?>
+                <a href="javascript:;" class="edit_link" onclick="MoveBannerForwardBackward('<?=$banner_id;?>','<?=$banner_sort_order;?>','forward')">
+                  <img src="/<?=$_SESSION['admin_dir_name'];?>/images/arrow-u.gif" class="systemicon" alt="<?=$languages['alt_move_forward'];?>" title="<?=$languages['title_move_forward'];?>" width="16" height="16" />
+                </a>
+              <?php } else { ?>
+                <a href="javascript:;" class="edit_link" onclick="MoveBannerForwardBackward('<?=$banner_id;?>','<?=$banner_sort_order;?>','backward')">
+                  <img src="/<?=$_SESSION['admin_dir_name'];?>/images/arrow-d.gif" class="systemicon" alt="<?=$languages['alt_move_backward'];?>" title="<?=$languages['title_move_backward'];?>" width="16" height="16" />
+                </a>
+                <a href="javascript:;" class="edit_link" onclick="MoveBannerForwardBackward('<?=$banner_id;?>','<?=$banner_sort_order;?>','forward')">
+                  <img src="/<?=$_SESSION['admin_dir_name'];?>/images/arrow-u.gif" class="systemicon" alt="<?=$languages['alt_move_forward'];?>" title="<?=$languages['title_move_forward'];?>" width="16" height="16" />
+                </a>
+            <?php 
+                }
+              } // if($count_options > 1)
+            ?>
+          </td>
+          <td width="7.5%">
+            <a href="<?=$edit_link;?>" class="edit_link">
+              <img src="/<?=$_SESSION['admin_dir_name'];?>/images/edit.gif" class="systemicon" alt="<?=$languages['alt_edit'];?>" title="<?=$languages['title_edit'];?>" width="16" height="16" />
+            </a>
+          </td>
+          <td width="7.5%">
+            <a href="javascript:;" class="delete_banner_link delete_link" data-id="<?=$banner_id;?>">
+              <img src="/<?=$_SESSION['admin_dir_name'];?>/images/delete.gif" class="systemicon" alt="<?=$languages['alt_delete'];?>" title="<?=$languages['title_delete'];?>" width="16" height="16" />
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+<?php
+      $key++;
+    }
+    mysqli_free_result($result_banners);
+    
+    if($_SESSION['users_rights_delete'] == 1) {
+?>
+    <div style="display:none;" id="modal_confirm" class="clearfix" title="<?=$languages['text_are_you_sure']?>">
+      <p style="padding:0;margin:0;width:100%;float:left;"><?=$languages['delete_banner_warning']?></p>
+    </div>
+    <script>
+    $(function() {
+      $("#modal_confirm").dialog({
+        resizable: false,
+        width: 400,
+        height: 200,
+        autoOpen: false,
+        modal: true,
+        draggable: false,
+        closeOnEscape: true,
+        dialogClass: "modal_confirm",
+        buttons: {
+          "<?=$languages['btn_delete'];?>": function() {
+            DeleteBanner();
+          },
+          "<?=$languages['btn_cancel'];?>": function() {
+            $(".delete_banner_link").removeClass("active");
+            $(this).dialog("close");
+          }
+        }
+      });
+      $(".delete_banner_link").click(function() {
+        $(".delete_banner_link").removeClass("active");
+        $(this).addClass("active");
+        $("#modal_confirm").dialog("open");
+      });
+    });
+    </script>
+<?php
+    }
+  }
+}
+
 function list_social_networks_for_select($current_social_network_id) {
   
   global $db_link;
