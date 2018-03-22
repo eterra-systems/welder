@@ -59,6 +59,7 @@
       $customer = mysqli_fetch_assoc($result_customer);
       $customer_email = $customer['customer_email'];
       $customer_phone = $customer['customer_phone'];
+      $customer_companyname = $customer['company_name'];
       $customer_firstname = $customer['first_name'];
       //$customer_surname = $customer['surname'];
       $customer_lastname = $customer['last_name'];
@@ -114,94 +115,73 @@
         
       </div>
       <div class="clearfix">&nbsp;</div>
+      
+      <div class="row">
+      
+      <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="padding-right: 0px">
+          <label for="customer_address_city" style="display: block"><?=$languages['header_customer_address_site_name'];?><span class="red">*</span></label>
+          <input type="text" name="customer_address_site_type" class="pull-left form-control" id="customer_address_site_type" disabled="disabled" value="<?php if(isset($customer_address_site_type)) echo $customer_address_site_type;else echo $languages['header_customer_address_site_type'];?>" style="width: 25%; margin-right: 1%;padding: 8px 10px" />
+          <input type="text" name="customer_address_site_name_label" id="customer_address_site_name_label" class="form-control" autocomplete="off" value="<?php if(isset($customer_address_site_name)) echo $customer_address_site_name;?>" style="width: 74%;" />
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding-left: 1%">
+          <label for="customer_address_postcode"><?=$languages['header_customer_address_postcode'];?></label>
+          <input type="text" name="customer_address_site_postcode_label" class="form-control" disabled="disabled" id="customer_address_site_postcode_label" value="<?php if(isset($customer_address_site_postcode)) echo $customer_address_site_postcode;?>" />
+          <input type="hidden" name="customer_address_site_id" id="customer_address_site_id" value="<?php if(isset($customer_address_site_id)) echo $customer_address_site_id;?>" />
+          <input type="hidden" name="customer_address_site_name" id="customer_address_site_name" value="<?php if(isset($customer_address_site_name)) echo $customer_address_site_name;?>" />
+          <input type="hidden" name="customer_address_site_postcode" id="customer_address_site_postcode" value="<?php if(isset($customer_address_site_postcode)) echo $customer_address_site_postcode;?>" />
+          <?php if(!empty($errors['customer_address_site_name'])) { ?>&nbsp;&nbsp;<span class="alert alert-danger"><?=$errors['customer_address_site_name'];?></span><?php } ?>
+        </div>
+      </div>
+    </div>
+    <div class="clearfix">&nbsp;</div>
     
-      <div class="row">
-        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
-          <label for="customer_age"><?=$languages['header_customer_age'];?><span class="red">*</span></label>
-          <input type="text" name="customer_age" id="customer_age" class="form-control" value="<?php if(isset($customer_age)) echo $customer_age;?>" />
-        </div>
-
-        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
-          <label for="customer_gender"><?=$languages['header_gender'];?><span class="red">*</span></label>
-          <select name="customer_gender" id="customer_gender" class="form-control">
-            <option value="male"<?php if(isset($customer_gender) && $customer_gender == "male") echo " selected";?>><?=$languages['option_male'];?></option>
-            <option value="female"<?php if(isset($customer_gender) && $customer_gender == "female") echo " selected";?>><?=$languages['option_female'];?></option>
-          </select>
-        </div>
-        <p class="clearfix hidden-lg hidden-md"></p>
-
-        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-          <label for="customer_phone"><?=$languages['header_customer_phone'];?><span class="red">*</span></label>
-          <input type="text" name="customer_phone" id="customer_phone" class="form-control" value="<?php if(isset($customer_phone)) echo $customer_phone;?>" />
-          <?php if(!empty($errors['customer_phone'])) { ?><div class="alert alert-danger"><?=$errors['customer_phone'];?></div><?php } ?>
-          <p class="alert alert-info"><i class="fa fa-info-circle"></i> <i class="info"><?=$languages['text_phone_example'];?></i></p>
-        </div>
+      <p class="alert alert-info"><i><?=$languages['text_email_specs'];?></i></p>
+    <div class="row<?php if(!empty($errors['customer_password'])) echo ' form-error';?>">
+      <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <label for="customer_password"><?=$languages['header_customer_password'];?><span class="red">*</span></label>
+        <input type="password" name="customer_password" id="customer_password" class="form-control" value="<?php if(isset($customer_password)) echo $customer_password;?>" onBlur="ValidateUserPassword(this.value,'<?=$current_lang;?>')"  />
+        <span id="customer_password_is_valid"></span>
+        <?php if(!empty($errors['customer_password'])) { ?><span class="alert alert-danger"><?=$errors['customer_password'];?></span><?php } ?>
       </div>
+      <p class="clearfix hidden-lg hidden-md"></p>
       
-      <div class="row">
-        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-          <label for="customer_explanation_text">Предпочитания</label>
-          <?php
-            if(isset($customer_work_abroad)) {
-              if($customer_work_abroad == 0) {echo '<input type="checkbox" name="customer_work_abroad" id="customer_work_abroad" />';}
-              else {echo '<input type="checkbox" name="customer_work_abroad" id="customer_work_abroad" checked="checked" />';}
-            }
-            else echo '<input type="checkbox" name="customer_work_abroad" id="customer_work_abroad" />';
-          ?>
-          <label for="customer_work_abroad" style="display: inline-block;margin: 0;"><?=$languages['header_customer_work_abroad'];?></label>
-          <br>
-          <?php
-            if(isset($customer_work_abroad_long_term)) {
-              if($customer_work_abroad_long_term == 0) {echo '<input type="checkbox" name="customer_work_abroad_long_term" id="customer_work_abroad_long_term" />';}
-              else {echo '<input type="checkbox" name="customer_work_abroad_long_term" id="customer_work_abroad_long_term" checked="checked" />';}
-            }
-            else echo '<input type="checkbox" name="customer_work_abroad_long_term" id="customer_work_abroad_long_term" />';
-          ?>
-          <label for="customer_work_abroad_long_term" style="display: inline-block;margin: 0;"><?=$languages['header_customer_work_abroad_long_term'];?></label>
-          <br>
-          <?php
-            if(isset($customer_work_abroad_short_term)) {
-              if($customer_work_abroad_short_term == 0) {echo '<input type="checkbox" name="customer_work_abroad_short_term" id="customer_work_abroad_short_term" />';}
-              else {echo '<input type="checkbox" name="customer_work_abroad_short_term" id="customer_work_abroad_short_term" checked="checked" />';}
-            }
-            else echo '<input type="checkbox" name="customer_work_abroad_short_term" id="customer_work_abroad_short_term" />';
-          ?>
-          <label for="customer_work_abroad_short_term" style="display: inline-block;margin: 0;"><?=$languages['header_customer_work_abroad_short_term'];?></label>
-        </div>
-        <p class="clearfix hidden-lg hidden-md"></p>
-
-        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-          <label for="customer_explanation_text"><?=$languages['header_customer_work_abroad_explanation_text'];?></label>
-          <textarea name="customer_explanation_text" id="customer_explanation_text" class="form-control">
-            <?php if(isset($customer_explanation_text)) echo $customer_explanation_text;?>
-          </textarea>
-        </div>
-
+      <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12<?php if(!empty($errors['customer_password_retype'])) echo ' form-error';?>">
+        <label for="customer_password_retype"><?=$languages['header_customer_password_retype'];?><span class="red">*</span></label>
+        <input type="password" name="customer_password_retype" id="customer_password_retype" class="form-control" value="<?php if(isset($customer_password_retype)) echo $customer_password_retype;?>" />
+        <?php if(!empty($errors['customer_passwords_mismatch'])) { ?><span class="alert alert-danger"><?=$errors['customer_passwords_mismatch'];?></span><?php } ?>
       </div>
-      <div class="clearfix">&nbsp;</div>
+    </div>
+    <div class="clearfix">&nbsp;</div>
+
+    <div class="row<?php if(!empty($errors['customer_phone'])) echo ' form-error';?>">
+      <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <label for="customer_phone"><?=$languages['header_customer_phone'];?><span class="red">*</span></label>
+        <input type="text" name="customer_phone" id="customer_phone" class="form-control" value="<?php if(isset($customer_phone)) echo $customer_phone;?>" />
+        <?php if(!empty($errors['customer_phone'])) { ?><span class="alert alert-danger"><?=$errors['customer_phone'];?></span><?php } ?>
+      </div>
+    </div>
+    <p><i class="fa fa-info-circle"></i> <i><?=$languages['text_phone_example'];?></i></p>
+
+    <div>
+      <?php
+        if(isset($customer_is_in_mailist)) {
+          if($customer_is_in_mailist == 0) {echo '<input type="checkbox" name="customer_is_in_mailist" id="customer_is_in_mailist" />';}
+          else {echo '<input type="checkbox" name="customer_is_in_mailist" id="customer_is_in_mailist" checked="checked" />';}
+        }
+        else echo '<input type="checkbox" name="customer_is_in_mailist" id="customer_is_in_mailist" checked="checked" />';
+      ?>
+      <label for="customer_is_in_mailist" style="display: inline-block;"><?=$languages['header_customer_company_is_in_mailist'];?></label>
+    </div>
+    <div class="clearfix">&nbsp;</div>
       
-      <div class="row">
-        <div class="col-lg-12 col-md-8 col-sm-12 col-xs-12">
-          <label for="customer_email"><?=$languages['header_customer_email'];?></label>
-          <input type="text" name="customer_email" id="customer_email" class="form-control" value="<?php if(isset($customer_email)) echo $customer_email;?>" onBlur="CheckIfUserEmailIsValidForUpdate(this.value,'<?=$current_lang;?>')" />
-          <input type="hidden" name="customer_email_status" id="customer_email_status" value="<?php if(!empty($errors['customer_email_status'])) echo "error"; else echo "ok"?>" />
-          <span id="customer_email_is_valid"></span>
-          <?php if(!empty($errors['customer_email'])) { ?>&nbsp;&nbsp;<span class="alert alert-danger"><?=$errors['customer_email'];?></span><?php } ?>
-          <?php if(!empty($errors['customer_email_status'])) { ?>&nbsp;&nbsp;<span class="alert alert-danger"><?=$errors['customer_email_status'];?></span><?php } ?>
-        </div>
-      </div>
-      <div class="clearfix">&nbsp;</div>
-
-      <div class="row hidden">
-        <?php
-          if(isset($customer_is_in_mailist)) {
-            if($customer_is_in_mailist == 0) {echo '<input type="checkbox" name="customer_is_in_mailist" id="customer_is_in_mailist" />';}
-            else {echo '<input type="checkbox" name="customer_is_in_mailist" id="customer_is_in_mailist" checked="checked" />';}
-          }
-        ?>
-        <label for="customer_is_in_mailist" style="display: inline-block;"><?=$languages['header_customer_is_in_mailist'];?></label>
-      </div>
-      <div class="clearfix">&nbsp;</div>
+    <div class="<?php if(!empty($errors['recaptcha_response_field'])) echo "form-error";?>">
+      <?php if(!empty($errors['recaptcha_response_field'])) { ?>
+        <div class="alert alert-danger"><?=$errors['recaptcha_response_field'];?></div>
+      <?php } ?>
+      <div class="g-recaptcha" data-sitekey="<?=$sitekey;?>"></div>
+    </div>
+    <p class="clearfix"></p>
 
       <div class="clearfix">&nbsp;</div>
 
@@ -213,3 +193,24 @@
       </div>
       <div class="clearfix">&nbsp;</div>
     </form>
+
+  <script>
+  $(function() {
+    //autocomplete sites
+    $("#customer_address_site_name_label").autocomplete({
+      source: "<?=SITEFOLDERSL;?>/ajax/get-sites-autocomplete.php",
+      minLength: 2,
+      select: function( event, ui ) {
+        //alert(ui.item.site_name);
+        $('#customer_address_site_id').val(ui.item.site_id);
+        $('#customer_address_site_type').val(ui.item.site_type);
+        $('#customer_address_site_name').val(ui.item.site_name);
+        $('#customer_address_site_postcode').val(ui.item.site_postcode);
+      },
+      close: function( event, ui ) {
+        $('#customer_address_site_postcode_label').val($('#customer_address_site_postcode').val());
+        $('#customer_address_site_name_label').val($('#customer_address_site_name').val());
+      }
+    });
+  });
+  </script>
