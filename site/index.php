@@ -247,8 +247,10 @@
         <div class="GridLex-gap-15-wrappper">
           <div class="GridLex-grid-noGutter-equalHeight">
 <?php 
+//print_array_for_debug($_SESSION);
   if(user_is_loged()) {
     $customer_fullname = $_SESSION['customer_name']; 
+    //echo $_SESSION['company']['company_name'];
 ?>
             <div class="GridLex-col-3_sm-4_xs-12">
               <div class="admin-sidebar">
