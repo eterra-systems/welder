@@ -315,16 +315,46 @@ function print_html_company_profile_menu() {
     global $languages;
     global $current_lang;
 ?>
+  <li<?php if (is_active_page("user-profile-dashboard")) echo ' class="active"'; ?>>
+    <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-dashboard" rel="nofollow">
+      <i class="fa fa-tachometer" aria-hidden="true"></i>
+      <span><?= $languages['header_user_dashboard']; ?></span>
+    </a>
+  </li>
   <li<?php if (is_active_page("user-profile-data")) echo ' class="active"'; ?>>
     <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-data" rel="nofollow">
       <i class="fa fa-user" aria-hidden="true"></i>
       <span><?= $languages['header_user_data']; ?></span>
     </a>
   </li>
-  <li<?php if (is_active_page("user-profile-addresses") || is_active_page("user-profile-address-add") || is_active_page("user-profile-address-edit")) echo ' class="active"'; ?>>
-    <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-addresses" rel="nofollow">
-      <i class="fa fa-truck" aria-hidden="true"></i>
-      <span><?= $languages['header_delivery_addresses']; ?></span>
+  <li<?php if (is_active_page("user-profile-password")) echo ' class="active"'; ?>>
+    <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-password" rel="nofollow">
+      <i class="fa fa-key" aria-hidden="true"></i>
+      <span><?= $languages['header_customer_new_password']; ?></span>
+    </a>
+  </li>
+  <li<?php if (is_active_page("user-profile-skills")) echo ' class="active"'; ?>>
+    <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-skills" rel="nofollow">
+      <i class="fa fa-wrench" aria-hidden="true"></i>
+      <span><?= $languages['header_skills']; ?></span>
+    </a>
+  </li>
+  <li<?php if (is_active_page("user-profile-certificates")) echo ' class="active"'; ?>>
+    <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-certificates" rel="nofollow">
+      <i class="fa fa-newspaper-o" aria-hidden="true"></i>
+      <span><?= $languages['header_certificates']; ?></span>
+    </a>
+  </li>
+  <li<?php if (is_active_page("user-profile-bookmarks")) echo ' class="active"'; ?>>
+    <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-bookmarks" rel="nofollow">
+      <i class="fa fa-bookmark"></i>
+      <span><?= $languages['header_saved_jobs']; ?></span>
+    </a>
+  </li>
+  <li>
+    <a href="/<?= $current_lang; ?>/logout" rel="nofollow">
+      <i class="fa fa-sign-out"></i>
+      <?= $languages['logout']; ?>
     </a>
   </li>
 <?php
