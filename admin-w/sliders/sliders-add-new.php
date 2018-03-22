@@ -288,7 +288,7 @@
   print_html_admin_footer();
   
 ?>
-  <script type="text/javascript" src="/modules/elfinder_ckeditor/ckeditor/ckeditor.js"></script>
+  <script type="text/javascript" src="/modules/ckeditor/ckeditor/ckeditor.js"></script>
   <script type="text/javascript">
     $(document).ready(function() {
 <?php

@@ -218,11 +218,11 @@
 ?>
   <form name="sign_up_form" id="sign_up_form" class="form-group form-horizontal" method="post" action="/<?=strip_tags($_GET['page']);?>">
       
-      <div class="row<?php if(!empty($errors['customer_copanyname'])) echo ' form-error';?>">
+      <div class="row<?php if(!empty($errors['customer_companyname'])) echo ' form-error';?>">
       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-        <label for="customer_copanyname"><?=$languages['header_customer_companyname'];?><span class="red">*</span></label>
-        <input type="text" name="customer_copanyname" id="customer_copanyname" class="form-control" value="<?php if(isset($customer_copanyname)) echo $customer_copanyname;?>" />
-        <?php if(!empty($errors['customer_copanyname'])) { ?><span class="alert alert-danger"><?=$errors['customer_copanyname'];?></span><?php } ?>
+        <label for="customer_companyname"><?=$languages['header_customer_companyname'];?><span class="red">*</span></label>
+        <input type="text" name="customer_companyname" id="customer_copanyname" class="form-control" value="<?php if(isset($customer_companyname)) echo $customer_companyname;?>" />
+        <?php if(!empty($errors['customer_companyname'])) { ?><span class="alert alert-danger"><?=$errors['customer_companyname'];?></span><?php } ?>
       </div>
     </div>
     <div class="clearfix">&nbsp;</div>

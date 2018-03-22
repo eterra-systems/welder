@@ -18,7 +18,7 @@
   }
   
   if(false) {
-  //if(isset($_POST['update_profile'])) {
+    //if(isset($_POST['update_profile'])) {
     //echo "<pre>";print_r($_POST);
     
     
