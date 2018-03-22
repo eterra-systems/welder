@@ -26,21 +26,21 @@
               
               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="form-group">
-                  <label for="fullname"><?=$languages['header_fullname'];?> <span class="font10 text-danger">*</span></label>
+                  <label for="fullname"><?=$languages['header_fullname'];?> <span class="text-danger">*</span></label>
                   <input name="fullname" id="fullname" type="text" required="required" class="form-control required_field">
                   <div class="alert alert-danger error hidden"><?= $languages['error_required_field']; ?></div>
                 </div>
               </div>
 
               <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                <label for="phone"><?=$languages['header_phone'];?> <span class="font10 text-danger">*</span></label>
+                <label for="phone"><?=$languages['header_phone'];?> <span class="text-danger">*</span></label>
                 <input name="phone" id="phone" type="text" required="required" class="form-control required_field">
                 <div class="alert alert-danger error hidden"><?= $languages['error_required_field']; ?></div>
               </div>
 
               <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                 <div class="form-group">
-                  <label for="email"><?=$languages['header_email'];?> <span class="font10 text-danger">*</span></label>
+                  <label for="email"><?=$languages['header_email'];?> <span class="text-danger">*</span></label>
                   <input name="email" id="email" type="email" required="required" class="form-control required_field email">
                   <div class="alert alert-danger error invalid_email hidden"><?= $languages['error_email_is_not_valid']; ?></div>
                 </div>
@@ -55,7 +55,7 @@
 
               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="form-group">
-                  <label for="textarea"><?=$languages['header_inquiry'];?> <span class="font10 text-danger">*</span></label>
+                  <label for="textarea"><?=$languages['header_inquiry'];?> <span class="text-danger">*</span></label>
                   <textarea name="message" id="textarea" required="required" rows="4" class="form-control required_field form-textarea"></textarea>
                   <div class="alert alert-danger error hidden"><?= $languages['error_required_field']; ?></div>
                 </div>
