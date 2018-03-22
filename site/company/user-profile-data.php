@@ -3,6 +3,7 @@
   ini_set('display_errors', 'On');
   
   //print_array_for_debug($_SESSION);
+ // print_array_for_debug($_SESSION);
   $customer_id = $_SESSION['customer_id'];
   $customer_fullname = $_SESSION['customer_name'];
   
