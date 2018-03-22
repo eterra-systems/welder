@@ -29,9 +29,9 @@ if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 
 $_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stamp
 
 function DB_OpenI() {
-
-  $db_name = "zavarka_zavarka";
-  $db_user = "zavarka_zavarka";
+  
+  $db_name = "eterrasy_weler";
+  $db_user = "eterrasy_weler";
   $db_password = "mZm8dTMvqLJu(!n8";
 
   $mysqli = new mysqli("localhost", $db_user, $db_password, $db_name);

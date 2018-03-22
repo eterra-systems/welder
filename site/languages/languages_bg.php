@@ -2,6 +2,7 @@
 $languages = array(
 
   //common
+  "test" => "Zavarka",
   "company_name" => "Zavarka",
   "company_logo_text" => "Zavarka",
   "menu_welcome_msg"=>"Добре дошли в нашият магазин",
