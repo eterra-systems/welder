@@ -90,6 +90,16 @@
       <input type="hidden" name="customer_id" id="customer_id" value="<?=$customer_id;?>">
 
       <div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-6">
+          <div class="form-group bootstrap-fileinput-style-01">
+            <label for="form-register-photo-2"><?=$languages['header_image'];?></label>
+            <input type="file" name="form-register-photo-2" id="form-register-photo-2">
+            <span class="font12 font-italic">** photo must not bigger than 250kb</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="row">
         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
           <label for="customer_firstname"><?=$languages['header_firstname'];?><span class="text-danger">*</span></label>
           <input type="text" name="customer_firstname" id="customer_firstname" class="form-control" value="<?php if(isset($customer_firstname)) echo $customer_firstname;?>" />
@@ -132,7 +142,7 @@
           <label for="customer_phone"><?=$languages['header_customer_phone'];?><span class="text-danger">*</span></label>
           <input type="text" name="customer_phone" id="customer_phone" class="form-control" value="<?php if(isset($customer_phone)) echo $customer_phone;?>" />
           <?php if(!empty($errors['customer_phone'])) { ?><div class="alert alert-danger"><?=$errors['customer_phone'];?></div><?php } ?>
-          <p class="alert alert-info"><i class="fa fa-info-circle"></i> <i class="info"><?=$languages['text_phone_example'];?></i></p>
+          <span class="font12 font-italic"><i class="fa fa-info-circle"></i> <?=$languages['text_phone_example'];?></span>
         </div>
       </div>
       
@@ -170,9 +180,7 @@
 
         <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
           <label for="customer_explanation_text"><?=$languages['header_customer_work_abroad_explanation_text'];?></label>
-          <textarea name="customer_explanation_text" id="customer_explanation_text" class="form-control">
-            <?php if(isset($customer_explanation_text)) echo $customer_explanation_text;?>
-          </textarea>
+          <textarea name="customer_explanation_text" class="form-control"><?php if(isset($customer_explanation_text)) echo $customer_explanation_text;?></textarea>
         </div>
 
       </div>

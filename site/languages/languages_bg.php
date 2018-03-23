@@ -89,6 +89,7 @@ $languages = array(
   "header_address" => "Адрес",
   "header_location" => "Местоположение",
   "header_menu" => "Меню",
+  "header_image" => "Снимка",
   "header_phone" => "Телефон",
   "header_fax" => "Факс",
   "header_email" => "Email",

@@ -29,7 +29,7 @@
     if(!isset($certificates)) {
 ?>
     <p class="alert alert-info">Все още нямате добавени серификати</p>
-    <div id="current_certificates">
+    <div id="current_certificates" class="row">
       
     </div>
 <?php
@@ -37,7 +37,7 @@
     else {
 ?>
     <h3 class="title-style2"><?=$languages['header_user_certificates'];?></h3>
-    <div id="current_certificates">
+    <div id="current_certificates" class="row">
 <?php
       //print_array_for_debug($certificates);
 
@@ -51,12 +51,12 @@
         $files_ext = array("pdf", "docx", "doc");
         
         if(in_array($certificate_exstension, $img_ext)) {
-          $file = "<img src='$display_path$certificate_name' width='auto' height='200' alt='$certificate_name'>";
+          $file = "<a href='$display_path$certificate_name' target='_blank'><img src='$display_path$certificate_name' width='auto' height='200' alt='$certificate_name'></a>";
         }
         else {
           if($certificate_exstension == "doc" || $certificate_exstension == "docx") $file_fa = "word";
           if($certificate_exstension == "pdf") $file_fa = "pdf";
-          $file = "<i class='fa fa-file-$file_fa-o fa-lg'></i> <a href='$display_path$certificate_name' class='file'>$certificate_name</a>";
+          $file = "<i class='fa fa-file-$file_fa-o fa-lg'></i> <a href='$display_path$certificate_name' target='_blank' class='file'>$certificate_name</a>";
         }
 ?>
         <div class="certificate col-lg-3 col-md-4 col-sm-12 col-xs-12">

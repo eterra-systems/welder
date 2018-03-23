@@ -6367,8 +6367,18 @@ ul.static-page-menu li.active a {
   color: red;
 }
 
+#current_certificates .fa {
+  float: left;
+  margin: 2px 4px 10px 0;
+}
+
 #current_certificates .file {
   font-size: 12px;
+}
+
+#current_certificates .certificate {
+  padding-right: 0;
+  line-height: 16px;
 }
 
 #cookies_policy {

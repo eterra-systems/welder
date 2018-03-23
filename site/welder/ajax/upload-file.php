@@ -92,9 +92,21 @@
       mysqli_query($db_link,"ROLLBACK");
       exit;
     }
+    
+    $img_ext = array("jpg", "jpeg", "png", "gif");
+    $files_ext = array("pdf", "docx", "doc");
+
+    if(in_array($certificate_exstension, $img_ext)) {
+      $file = "<a href='$display_path$certificate_name' target='_blank'><img src='$display_path$certificate_name' width='auto' height='200' alt='$certificate_name'></a>";
+    }
+    else {
+      if($certificate_exstension == "doc" || $certificate_exstension == "docx") $file_fa = "word";
+      if($certificate_exstension == "pdf") $file_fa = "pdf";
+      $file = "<i class='fa fa-file-$file_fa-o fa-lg'></i> <a href='$display_path$certificate_name' target='_blank' class='file'>$certificate_name</a>";
+    }
 ?>
   <div class="certificate col-lg-3 col-md-4 col-sm-12 col-xs-12">
-    <img src="<?="$display_path$customer_certificate_name";?>" width="auto" height="200" alt="<?=$customer_certificate_name;?>">
+    <?=$file;?>
   </div>
 <?php
     

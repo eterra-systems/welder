@@ -229,7 +229,9 @@
   elseif(isset($current_page_pretty_url) && isset($_SESSION['customer_group_code']) && $current_page_pretty_url == $_SESSION['customer_group_code']) {
     
     $body_css = "not-transparent-header my-account";
-    print_html_header($content_meta_title, $content_meta_description, $content_meta_keywords, $additional_css_javascript = false, $body_css);
+    $additional_css_javascript = '<script type="text/javascript" src="'.SITEFOLDERSL.'/js/fileinput.min.js"></script>
+                                  <script type="text/javascript" src="'.SITEFOLDERSL.'/js/customs-fileinput.js"></script>';
+    print_html_header($content_meta_title, $content_meta_description, $content_meta_keywords, $additional_css_javascript, $body_css);
     
     $current_page_text = "header_".str_replace("-", "_", $page_params);
     $content_menu_text = $languages[$current_page_text];
