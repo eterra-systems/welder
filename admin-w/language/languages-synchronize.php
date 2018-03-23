@@ -12,7 +12,7 @@
     
   if(isset($_POST['go_to_synchronize'])) {
     $language_code = $_POST['language_code'];
-    $admin_or_frontstore = $_POST['admin_or_frontstore'];
+    $admin_or_site = $_POST['admin_or_site'];
   }
   
   if(isset($_POST['submit'])) {
@@ -20,11 +20,11 @@
     //echo"<pre>";print_r($_POST);exit;
     
     $language_code = $_POST['language_code'];
-    $admin_or_frontstore = $_POST['admin_or_frontstore'];
+    $admin_or_site = $_POST['admin_or_site'];
     
     //$languages_for_file = $languages;
     $languages_for_file = $_POST['languages_array'];
-    $filename = $_SERVER['DOCUMENT_ROOT']."$admin_or_frontstore/languages/languages_$language_code.php";
+    $filename = $_SERVER['DOCUMENT_ROOT']."/$admin_or_site/languages/languages_$language_code.php";
     file_put_contents($filename, '<?php $languages = ' . var_export($languages_for_file, true) . ';');
     
     //echo $all_queries;mysqli_query($db_link,"ROLLBACK");exit;
@@ -35,7 +35,7 @@
   }
   //if(isset($_POST['submit'])
   
-  if(!isset($language_code) && !isset($admin_or_frontstore)) {
+  if(!isset($language_code) && !isset($admin_or_site)) {
     header("Location: $back_link");
   }
     
@@ -60,39 +60,59 @@
       
       <form method="post" class="input_form row" action="<?=htmlspecialchars($_SERVER['REQUEST_URI']);?>">
         <input type="hidden" name="language_code" value="<?=$language_code;?>" />
-        <input type="hidden" name="admin_or_frontstore" value="<?=$admin_or_frontstore;?>" />
+        <input type="hidden" name="admin_or_site" value="<?=$admin_or_site;?>" />
 <?php
       $current_languages = $languages;
-      require_once($_SERVER['DOCUMENT_ROOT']."$admin_or_frontstore/languages/languages_bg.php");
+      require_once($_SERVER['DOCUMENT_ROOT']."/$admin_or_site/languages/languages_bg.php");
       $languages_bg = $languages;
-      require_once($_SERVER['DOCUMENT_ROOT']."$admin_or_frontstore/languages/languages_$language_code.php");
-//      echo "$admin_or_frontstore/languages/languages_$language_code.php <br>";print_r($languages_bg);echo "<br><br>";print_r($languages);
+      require_once($_SERVER['DOCUMENT_ROOT']."/$admin_or_site/languages/languages_$language_code.php");
+      //echo "$admin_or_site/languages/languages_$language_code.php <br>";print_r($languages_bg);echo "<br><br>";print_r($languages);
       $blocks_counter = 1;
-      if(count($languages_bg) > count($languages)) {
-        foreach($languages_bg as $field_name => $translation) {
+      if(count($languages_bg) != count($languages)) {
+        /*
+        * the bulgarian language file must be always up to date, and always no word must be added
+        * first to it. If the others languages files contain more words we will delete them
+        */
+        if(count($languages_bg) > count($languages)) {
+          foreach($languages_bg as $field_name => $translation) {
 
-          if(isset($languages[$field_name])) {
-            $translation = $languages[$field_name];
+            if(isset($languages[$field_name])) {
+              $translation = $languages[$field_name];
+            }
+
+            if($blocks_counter == 1) echo '<div class="row margin_bottom">';
+  ?>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <div><b><?=$field_name;?></b></div>
+              <input type="text" name="languages_array[<?=$field_name;?>]" value='<?=$translation;?>' />
+            </div>
+  <?php
+            if($blocks_counter == 2) {
+              echo '</div>';
+              $blocks_counter = 0;
+            }
+
+            $blocks_counter++;
           }
-
-          if($blocks_counter == 1) echo '<div class="row margin_bottom">';
+        }
+        else {
 ?>
-          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-            <div><b><?=$field_name;?></b></div>
-            <input type="text" name="languages_array[<?=$field_name;?>]" value='<?=$translation;?>' />
-          </div>
+        <h3 class="alert alert-success">Ще бъдат изтрити думи от <?=(!empty($admin_or_site)) ? "$admin_or_site/" : "";?>languages_<?=$language_code;?>.php, които не са в българската версия</h3>
 <?php
-          if($blocks_counter == 2) {
-            echo '</div>';
-            $blocks_counter = 0;
-          }
+          // delete words from not bulgarian language file
+          foreach($languages as $field_name => $translation) {
 
-          $blocks_counter++;
+            if(isset($languages_bg[$field_name])) {
+ ?>
+            <input type="text" name="languages_array[<?=$field_name;?>]" value='<?=$translation;?>' />
+  <?php
+            }
+          }
         }
       }
       else {
 ?>
-        <h3 class="alert alert-success">Всички думи за <?=(!empty($admin_or_frontstore)) ? "$admin_or_frontstore/" : "";?>languages_<?=$language_code;?>.php са попълени</h3>
+        <h3 class="alert alert-success">Всички думи за <?=(!empty($admin_or_site)) ? "$admin_or_site/" : "";?>languages_<?=$language_code;?>.php са попълени</h3>
 <?php
       }
       //echo "Всички думи за languages_$language_code.php са $words_counter";

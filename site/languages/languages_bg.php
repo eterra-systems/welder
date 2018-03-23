@@ -2,7 +2,6 @@
 $languages = array(
 
   //common
-  "test" => "Zavarka",
   "company_name" => "Zavarka",
   "company_logo_text" => "Zavarka",
   "menu_welcome_msg"=>"Добре дошли в нашият магазин",
@@ -126,7 +125,7 @@ $languages = array(
   "header_choosen_options_for_sort" => "Избрани",
   "header_color" => "Цвят",
   "header_all_products" => "Всички",
-  "header_product_from_art" => "от Zavarka",
+  "header_product_from" => "от Zavarka",
   "header_isbn" => "Артикулен &numero;",
   "header_isbn_email" => "Арт. №",
   "header_quantity" => "Количество",
@@ -302,6 +301,8 @@ $languages = array(
   "text_warning_not_a_delivery_country" => "За съжаление не извършваме доставки до ",
   "text_warning" => "Внимание!",
   "text_published" => "Публикувана",
+  "text_clear_files" => "Изчисти избраните файлове",
+  "text_upload_files" => "Качи избраните файлове",
   "text_or" => "или",
   "text_arrow" => "Стрелка",
   "text_years" => "години",
@@ -378,6 +379,9 @@ $languages = array(
   "btn_apply_coupon" => "Приложи",
   "btn_back" => "Назад",
   "btn_order" => "Поръчай",
+  "btn_browse" => "Избери",
+  "btn_remove" => "Премахни",
+  "btn_upload" => "Качи",
   "btn_back_to_all_news" => "Обратно към всички новини",
   "btn_back_to_addresses" => "Обратно към адреси",
   "btn_generate_password" => "Генерирай парола",

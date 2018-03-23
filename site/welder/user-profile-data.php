@@ -90,11 +90,17 @@
       <input type="hidden" name="customer_id" id="customer_id" value="<?=$customer_id;?>">
 
       <div class="row">
-        <div class="col-lg-4 col-md-4 col-sm-6">
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
           <div class="form-group bootstrap-fileinput-style-01">
             <label for="form-register-photo-2"><?=$languages['header_image'];?></label>
+            <input type="hidden" id="btn_cancel" value="<?=$languages['btn_cancel'];?>">
+            <input type="hidden" id="btn_browse" value="<?=$languages['btn_browse'];?>">
+            <input type="hidden" id="btn_remove" value="<?=$languages['btn_remove'];?>">
+            <input type="hidden" id="btn_upload" value="<?=$languages['btn_upload'];?>">
+            <input type="hidden" id="text_clear_files" value="<?=$languages['text_clear_files'];?>">
+            <input type="hidden" id="text_upload_files" value="<?=$languages['text_upload_files'];?>">
             <input type="file" name="form-register-photo-2" id="form-register-photo-2">
-            <span class="font12 font-italic">** photo must not bigger than 250kb</span>
+            <span class="font12 font-italic"><i class="fa fa-info-circle"></i> photo must not bigger than 250kb</span>
           </div>
         </div>
       </div>

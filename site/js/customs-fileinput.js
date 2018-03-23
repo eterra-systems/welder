@@ -33,19 +33,17 @@ jQuery(function($) {
 		uploadUrl: '/',
 		maxFileCount: 1,
 		showUpload: true,
-		browseLabel: 'Browse',
+		browseLabel: $("#btn_browse").val(),
 		browseIcon: '',
-		removeLabel: 'Remove',
+		removeLabel: $("#btn_remove").val(),
 		removeIcon: '',
-		uploadLabel: 'Upload',
+		uploadLabel: $("#btn_upload").val(),
 		uploadIcon: '',
 		autoReplace: true,
 		showCaption: false,
 		allowedFileTypes: ['image' ],
-		allowedFileExtensions: ['gif', 'png'],
-			initialPreview: [
-				'<img src="images/brands/06.png" class="file-preview-image" alt="The Moon" title="The Moon">',
-		],
+		allowedFileExtensions: ["jpg", "jpeg", "png", "gif"],
+                initialPreview: ['<img src="images/brands/06.png" class="file-preview-image" alt="The Moon" title="The Moon">'],
 		overwriteInitial: true,
 	});
 
@@ -81,7 +79,7 @@ jQuery(function($) {
 
 	
 	
-})(jQuery);
+});
 
 
 
