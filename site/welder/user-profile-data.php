@@ -91,21 +91,21 @@
 
       <div class="row">
         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-          <label for="customer_firstname"><?=$languages['header_firstname'];?><span class="red">*</span></label>
+          <label for="customer_firstname"><?=$languages['header_firstname'];?><span class="text-danger">*</span></label>
           <input type="text" name="customer_firstname" id="customer_firstname" class="form-control" value="<?php if(isset($customer_firstname)) echo $customer_firstname;?>" />
           <?php if(!empty($errors['customer_firstname'])) { ?><div class="alert alert-danger"><?=$errors['customer_firstname'];?></div><?php } ?>
         </div>
         <p class="clearfix hidden-lg hidden-md"></p>
 
         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-          <label for="customer_surname"><?=$languages['header_surname'];?><span class="red">*</span></label>
+          <label for="customer_surname"><?=$languages['header_surname'];?><span class="text-danger">*</span></label>
           <input type="text" name="customer_surname" id="customer_surname" class="form-control" value="<?php if(isset($customer_surname)) echo $customer_surname;?>" />
           <?php if(!empty($errors['customer_surname'])) { ?><div class="alert alert-danger"><?=$errors['customer_surname'];?></div><?php } ?>
         </div>
         <p class="clearfix hidden-lg hidden-md"></p>
 
         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-          <label for="customer_lastname"><?=$languages['header_lastname'];?><span class="red">*</span></label>
+          <label for="customer_lastname"><?=$languages['header_lastname'];?><span class="text-danger">*</span></label>
           <input type="text" name="customer_lastname" id="customer_lastname" class="form-control" value="<?php if(isset($customer_lastname)) echo $customer_lastname;?>" />
           <?php if(!empty($errors['customer_lastname'])) { ?><div class="alert alert-danger"><?=$errors['customer_lastname'];?></div><?php } ?>
         </div>
@@ -115,12 +115,12 @@
     
       <div class="row">
         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
-          <label for="customer_age"><?=$languages['header_customer_age'];?><span class="red">*</span></label>
+          <label for="customer_age"><?=$languages['header_customer_age'];?><span class="text-danger">*</span></label>
           <input type="text" name="customer_age" id="customer_age" class="form-control" value="<?php if(isset($customer_age)) echo $customer_age;?>" />
         </div>
 
         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
-          <label for="customer_gender"><?=$languages['header_gender'];?><span class="red">*</span></label>
+          <label for="customer_gender"><?=$languages['header_gender'];?><span class="text-danger">*</span></label>
           <select name="customer_gender" id="customer_gender" class="form-control">
             <option value="male"<?php if(isset($customer_gender) && $customer_gender == "male") echo " selected";?>><?=$languages['option_male'];?></option>
             <option value="female"<?php if(isset($customer_gender) && $customer_gender == "female") echo " selected";?>><?=$languages['option_female'];?></option>
@@ -129,7 +129,7 @@
         <p class="clearfix hidden-lg hidden-md"></p>
 
         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-          <label for="customer_phone"><?=$languages['header_customer_phone'];?><span class="red">*</span></label>
+          <label for="customer_phone"><?=$languages['header_customer_phone'];?><span class="text-danger">*</span></label>
           <input type="text" name="customer_phone" id="customer_phone" class="form-control" value="<?php if(isset($customer_phone)) echo $customer_phone;?>" />
           <?php if(!empty($errors['customer_phone'])) { ?><div class="alert alert-danger"><?=$errors['customer_phone'];?></div><?php } ?>
           <p class="alert alert-info"><i class="fa fa-info-circle"></i> <i class="info"><?=$languages['text_phone_example'];?></i></p>

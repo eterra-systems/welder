@@ -314,98 +314,140 @@ function print_header_menu($content_parent_id, $content_hierarchy_level_start , 
 function print_html_company_profile_menu() {
     global $languages;
     global $current_lang;
+    
+    $customer_fullname = $_SESSION['customer_name']; 
 ?>
-  <li<?php if (is_active_page("user-profile-dashboard")) echo ' class="active"'; ?>>
-    <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-dashboard" rel="nofollow">
-      <i class="fa fa-tachometer" aria-hidden="true"></i>
-      <span><?= $languages['header_user_dashboard']; ?></span>
-    </a>
-  </li>
-  <li<?php if (is_active_page("user-profile-data")) echo ' class="active"'; ?>>
-    <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-data" rel="nofollow">
-      <i class="fa fa-user" aria-hidden="true"></i>
-      <span><?= $languages['header_user_data']; ?></span>
-    </a>
-  </li>
-  <li<?php if (is_active_page("user-profile-password")) echo ' class="active"'; ?>>
-    <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-password" rel="nofollow">
-      <i class="fa fa-key" aria-hidden="true"></i>
-      <span><?= $languages['header_customer_new_password']; ?></span>
-    </a>
-  </li>
-  <li<?php if (is_active_page("user-profile-skills")) echo ' class="active"'; ?>>
-    <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-skills" rel="nofollow">
-      <i class="fa fa-wrench" aria-hidden="true"></i>
-      <span><?= $languages['header_skills']; ?></span>
-    </a>
-  </li>
-  <li<?php if (is_active_page("user-profile-certificates")) echo ' class="active"'; ?>>
-    <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-certificates" rel="nofollow">
-      <i class="fa fa-newspaper-o" aria-hidden="true"></i>
-      <span><?= $languages['header_certificates']; ?></span>
-    </a>
-  </li>
-  <li<?php if (is_active_page("user-profile-bookmarks")) echo ' class="active"'; ?>>
-    <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-bookmarks" rel="nofollow">
-      <i class="fa fa-bookmark"></i>
-      <span><?= $languages['header_saved_jobs']; ?></span>
-    </a>
-  </li>
-  <li>
-    <a href="/<?= $current_lang; ?>/logout" rel="nofollow">
-      <i class="fa fa-sign-out"></i>
-      <?= $languages['logout']; ?>
-    </a>
-  </li>
+  <div class="GridLex-col-3_sm-4_xs-12">
+    <div class="admin-sidebar">
+
+      <div class="admin-user-item">
+
+        <div class="image">
+          <img src="images/man/01.jpg" alt="image" class="img-circle" />
+        </div>
+
+        <h4><?=$customer_fullname;?></h4>
+        <!--<p class="user-role">Professional</p>-->
+
+      </div>
+
+      <ul class="admin-user-menu clearfix">
+      <li<?php if (is_active_page("user-profile-dashboard")) echo ' class="active"'; ?>>
+        <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-dashboard" rel="nofollow">
+          <i class="fa fa-tachometer" aria-hidden="true"></i>
+          <span><?= $languages['header_user_dashboard']; ?></span>
+        </a>
+      </li>
+      <li<?php if (is_active_page("user-profile-data")) echo ' class="active"'; ?>>
+        <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-data" rel="nofollow">
+          <i class="fa fa-user" aria-hidden="true"></i>
+          <span><?= $languages['header_user_data']; ?></span>
+        </a>
+      </li>
+      <li<?php if (is_active_page("user-profile-password")) echo ' class="active"'; ?>>
+        <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-password" rel="nofollow">
+          <i class="fa fa-key" aria-hidden="true"></i>
+          <span><?= $languages['header_customer_new_password']; ?></span>
+        </a>
+      </li>
+      <li<?php if (is_active_page("user-profile-skills")) echo ' class="active"'; ?>>
+        <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-skills" rel="nofollow">
+          <i class="fa fa-wrench" aria-hidden="true"></i>
+          <span><?= $languages['header_skills']; ?></span>
+        </a>
+      </li>
+      <li<?php if (is_active_page("user-profile-certificates")) echo ' class="active"'; ?>>
+        <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-certificates" rel="nofollow">
+          <i class="fa fa-newspaper-o" aria-hidden="true"></i>
+          <span><?= $languages['header_certificates']; ?></span>
+        </a>
+      </li>
+      <li<?php if (is_active_page("user-profile-bookmarks")) echo ' class="active"'; ?>>
+        <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-bookmarks" rel="nofollow">
+          <i class="fa fa-bookmark"></i>
+          <span><?= $languages['header_saved_jobs']; ?></span>
+        </a>
+      </li>
+      <li>
+        <a href="/<?= $current_lang; ?>/logout" rel="nofollow">
+          <i class="fa fa-sign-out"></i>
+          <?= $languages['logout']; ?>
+        </a>
+      </li>
+      </ul>
+
+    </div>
+  </div>
 <?php
 }
 
 function print_html_welder_profile_menu() {
     global $languages;
     global $current_lang;
+    
+    $customer_fullname = $_SESSION['customer_name']; 
 ?>
-  <li<?php if (is_active_page("user-profile-dashboard")) echo ' class="active"'; ?>>
-    <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-dashboard" rel="nofollow">
-      <i class="fa fa-tachometer" aria-hidden="true"></i>
-      <span><?= $languages['header_user_dashboard']; ?></span>
-    </a>
-  </li>
-  <li<?php if (is_active_page("user-profile-data")) echo ' class="active"'; ?>>
-    <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-data" rel="nofollow">
-      <i class="fa fa-user" aria-hidden="true"></i>
-      <span><?= $languages['header_user_data']; ?></span>
-    </a>
-  </li>
-  <li<?php if (is_active_page("user-profile-password")) echo ' class="active"'; ?>>
-    <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-password" rel="nofollow">
-      <i class="fa fa-key" aria-hidden="true"></i>
-      <span><?= $languages['header_customer_new_password']; ?></span>
-    </a>
-  </li>
-  <li<?php if (is_active_page("user-profile-skills")) echo ' class="active"'; ?>>
-    <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-skills" rel="nofollow">
-      <i class="fa fa-wrench" aria-hidden="true"></i>
-      <span><?= $languages['header_skills']; ?></span>
-    </a>
-  </li>
-  <li<?php if (is_active_page("user-profile-certificates")) echo ' class="active"'; ?>>
-    <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-certificates" rel="nofollow">
-      <i class="fa fa-newspaper-o" aria-hidden="true"></i>
-      <span><?= $languages['header_certificates']; ?></span>
-    </a>
-  </li>
-  <li<?php if (is_active_page("user-profile-bookmarks")) echo ' class="active"'; ?>>
-    <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-bookmarks" rel="nofollow">
-      <i class="fa fa-bookmark"></i>
-      <span><?= $languages['header_saved_jobs']; ?></span>
-    </a>
-  </li>
-  <li>
-    <a href="/<?= $current_lang; ?>/logout" rel="nofollow">
-      <i class="fa fa-sign-out"></i>
-      <?= $languages['logout']; ?>
-    </a>
-  </li>
+  <div class="GridLex-col-3_sm-4_xs-12">
+    <div class="admin-sidebar">
+
+      <div class="admin-user-item">
+
+        <div class="image">
+          <img src="images/man/01.jpg" alt="image" class="img-circle" />
+        </div>
+
+        <h4><?=$customer_fullname;?></h4>
+        <!--<p class="user-role">Professional</p>-->
+
+      </div>
+
+      <ul class="admin-user-menu clearfix">
+        <li<?php if (is_active_page("user-profile-dashboard")) echo ' class="active"'; ?>>
+          <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-dashboard" rel="nofollow">
+            <i class="fa fa-tachometer" aria-hidden="true"></i>
+            <span><?= $languages['header_user_dashboard']; ?></span>
+          </a>
+        </li>
+        <li<?php if (is_active_page("user-profile-data")) echo ' class="active"'; ?>>
+          <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-data" rel="nofollow">
+            <i class="fa fa-user" aria-hidden="true"></i>
+            <span><?= $languages['header_user_data']; ?></span>
+          </a>
+        </li>
+        <li<?php if (is_active_page("user-profile-password")) echo ' class="active"'; ?>>
+          <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-password" rel="nofollow">
+            <i class="fa fa-key" aria-hidden="true"></i>
+            <span><?= $languages['header_customer_new_password']; ?></span>
+          </a>
+        </li>
+        <li<?php if (is_active_page("user-profile-skills")) echo ' class="active"'; ?>>
+          <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-skills" rel="nofollow">
+            <i class="fa fa-wrench" aria-hidden="true"></i>
+            <span><?= $languages['header_skills']; ?></span>
+          </a>
+        </li>
+        <li<?php if (is_active_page("user-profile-certificates")) echo ' class="active"'; ?>>
+          <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-certificates" rel="nofollow">
+            <i class="fa fa-newspaper-o" aria-hidden="true"></i>
+            <span><?= $languages['header_certificates']; ?></span>
+          </a>
+        </li>
+        <li<?php if (is_active_page("user-profile-bookmarks")) echo ' class="active"'; ?>>
+          <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-bookmarks" rel="nofollow">
+            <i class="fa fa-bookmark"></i>
+            <span><?= $languages['header_saved_jobs']; ?></span>
+          </a>
+        </li>
+        <li>
+          <a href="/<?= $current_lang; ?>/logout" rel="nofollow">
+            <i class="fa fa-sign-out"></i>
+            <?= $languages['logout']; ?>
+          </a>
+        </li>
+      </ul>
+
+    </div>
+  </div>
 <?php
 }
 

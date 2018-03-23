@@ -6323,38 +6323,6 @@ ul.static-page-menu li.active a {
   }
 }
 
-/* Custom */
-
-#cookies_policy {
-  width: 100%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  overflow: hidden;
-  padding: 0.4% 2%;
-  background: #222;
-  color: #fff;
-  box-sizing: border-box;
-  z-index: 9999;
-}
-#cookies_policy .btn {
-  border: 2px solid #33B6CB;
-  color: #33B6CB;
-  text-transform: uppercase;
-  margin: 2px;
-  padding: 4px 12px;
-  display: inline-block;
-  border-radius: 3px;
-  font-size: 11px;
-  letter-spacing: 2px;
-}
-#cookies_policy .btn:hover {
-    border-color: #2991A2;
-}
-#cookies_policy p a {
-  color: #33B6CB;
-}
-
 /*family tree*/
 
 .tree li {
@@ -6388,4 +6356,47 @@ ul.static-page-menu li.active a {
 
 .alert-info {
   margin-bottom: 9px !important;
+}
+
+/* Custom */
+
+.fa-file-word-o {
+  color: #00f;
+}
+.fa-trash-o, .fa-trash, .fa-file-pdf-o {
+  color: red;
+}
+
+#current_certificates .file {
+  font-size: 12px;
+}
+
+#cookies_policy {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  padding: 0.4% 2%;
+  background: #222;
+  color: #fff;
+  box-sizing: border-box;
+  z-index: 9999;
+}
+#cookies_policy .btn {
+  border: 2px solid #33B6CB;
+  color: #33B6CB;
+  text-transform: uppercase;
+  margin: 2px;
+  padding: 4px 12px;
+  display: inline-block;
+  border-radius: 3px;
+  font-size: 11px;
+  letter-spacing: 2px;
+}
+#cookies_policy .btn:hover {
+    border-color: #2991A2;
+}
+#cookies_policy p a {
+  color: #33B6CB;
 }

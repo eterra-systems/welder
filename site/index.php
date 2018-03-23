@@ -249,33 +249,10 @@
 <?php 
 //print_array_for_debug($_SESSION);
   if(user_is_loged()) {
-    $customer_fullname = $_SESSION['customer_name']; 
-    //echo $_SESSION['company']['company_name'];
-?>
-            <div class="GridLex-col-3_sm-4_xs-12">
-              <div class="admin-sidebar">
 
-                <div class="admin-user-item">
+    $function_name = "print_html_".$_SESSION['customer_group_code']."_profile_menu";
+    echo $function_name(); 
 
-                  <div class="image">
-                    <img src="images/man/01.jpg" alt="image" class="img-circle" />
-                  </div>
-
-                  <h4><?=$customer_fullname;?></h4>
-                  <!--<p class="user-role">Professional</p>-->
-
-                </div>
-
-                <ul class="admin-user-menu clearfix">
-                  <?php
-                    $function_name = "print_html_".$_SESSION['customer_group_code']."_profile_menu";
-                    echo $function_name(); 
-                  ?>
-                </ul>
-
-              </div>
-            </div>
-<?php
   }
 ?>
             <div class="GridLex-col-9_sm-8_xs-12">

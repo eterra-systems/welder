@@ -15,10 +15,25 @@
     $errors = array(); //defining an array errors, wich will collect them, if any
     
     //we will check if all the fields are filled in at all
+    $exclude_fields_arr = array(
+        "sign_up",
+        "customer_surname",
+        "customer_address_info",
+        "customer_address_site_name_label",
+        "customer_address_site_id",
+        "customer_certificates",
+        "customer_work_abroad",
+        "customer_work_abroad_long_term",
+        "customer_work_abroad_short_term",
+        "customer_address_info",
+        "customer_explanation_text",
+        "categories",
+        "category_ids",
+        "category_hierarchy_ids",
+        "g-recaptcha-response",
+    );
     foreach($_POST as $name => $value) {
-      if($name != "sign_up" && $name != "customer_address_info" && $name != "customer_address_site_name_label" && $name != "customer_address_site_id" && $name != "customer_certificates"
-        && $name != "customer_work_abroad" && $name != "customer_work_abroad_long_term" && $name != "customer_work_abroad_short_term" && $name != "customer_address_info" 
-        && $name != "customer_explanation_text" && $name != "categories" && $name != "category_ids" && $name != "category_hierarchy_ids" && $name != "g-recaptcha-response") {
+      if(!in_array($name, $exclude_fields_arr)) {
         if(empty(trim($value))) {
           $field_name = "header_".$name;
           $field_name_text = mb_convert_case($languages[$field_name], MB_CASE_LOWER, "UTF-8");
@@ -320,21 +335,21 @@
       
     <div class="row">
       <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-        <label for="customer_firstname"><?=$languages['header_firstname'];?><span class="red">*</span></label>
+        <label for="customer_firstname"><?=$languages['header_firstname'];?><span class="text-danger">*</span></label>
         <input type="text" name="customer_firstname" id="customer_firstname" class="form-control" value="<?php if(isset($customer_firstname)) echo $customer_firstname;?>" />
         <?php if(!empty($errors['customer_firstname'])) { ?><div class="alert alert-danger"><?=$errors['customer_firstname'];?></div><?php } ?>
       </div>
       <p class="clearfix hidden-lg hidden-md"></p>
       
       <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-        <label for="customer_surname"><?=$languages['header_surname'];?><span class="red">*</span></label>
+        <label for="customer_surname"><?=$languages['header_surname'];?></label>
         <input type="text" name="customer_surname" id="customer_surname" class="form-control" value="<?php if(isset($customer_surname)) echo $customer_surname;?>" />
         <?php if(!empty($errors['customer_surname'])) { ?><div class="alert alert-danger"><?=$errors['customer_surname'];?></div><?php } ?>
       </div>
       <p class="clearfix hidden-lg hidden-md"></p>
       
       <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-        <label for="customer_lastname"><?=$languages['header_lastname'];?><span class="red">*</span></label>
+        <label for="customer_lastname"><?=$languages['header_lastname'];?><span class="text-danger">*</span></label>
         <input type="text" name="customer_lastname" id="customer_lastname" class="form-control" value="<?php if(isset($customer_lastname)) echo $customer_lastname;?>" />
         <?php if(!empty($errors['customer_lastname'])) { ?><div class="alert alert-danger"><?=$errors['customer_lastname'];?></div><?php } ?>
       </div>
@@ -343,12 +358,12 @@
     
     <div class="row">
       <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
-        <label for="customer_age"><?=$languages['header_customer_age'];?><span class="red">*</span></label>
+        <label for="customer_age"><?=$languages['header_customer_age'];?><span class="text-danger">*</span></label>
         <input type="text" name="customer_age" id="customer_age" class="form-control" value="<?php if(isset($customer_age)) echo $customer_age;?>" />
       </div>
       
       <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
-        <label for="customer_gender"><?=$languages['header_gender'];?><span class="red">*</span></label>
+        <label for="customer_gender"><?=$languages['header_gender'];?><span class="text-danger">*</span></label>
         <select name="customer_gender" id="customer_gender" class="form-control">
           <option value="male"<?php if(isset($customer_gender) && $customer_gender == "male") echo " selected";?>><?=$languages['option_male'];?></option>
           <option value="female"<?php if(isset($customer_gender) && $customer_gender == "female") echo " selected";?>><?=$languages['option_female'];?></option>
@@ -357,7 +372,7 @@
       <p class="clearfix hidden-lg hidden-md"></p>
       
       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-        <label for="customer_phone"><?=$languages['header_customer_phone'];?><span class="red">*</span></label>
+        <label for="customer_phone"><?=$languages['header_customer_phone'];?><span class="text-danger">*</span></label>
         <input type="text" name="customer_phone" id="customer_phone" class="form-control" value="<?php if(isset($customer_phone)) echo $customer_phone;?>" />
         <?php if(!empty($errors['customer_phone'])) { ?><div class="alert alert-danger"><?=$errors['customer_phone'];?></div><?php } ?>
         <p class="alert alert-info"><i class="fa fa-info-circle"></i> <i><?=$languages['text_phone_example'];?></i></p>
@@ -368,7 +383,7 @@
       
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="padding: 0">
-          <label for="customer_address_city" style="display: block"><?=$languages['header_customer_address_site_name'];?><span class="red">*</span></label>
+          <label for="customer_address_city" style="display: block"><?=$languages['header_customer_address_site_name'];?><span class="text-danger">*</span></label>
           <input type="text" name="customer_address_site_type" class="pull-left form-control" id="customer_address_site_type" disabled="disabled" value="<?php if(isset($customer_address_site_type)) echo $customer_address_site_type;else echo $languages['header_customer_address_site_type'];?>" style="width: 25%; margin-right: 1%;padding: 8px 10px" />
           <input type="text" name="customer_address_site_name_label" id="customer_address_site_name_label" class="form-control" autocomplete="off" value="<?php if(isset($customer_address_site_name)) echo $customer_address_site_name;?>" style="width: 74%;" />
           <?php if(!empty($errors['customer_address_site_name'])) { ?><div class="alert alert-danger"><?=$errors['customer_address_site_name'];?></div><?php } ?>
@@ -424,7 +439,7 @@
     </div>
     <div class="clearfix">&nbsp;</div>
     
-    <label for="customer_skills"><?=$languages['header_skills'];?><span class="red">*</span></label>
+    <label for="customer_skills"><?=$languages['header_skills'];?><span class="text-danger">*</span></label>
     <?php if(!empty($errors['categories'])) { ?><div class="alert alert-danger"><?=$errors['categories'];?></div><?php } ?>
     <div class="tree row">
       <ul>
@@ -439,7 +454,7 @@
 
     <div class="row email">
       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-        <label for="customer_email"><?=$languages['header_customer_email'];?><span class="red">*</span></label>
+        <label for="customer_email"><?=$languages['header_customer_email'];?><span class="text-danger">*</span></label>
         <input type="text" name="customer_email" id="customer_email" class="form-control" value="<?php if(isset($customer_email)) echo $customer_email;?>" onBlur="CheckIfUserEmailIsValid(this.value,'<?=$current_lang;?>')" />
         <input type="hidden" name="customer_email_status" id="customer_email_status" value="<?php if(!empty($errors['customer_email_status'])) echo "error"; else echo "ok"?>" />
         <span id="customer_email_is_valid"></span>
@@ -449,7 +464,7 @@
       <p class="clearfix hidden-lg hidden-md"></p>
       
       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-        <label for="customer_email_retype"><?=$languages['header_customer_email_retype'];?><span class="red">*</span></label>
+        <label for="customer_email_retype"><?=$languages['header_customer_email_retype'];?><span class="text-danger">*</span></label>
         <input type="text" name="customer_email_retype" id="customer_email_retype" class="form-control" value="<?php if(isset($customer_email_retype)) echo $customer_email_retype;?>" />
         <?php if(!empty($errors['customer_emails_mismatch'])) { ?><div class="alert alert-danger"><?=$errors['customer_emails_mismatch'];?></div><?php } ?>
       </div>
@@ -458,7 +473,7 @@
 
     <div class="row">
       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-        <label for="customer_password"><?=$languages['header_customer_password'];?><span class="red">*</span></label>
+        <label for="customer_password"><?=$languages['header_customer_password'];?><span class="text-danger">*</span></label>
         <input type="password" name="customer_password" id="customer_password" class="form-control" value="<?php if(isset($customer_password)) echo $customer_password;?>" onBlur="ValidateUserPassword(this.value,'<?=$current_lang;?>')"  />
         <p class="alert alert-info" style="margin: 0"><i class="fa fa-info-circle"></i> <i><?=$languages['text_email_specs'];?></i></p>
         <span id="customer_password_is_valid"></span>
@@ -467,7 +482,7 @@
       <p class="clearfix hidden-lg hidden-md"></p>
       
       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-        <label for="customer_password_retype"><?=$languages['header_customer_password_retype'];?><span class="red">*</span></label>
+        <label for="customer_password_retype"><?=$languages['header_customer_password_retype'];?><span class="text-danger">*</span></label>
         <input type="password" name="customer_password_retype" id="customer_password_retype" class="form-control" value="<?php if(isset($customer_password_retype)) echo $customer_password_retype;?>" />
         <?php if(!empty($errors['customer_passwords_mismatch'])) { ?><div class="alert alert-danger"><?=$errors['customer_passwords_mismatch'];?></div><?php } ?>
       </div>

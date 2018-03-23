@@ -29,6 +29,9 @@
     if(!isset($certificates)) {
 ?>
     <p class="alert alert-info">Все още нямате добавени серификати</p>
+    <div id="current_certificates">
+      
+    </div>
 <?php
     }
     else {
@@ -37,12 +40,27 @@
     <div id="current_certificates">
 <?php
       //print_array_for_debug($certificates);
+
+      $display_path = SITEFOLDERSL."/welder/certificates/$customer_id/";
+      
       foreach($certificates as $certificate) {
         $certificate_name = $certificate['certificate_name'];
-        $img = "<img src='$display_path$certificate_name' width='auto' height='200' alt='$certificate_name'>";
+        $certificate_exstension = $certificate['certificate_exstension'];
+        
+        $img_ext = array("jpg", "jpeg", "png", "gif");
+        $files_ext = array("pdf", "docx", "doc");
+        
+        if(in_array($certificate_exstension, $img_ext)) {
+          $file = "<img src='$display_path$certificate_name' width='auto' height='200' alt='$certificate_name'>";
+        }
+        else {
+          if($certificate_exstension == "doc" || $certificate_exstension == "docx") $file_fa = "word";
+          if($certificate_exstension == "pdf") $file_fa = "pdf";
+          $file = "<i class='fa fa-file-$file_fa-o fa-lg'></i> <a href='$display_path$certificate_name' class='file'>$certificate_name</a>";
+        }
 ?>
         <div class="certificate col-lg-3 col-md-4 col-sm-12 col-xs-12">
-          <?=$img;?>
+          <?=$file;?>
         </div>
 <?php
       }

@@ -27,7 +27,7 @@ function print_array_for_debug($array_for_debug) {
 
 function is_file_valid_format($file_exstension) {
   
-  $valid_formats = array("jpg", "jpeg", "png", "gif", "pdf");
+  $valid_formats = array("jpg", "jpeg", "png", "gif", "pdf", "docx", "doc");
   if(!in_array($file_exstension, $valid_formats)) {
     return false;
   }
