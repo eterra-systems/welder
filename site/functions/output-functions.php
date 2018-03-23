@@ -407,7 +407,7 @@ function print_html_welder_profile_menu() {
       </div>
 
       <ul class="admin-user-menu clearfix">
-        <li<?php if (is_active_page("user-profile-dashboard")) echo ' class="active"'; ?>>
+        <li class="hidden<?php if (is_active_page("user-profile-dashboard")) echo ' active'; ?>">
           <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-dashboard" rel="nofollow">
             <i class="fa fa-tachometer" aria-hidden="true"></i>
             <span><?= $languages['header_user_dashboard']; ?></span>
