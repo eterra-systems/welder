@@ -12,8 +12,8 @@
   //1048576 bytes = 1MB
   $max_file_size = 8; //8MB
   $max_file_size_bytes = 1048576*$max_file_size;
-  $upload_path = $_SERVER['DOCUMENT_ROOT'].SITEFOLDERSL."/welder/certificates/$customer_id/";
-  $display_path = SITEFOLDERSL."/welder/certificates/$customer_id/";
+  $upload_path = $_SERVER['DOCUMENT_ROOT'].SITEFOLDERSL.DIRECTORY_SEPARATOR.$_SESSION['customer_group_code']."/certificates/$customer_id/";
+  $display_path = SITEFOLDERSL.DIRECTORY_SEPARATOR.$_SESSION['customer_group_code']."/certificates/$customer_id/";
   if(!is_dir($upload_path)) {
     mkdir($upload_path, 0777);
     chmod($upload_path, 0777);

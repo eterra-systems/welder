@@ -5,7 +5,7 @@
   //print_array_for_debug($_FILES);
   $customer_id = $_SESSION['customer_id'];
   $customer_fullname = $_SESSION['customer_name'];
-  $display_path = SITEFOLDERSL."/welder/certificates/$customer_id/";
+  $display_path = SITEFOLDERSL.DIRECTORY_SEPARATOR.$_SESSION['customer_group_code']."/certificates/$customer_id/";
   
   $query_certificates = "SELECT `customers_welder_certificates`.* FROM `customers_welder_certificates` WHERE `customer_id` = '$customer_id'";
   //echo $query_certificates;
@@ -41,7 +41,7 @@
 <?php
       //print_array_for_debug($certificates);
 
-      $display_path = SITEFOLDERSL."/welder/certificates/$customer_id/";
+      $display_path = SITEFOLDERSL.DIRECTORY_SEPARATOR.$_SESSION['customer_group_code']."/certificates/$customer_id/";
       
       foreach($certificates as $certificate) {
         $certificate_name = $certificate['certificate_name'];

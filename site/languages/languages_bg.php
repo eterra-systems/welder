@@ -303,6 +303,7 @@ $languages = array(
   "text_published" => "Публикувана",
   "text_clear_files" => "Изчисти избраните файлове",
   "text_upload_files" => "Качи избраните файлове",
+  "text_upload_photo" => "Качи снимка",
   "text_or" => "или",
   "text_arrow" => "Стрелка",
   "text_years" => "години",

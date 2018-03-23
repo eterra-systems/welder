@@ -28,24 +28,35 @@ jQuery(function($) {
 		overwriteInitial: true,
 	});
 	
-	$("#form-register-photo-2").fileinput({
-		dropZoneTitle: '<i class="fa fa-photo"></i><span>Upload Photo</span>',
-		uploadUrl: '/',
+	$("#profile_image").fileinput({
+		dropZoneTitle: '<i class="fa fa-photo"></i><span>'+text_upload_photo+'</span>',
+		uploadUrl: $("#upload_url").val(),
 		maxFileCount: 1,
 		showUpload: true,
-		browseLabel: $("#btn_browse").val(),
+		browseLabel: btn_browse,
 		browseIcon: '',
-		removeLabel: $("#btn_remove").val(),
+		removeLabel: btn_remove,
 		removeIcon: '',
-		uploadLabel: $("#btn_upload").val(),
+		uploadLabel: btn_upload,
 		uploadIcon: '',
+		resizeImage: true,
+//                maxImageWidth: 150,
+//                maxImageHeight: 150,
+                resizePreference: 'width',
 		autoReplace: true,
 		showCaption: false,
-		allowedFileTypes: ['image' ],
+		allowedFileTypes: ['image'],
 		allowedFileExtensions: ["jpg", "jpeg", "png", "gif"],
-                initialPreview: ['<img src="images/brands/06.png" class="file-preview-image" alt="The Moon" title="The Moon">'],
+                uploadExtraData: {current_lang:$("#current_lang").val()},
+                initialPreview: ['<img src="'+$("#profile_image_preview").val()+'" class="file-preview-image">'],
 		overwriteInitial: true,
 	});
+        $('#profile_image').on('fileuploaded', function(event, data, previewId, index) {
+            var form = data.form, files = data.files, extra = data.extra,
+                response = data.response, reader = data.reader;
+            //console.log(response);
+            $(".admin-user-item .image img").attr("src",response.image);
+        });
 
 	$("#form-photos").fileinput({
 		dropZoneTitle: '<i class="fa fa-photo"></i><span>Upload Photos</span>',

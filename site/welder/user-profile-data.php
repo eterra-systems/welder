@@ -57,6 +57,9 @@
     if(!$result_customer) echo mysqli_error($db_link);
     if(mysqli_num_rows($result_customer) > 0) {
       $customer = mysqli_fetch_assoc($result_customer);
+      $customer_image = $customer['customer_image'];
+      $profile_image = (empty($customer_image)) ? SITEFOLDERSL."/images/no-profile-man-medium.jpg" : 
+                                                  SITEFOLDERSL.DIRECTORY_SEPARATOR.$_SESSION['customer_group_code']."/profile-images/$customer_id/$customer_image";
       $customer_email = $customer['customer_email'];
       $customer_phone = $customer['customer_phone'];
       $customer_firstname = $customer['first_name'];
@@ -70,8 +73,8 @@
       $customer_explanation_text = $customer['explanation_text'];
       $customer_is_in_mailist = $customer['customer_is_in_mailist'];
     }
-    //echo "<pre>";print_r($_SERVER);
   }
+  //echo "<pre>";print_r($_COOKIE);
 ?>
     <form name="user_profile_data" id="user_profile_data" class="form-group" method="post" action="<?=htmlspecialchars($_SERVER['REQUEST_URI']);?>">
 <?php
@@ -92,15 +95,11 @@
       <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
           <div class="form-group bootstrap-fileinput-style-01">
-            <label for="form-register-photo-2"><?=$languages['header_image'];?></label>
-            <input type="hidden" id="btn_cancel" value="<?=$languages['btn_cancel'];?>">
-            <input type="hidden" id="btn_browse" value="<?=$languages['btn_browse'];?>">
-            <input type="hidden" id="btn_remove" value="<?=$languages['btn_remove'];?>">
-            <input type="hidden" id="btn_upload" value="<?=$languages['btn_upload'];?>">
-            <input type="hidden" id="text_clear_files" value="<?=$languages['text_clear_files'];?>">
-            <input type="hidden" id="text_upload_files" value="<?=$languages['text_upload_files'];?>">
-            <input type="file" name="form-register-photo-2" id="form-register-photo-2">
-            <span class="font12 font-italic"><i class="fa fa-info-circle"></i> photo must not bigger than 250kb</span>
+            <label for="profile_image"><?=$languages['header_image'];?></label>
+            <input type="hidden" id="profile_image_preview" value="<?=$profile_image;?>">
+            <input type="hidden" id="upload_url" value="<?=SITEFOLDERSL.DIRECTORY_SEPARATOR.$_SESSION['customer_group_code']."/ajax/upload-profile-image.php";?>">
+            <input type="file" name="profile_image" id="profile_image">
+            <span class="font12 font-italic hidden"><i class="fa fa-info-circle"></i> photo must not bigger than 250kb</span>
           </div>
         </div>
       </div>
