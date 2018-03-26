@@ -82,6 +82,7 @@ $languages = array(
   "header_customer_work_abroad_long_term" => "Дългосрочно",
   "header_customer_work_abroad_short_term" => "Краткосрочно",
   "header_customer_work_abroad_explanation_text" => "Пояснение",
+  "header_preferences" => "Предпочитания",
   "header_registered_users" => "Регистрирани потребители",
   "header_login" => "Влезте в профила си",
   "header_fullname" => "Име и фамилия",
