@@ -61,7 +61,7 @@
       mysqli_free_result($result_user);
 
       if($user_is_active) {
-        $query_user = "SELECT `customers`.`customer_id`,`customers`.`customer_salted_password`,`customers_groups`.`customer_group_code`
+        $query_user = "SELECT `customers`.`customer_id`,`customers`.`customer_salted_password`,`customers`.`customer_image`,`customers_groups`.`customer_group_code`
                          FROM `customers` 
                    INNER JOIN `customers_groups` USING(`customer_group_id`)
                         WHERE `customer_email` = '$customer_email' AND `customers`.`customer_is_active` = '1' AND `customers`.`customer_is_blocked` = '0'";
@@ -74,6 +74,7 @@
           $customer_id = $customer['customer_id'];
           $customer_group_code = $customer['customer_group_code'];
           $password_hash = $customer['customer_salted_password'];
+          $customer_image = $customer['customer_image'];
           $customer_ip = get_client_ip_env();
 
           if(password_verify($customer_password, $password_hash)) {
@@ -108,6 +109,7 @@
             $_SESSION['customer_id'] = $customer_id;
             $_SESSION['customer_group_code'] = $customer_group_code;
             $_SESSION['customer_name'] = "$customer_firstname $customer_lastname";
+            $_SESSION['customer_image'] = $customer_image;
             $_SESSION[$customer_group_code] = $user_type;
             $redirect_link = $_SESSION['redirect_link'];
             unset($_SESSION['redirect_link']);

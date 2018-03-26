@@ -162,6 +162,7 @@
                                                         `customer_salted_password`,
                                                         `customer_email`,  
                                                         `customer_phone`,   
+                                                        `customer_image`,   
                                                         `customer_is_in_mailist`,
                                                         `customer_is_blocked`,
                                                         `customer_is_active`, 
@@ -375,7 +376,7 @@
         <label for="customer_phone"><?=$languages['header_customer_phone'];?><span class="text-danger">*</span></label>
         <input type="text" name="customer_phone" id="customer_phone" class="form-control" value="<?php if(isset($customer_phone)) echo $customer_phone;?>" />
         <?php if(!empty($errors['customer_phone'])) { ?><div class="alert alert-danger"><?=$errors['customer_phone'];?></div><?php } ?>
-        <p class="alert alert-info"><i class="fa fa-info-circle"></i> <i><?=$languages['text_phone_example'];?></i></p>
+        <span class="font12 font-italic"><i class="fa fa-info-circle"></i> <?=$languages['text_phone_example'];?></span>
       </div>
     </div>
       
@@ -475,7 +476,7 @@
       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
         <label for="customer_password"><?=$languages['header_customer_password'];?><span class="text-danger">*</span></label>
         <input type="password" name="customer_password" id="customer_password" class="form-control" value="<?php if(isset($customer_password)) echo $customer_password;?>" onBlur="ValidateUserPassword(this.value,'<?=$current_lang;?>')"  />
-        <p class="alert alert-info" style="margin: 0"><i class="fa fa-info-circle"></i> <i><?=$languages['text_email_specs'];?></i></p>
+        <span class="font12 font-italic"><i class="fa fa-info-circle"></i> <?=$languages['text_email_specs'];?></span>
         <span id="customer_password_is_valid"></span>
         <?php if(!empty($errors['customer_password'])) { ?><div class="alert alert-danger"><?=$errors['customer_password'];?></div><?php } ?>
       </div>

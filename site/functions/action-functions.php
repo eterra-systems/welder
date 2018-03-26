@@ -529,6 +529,13 @@ function get_contacts() {
   return $contacts_array;
 }
 
+function delete_all_from_directory($directory) {
+  $files = glob("$directory/*"); // get all file names
+  foreach($files as $file){ // iterate files
+    if(is_file($file)) unlink($file); // delete file
+  }
+}
+
 function get_random_ids_list($column_name,$table_name,$where_cond,$count) {
   
   global $db_link;

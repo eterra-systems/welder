@@ -57,6 +57,9 @@
     if(!$result_customer) echo mysqli_error($db_link);
     if(mysqli_num_rows($result_customer) > 0) {
       $customer = mysqli_fetch_assoc($result_customer);
+      $customer_image = $customer['customer_image'];
+      $profile_image = (empty($customer_image)) ? SITEFOLDERSL."/images/no-profile-man-medium.jpg" : 
+                                                  SITEFOLDERSL.DIRECTORY_SEPARATOR.$_SESSION['customer_group_code']."/profile-images/$customer_id/$customer_image";
       $customer_email = $customer['customer_email'];
       $customer_phone = $customer['customer_phone'];
       $customer_firstname = $customer['first_name'];
@@ -70,8 +73,8 @@
       $customer_explanation_text = $customer['explanation_text'];
       $customer_is_in_mailist = $customer['customer_is_in_mailist'];
     }
-    //echo "<pre>";print_r($_SERVER);
   }
+  //echo "<pre>";print_r($_COOKIE);
 ?>
     <form name="user_profile_data" id="user_profile_data" class="form-group" method="post" action="<?=htmlspecialchars($_SERVER['REQUEST_URI']);?>">
 <?php
@@ -89,6 +92,18 @@
 ?>
       <input type="hidden" name="customer_id" id="customer_id" value="<?=$customer_id;?>">
 
+      <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+          <div class="form-group bootstrap-fileinput-style-01">
+            <label for="profile_image"><?=$languages['header_image'];?></label>
+            <input type="hidden" id="profile_image_preview" value="<?=$profile_image;?>">
+            <input type="hidden" id="upload_url" value="<?=SITEFOLDERSL.DIRECTORY_SEPARATOR.$_SESSION['customer_group_code']."/ajax/upload-profile-image.php";?>">
+            <input type="file" name="profile_image" id="profile_image">
+            <span class="font12 font-italic hidden"><i class="fa fa-info-circle"></i> photo must not bigger than 250kb</span>
+          </div>
+        </div>
+      </div>
+      
       <div class="row">
         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
           <label for="customer_firstname"><?=$languages['header_firstname'];?><span class="text-danger">*</span></label>
@@ -132,7 +147,7 @@
           <label for="customer_phone"><?=$languages['header_customer_phone'];?><span class="text-danger">*</span></label>
           <input type="text" name="customer_phone" id="customer_phone" class="form-control" value="<?php if(isset($customer_phone)) echo $customer_phone;?>" />
           <?php if(!empty($errors['customer_phone'])) { ?><div class="alert alert-danger"><?=$errors['customer_phone'];?></div><?php } ?>
-          <p class="alert alert-info"><i class="fa fa-info-circle"></i> <i class="info"><?=$languages['text_phone_example'];?></i></p>
+          <span class="font12 font-italic"><i class="fa fa-info-circle"></i> <?=$languages['text_phone_example'];?></span>
         </div>
       </div>
       
@@ -170,9 +185,7 @@
 
         <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
           <label for="customer_explanation_text"><?=$languages['header_customer_work_abroad_explanation_text'];?></label>
-          <textarea name="customer_explanation_text" id="customer_explanation_text" class="form-control">
-            <?php if(isset($customer_explanation_text)) echo $customer_explanation_text;?>
-          </textarea>
+          <textarea name="customer_explanation_text" class="form-control"><?php if(isset($customer_explanation_text)) echo $customer_explanation_text;?></textarea>
         </div>
 
       </div>

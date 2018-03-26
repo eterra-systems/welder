@@ -89,7 +89,7 @@
     <form method="post" style="position: relative;z-index: 900;top: 10px;right: 10px;" action="languages-synchronize.php">
       <button type="submit" name="go_to_synchronize" class="button blue pull-right">Синхронизирай с български</button>
       <input type="hidden" name="language_code" value="<?=$language_code;?>" />
-      <input type="hidden" name="admin_or_frontstore" id="admin_or_frontstore" value="" />
+      <input type="hidden" name="admin_or_site" id="admin_or_site" value="" />
     </form>
 <?php
     }
@@ -222,10 +222,10 @@
       var this_link = $(this);
       var clicked_tab = this_link.attr("href");
       if(clicked_tab == "#translations_admin_tab") {
-        $("#admin_or_frontstore").val("");
+        $("#admin_or_site").val("");
       }
       else {
-        $("#admin_or_frontstore").val("frontstore");
+        $("#admin_or_site").val("<?=SITEFOLDER;?>");
       }
       $(".translations_tabs li").removeClass("active");
       this_link.parent().addClass("active");

@@ -385,7 +385,12 @@ function print_html_welder_profile_menu() {
     global $languages;
     global $current_lang;
     
-    $customer_fullname = $_SESSION['customer_name']; 
+    //print_array_for_debug($_SESSION);
+    $customer_fullname = $_SESSION['customer_name'];
+    $customer_id = $_SESSION['customer_id'];
+    $customer_image = $_SESSION['customer_image'];
+    $profile_image = (empty($customer_image)) ? SITEFOLDERSL."/images/no-profile-man-medium.jpg" : 
+                                                SITEFOLDERSL.DIRECTORY_SEPARATOR.$_SESSION['customer_group_code']."/profile-images/$customer_id/$customer_image";
 ?>
   <div class="GridLex-col-3_sm-4_xs-12">
     <div class="admin-sidebar">
@@ -393,7 +398,7 @@ function print_html_welder_profile_menu() {
       <div class="admin-user-item">
 
         <div class="image">
-          <img src="images/man/01.jpg" alt="image" class="img-circle" />
+          <img src="<?=$profile_image;?>" width="100" height="100" alt="<?=$customer_fullname;?>" class="img-circle" />
         </div>
 
         <h4><?=$customer_fullname;?></h4>
@@ -402,7 +407,7 @@ function print_html_welder_profile_menu() {
       </div>
 
       <ul class="admin-user-menu clearfix">
-        <li<?php if (is_active_page("user-profile-dashboard")) echo ' class="active"'; ?>>
+        <li class="hidden<?php if (is_active_page("user-profile-dashboard")) echo ' active'; ?>">
           <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-dashboard" rel="nofollow">
             <i class="fa fa-tachometer" aria-hidden="true"></i>
             <span><?= $languages['header_user_dashboard']; ?></span>
