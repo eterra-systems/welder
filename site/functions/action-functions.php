@@ -570,4 +570,153 @@ function hmac($algo,$data,$passwd){
 
   return($algo($opad.pack($p[$algo],$algo($ipad.$data))));
 }
+
+class SimpleImage { 
+  var $image; 
+  var $image_type;   
+  
+  function load($filename) {   
+    $image_info = getimagesize($filename); 
+    $this->image_type = $image_info[2]; 
+    if( $this->image_type == IMAGETYPE_JPEG ) {   
+      $this->image = imagecreatefromjpeg($filename);
+    } elseif($this->image_type == IMAGETYPE_GIF ) {   
+      $this->image = imagecreatefromgif($filename); 
+    } elseif( $this->image_type == IMAGETYPE_PNG ) {  
+      $this->image = imagecreatefrompng($filename); 
+    } 
+  } 
+  
+  function save($filename, $image_type=IMAGETYPE_JPEG, $compression=70, $permissions=null) {   
+    if( $image_type == IMAGETYPE_JPEG ) { 
+      imagejpeg($this->image,$filename,$compression);
+    } elseif( $image_type == IMAGETYPE_GIF ) {   
+      imagegif($this->image,$filename); 
+    } elseif( $image_type == IMAGETYPE_PNG ) {  
+      imagepng($this->image,$filename); 
+    }
+    
+    if( $permissions != null) {   
+      chmod($filename,$permissions);
+    } 
+    
+  } 
+  
+  function output($image_type=IMAGETYPE_JPEG) {   
+    if( $image_type == IMAGETYPE_JPEG ) { 
+      imagejpeg($this->image); 
+    } elseif( $image_type == IMAGETYPE_GIF ) {  
+      imagegif($this->image); 
+    } elseif( $image_type == IMAGETYPE_PNG ) {  
+      imagepng($this->image); 
+    } 
+
+  } 
+  
+  function getWidth() {   
+    return imagesx($this->image); 
+  } 
+  
+  function getHeight() {   
+    return imagesy($this->image); 
+  } 
+  
+  function resizeToHeight($height) {   
+    $ratio = $height / $this->getHeight(); 
+    $width = $this->getWidth() * $ratio; 
+    $this->resize($width,$height); 
+  }
+  
+  function resizeToWidth($width) { 
+    $ratio = $width / $this->getWidth(); 
+    $height = $this->getheight() * $ratio; 
+    $this->resize($width,$height); 
+  }
+  
+  function scale($scale) { 
+    $width = $this->getWidth() * $scale/100; 
+    $height = $this->getheight() * $scale/100; 
+    $this->resize($width,$height); 
+  }
+  
+  function resize($width,$height) { 
+    $new_image = imagecreatetruecolor($width, $height); 
+    if( $this->image_type == IMAGETYPE_GIF || $this->image_type == IMAGETYPE_PNG ) {
+      $current_transparent = imagecolortransparent($this->image); 
+      
+      if($current_transparent != -1) {
+        $transparent_color = imagecolorsforindex($this->image, $current_transparent); 
+        $current_transparent = imagecolorallocate($new_image, $transparent_color['red'],$transparent_color['green'], $transparent_color['blue']); 
+        imagefill($new_image, 0, 0, $current_transparent); 
+        imagecolortransparent($new_image, $current_transparent); 
+      } elseif( $this->image_type == IMAGETYPE_PNG) { 
+        imagealphablending($new_image, false); 
+        $color = imagecolorallocatealpha($new_image, 0, 0, 0, 127); 
+        imagefill($new_image, 0, 0, $color); imagesavealpha($new_image, true);
+      } 
+    }
+    
+    imagecopyresampled($new_image, $this->image, 0, 0, 0, 0, $width, $height, $this->getWidth(), $this->getHeight()); 
+    $this->image = $new_image;
+  }
+}
+
+function save_image($image_tmp_name,$image_name,$image_ext,$site_thumb_width,$site_thumb_height,$admin_thumb_width,$admin_thumb_height,$upload_path) {
+  
+  global $db_link;
+  global $languages;
+  global $current_lang;
+
+  if(is_uploaded_file($image_tmp_name)) {
+    move_uploaded_file($image_tmp_name, "$upload_path$image_name.$image_ext");
+  }
+  else {
+    echo $languages['image_uploading_error'];
+    exit;
+  }
+
+  $file = "$upload_path$image_name.$image_ext";
+
+  list($width,$height) = getimagesize($file);
+
+  $image = new SimpleImage();
+  $image->load($file);
+
+  switch($image_ext) {
+    case "gif" : $image_type = 1;
+      break;
+    case "jpg" : $image_type = 2;
+      break;
+    case "jpeg" : $image_type = 2;
+      break;
+    case "png" : $image_type = 3;
+      break;
+  }
+
+  $image_admin_name = $image_name."_admin.".$image_ext;
+  $image_admin = $upload_path.$image_admin_name;
+  
+  $image_site_name = $image_name."_site.".$image_ext;
+  $image_site = $upload_path.$image_site_name;
+  
+  if($width > $height) {
+    $image->resizeToWidth($admin_thumb_width);
+
+    $image->save($image_admin,$image_type);
+    
+    $image->resizeToWidth($site_thumb_width);
+
+    $image->save($image_site,$image_type);
+
+  }
+  else {
+    $image->resizeToHeight($admin_thumb_height);
+
+    $image->save($image_admin,$image_type);
+    
+    $image->resizeToHeight($site_thumb_height);
+
+    $image->save($image_site,$image_type);
+  }
+}
 ?>

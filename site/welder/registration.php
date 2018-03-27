@@ -18,14 +18,13 @@
     $exclude_fields_arr = array(
         "sign_up",
         "customer_surname",
-        "customer_address_info",
-        "customer_address_site_name_label",
-        "customer_address_site_id",
+        "customer_info",
+        "customer_site_name_label",
+        "customer_site_id",
         "customer_certificates",
         "customer_work_abroad",
         "customer_work_abroad_long_term",
         "customer_work_abroad_short_term",
-        "customer_address_info",
         "customer_explanation_text",
         "categories",
         "category_ids",
@@ -48,9 +47,9 @@
     $customer_lastname = trim($_POST['customer_lastname']);
     $customer_gender = $_POST['customer_gender'];
     $customer_age = intval($_POST['customer_age']);
-    $customer_address_site_id = $_POST['customer_address_site_id'];
-    $customer_address_site_name = $_POST['customer_address_site_name'];
-    $customer_address_site_postcode = $_POST['customer_address_site_postcode'];
+    $customer_site_id = $_POST['customer_site_id'];
+    $customer_site_name = $_POST['customer_site_name'];
+    $customer_site_postcode = $_POST['customer_site_postcode'];
     $customer_work_abroad = 0;
       if(isset($_POST['customer_work_abroad'])) $customer_work_abroad = 1;
     $customer_work_abroad_long_term = 0;
@@ -205,7 +204,7 @@
                                                             `short_term`,
                                                             `explanation_text`) 
                                                     VALUES ('$customer_id',
-                                                            '$customer_address_site_id',
+                                                            '$customer_site_id',
                                                             '$customer_firstname',
                                                             '$customer_surname',
                                                             '$customer_lastname',
@@ -384,17 +383,17 @@
       
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="padding: 0">
-          <label for="customer_address_city" style="display: block"><?=$languages['header_customer_address_site_name'];?><span class="text-danger">*</span></label>
-          <input type="text" name="customer_address_site_type" class="pull-left form-control" id="customer_address_site_type" disabled="disabled" value="<?php if(isset($customer_address_site_type)) echo $customer_address_site_type;else echo $languages['header_customer_address_site_type'];?>" style="width: 25%; margin-right: 1%;padding: 8px 10px" />
-          <input type="text" name="customer_address_site_name_label" id="customer_address_site_name_label" class="form-control" autocomplete="off" value="<?php if(isset($customer_address_site_name)) echo $customer_address_site_name;?>" style="width: 74%;" />
-          <?php if(!empty($errors['customer_address_site_name'])) { ?><div class="alert alert-danger"><?=$errors['customer_address_site_name'];?></div><?php } ?>
+          <label for="customer_city" style="display: block"><?=$languages['header_customer_address_site_name'];?><span class="text-danger">*</span></label>
+          <input type="text" name="customer_site_type" class="pull-left form-control" id="customer_site_type" disabled="disabled" value="<?php if(isset($customer_site_type)) echo $customer_site_type;else echo $languages['header_customer_site_type'];?>" style="width: 25%; margin-right: 1%;padding: 8px 10px" />
+          <input type="text" name="customer_site_name_label" id="customer_site_name_label" class="form-control" autocomplete="off" value="<?php if(isset($customer_site_name)) echo $customer_site_name;?>" style="width: 74%;" />
+          <?php if(!empty($errors['customer_site_name'])) { ?><div class="alert alert-danger"><?=$errors['customer_site_name'];?></div><?php } ?>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding: 0 0 0 1%">
-          <label for="customer_address_postcode"><?=$languages['header_customer_address_postcode'];?></label>
-          <input type="text" name="customer_address_site_postcode_label" class="form-control" disabled="disabled" id="customer_address_site_postcode_label" value="<?php if(isset($customer_address_site_postcode)) echo $customer_address_site_postcode;?>" />
-          <input type="hidden" name="customer_address_site_id" id="customer_address_site_id" value="<?php if(isset($customer_address_site_id)) echo $customer_address_site_id;?>" />
-          <input type="hidden" name="customer_address_site_name" id="customer_address_site_name" value="<?php if(isset($customer_address_site_name)) echo $customer_address_site_name;?>" />
-          <input type="hidden" name="customer_address_site_postcode" id="customer_address_site_postcode" value="<?php if(isset($customer_address_site_postcode)) echo $customer_address_site_postcode;?>" />
+          <label for="customer_postcode"><?=$languages['header_customer_address_postcode'];?></label>
+          <input type="text" name="customer_site_postcode_label" class="form-control" disabled="disabled" id="customer_site_postcode_label" value="<?php if(isset($customer_site_postcode)) echo $customer_site_postcode;?>" />
+          <input type="hidden" name="customer_site_id" id="customer_site_id" value="<?php if(isset($customer_site_id)) echo $customer_site_id;?>" />
+          <input type="hidden" name="customer_site_name" id="customer_site_name" value="<?php if(isset($customer_site_name)) echo $customer_site_name;?>" />
+          <input type="hidden" name="customer_site_postcode" id="customer_site_postcode" value="<?php if(isset($customer_site_postcode)) echo $customer_site_postcode;?>" />
         </div>
       </div>
     </div>
@@ -543,62 +542,62 @@
 
   </form>
   <script>
-  $(function() {
-    //autocomplete sites
-    $("#customer_address_site_name_label").autocomplete({
-      source: "<?=SITEFOLDERSL;?>/ajax/get-sites-autocomplete.php",
-      minLength: 2,
-      select: function( event, ui ) {
-        //alert(ui.item.site_name);
-        $('#customer_address_site_id').val(ui.item.site_id);
-        $('#customer_address_site_type').val(ui.item.site_type);
-        $('#customer_address_site_name').val(ui.item.site_name);
-        $('#customer_address_site_postcode').val(ui.item.site_postcode);
-      },
-      close: function( event, ui ) {
-        $('#customer_address_site_postcode_label').val($('#customer_address_site_postcode').val());
-        $('#customer_address_site_name_label').val($('#customer_address_site_name').val());
-      }
-    });
-    
-    //start family tree
-    $('.select_all').on('click', function (e) {
-      var state = true;
-      var root = $(this).attr("data-root");
-      if($(this).hasClass("active")) {
-        $(this).removeClass("active")
-        state = false;
-      }
-      else {
-        $(this).addClass("active")
-        state = true;
-      }
-      var checkboxes = document.getElementsByClassName("categories_"+root);
-      for(var i=0; i<checkboxes.length ; i++) {
-        if(checkboxes[i].type == "checkbox") {
-          checkboxes[i].checked = state;
+    $(function() {
+      //autocomplete sites
+      $("#customer_site_name_label").autocomplete({
+        source: "<?=SITEFOLDERSL;?>/ajax/get-sites-autocomplete.php",
+        minLength: 2,
+        select: function( event, ui ) {
+          //alert(ui.item.site_name);
+          $('#customer_site_id').val(ui.item.site_id);
+          $('#customer_site_type').val(ui.item.site_type);
+          $('#customer_site_name').val(ui.item.site_name);
+          $('#customer_site_postcode').val(ui.item.site_postcode);
+        },
+        close: function( event, ui ) {
+          $('#customer_site_postcode_label').val($('#customer_site_postcode').val());
+          $('#customer_site_name_label').val($('#customer_site_name').val());
         }
-      }
-    });
-    $('.tree li.expandable label').on('click', function (e) {
-        var current_tree_parent = $(this).parent('.expandable');
-        var current_tree_id = current_tree_parent.attr('id');
-        var child_ul = $(this).parent('.expandable').find(".expandable_ul_"+current_tree_id);
-        if(child_ul.is(":visible")) {
-          child_ul.hide('fast');
-          current_tree_parent.removeClass("active_parent_tree");
-          current_tree_parent.find(".fa_"+current_tree_id).removeClass("fa-minus-square-o").addClass("fa-plus-square-o");
+      });
+
+      //start family tree
+      $('.select_all').on('click', function (e) {
+        var state = true;
+        var root = $(this).attr("data-root");
+        if($(this).hasClass("active")) {
+          $(this).removeClass("active")
+          state = false;
         }
         else {
-          child_ul.show('fast');
-          current_tree_parent.addClass("active_parent_tree");
-          current_tree_parent.find(".fa_"+current_tree_id).removeClass("fa-plus-square-o").addClass("fa-minus-square-o");
+          $(this).addClass("active")
+          state = true;
         }
-        e.stopPropagation();
+        var checkboxes = document.getElementsByClassName("categories_"+root);
+        for(var i=0; i<checkboxes.length ; i++) {
+          if(checkboxes[i].type == "checkbox") {
+            checkboxes[i].checked = state;
+          }
+        }
+      });
+      $('.tree li.expandable label').on('click', function (e) {
+          var current_tree_parent = $(this).parent('.expandable');
+          var current_tree_id = current_tree_parent.attr('id');
+          var child_ul = $(this).parent('.expandable').find(".expandable_ul_"+current_tree_id);
+          if(child_ul.is(":visible")) {
+            child_ul.hide('fast');
+            current_tree_parent.removeClass("active_parent_tree");
+            current_tree_parent.find(".fa_"+current_tree_id).removeClass("fa-minus-square-o").addClass("fa-plus-square-o");
+          }
+          else {
+            child_ul.show('fast');
+            current_tree_parent.addClass("active_parent_tree");
+            current_tree_parent.find(".fa_"+current_tree_id).removeClass("fa-plus-square-o").addClass("fa-minus-square-o");
+          }
+          e.stopPropagation();
+      });
+      //end family tree
+
     });
-    //end family tree
-      
-  });
   </script>
 <?php
   }

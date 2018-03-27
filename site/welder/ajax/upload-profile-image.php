@@ -8,7 +8,7 @@
   
   $customer_id = $_SESSION['customer_id'];
   
-  //print_r($_POST);exit;
+  //print_r($_FILES);exit;
   
   check_ajax_request();
   
@@ -55,11 +55,11 @@
     $customer_image_tmp_name  = $_FILES['profile_image']['tmp_name'];
     $customer_image_name = $_FILES['profile_image']['name'];
     $extension = pathinfo($customer_image_name, PATHINFO_EXTENSION);
-    $file_exstension = mb_convert_case($extension, MB_CASE_LOWER, "UTF-8");
+    $image_exstension = mb_convert_case($extension, MB_CASE_LOWER, "UTF-8");
     $file_name = str_replace(".$extension", "", $customer_image_name);
-    $customer_image_name = "$file_name.$file_exstension";
-    if(!is_file_valid_format($file_exstension)) {
-      echo $languages['error_file_extension'].$file_exstension;
+    $customer_image_name = "$file_name.$image_exstension";
+    if(!is_file_valid_format($image_exstension)) {
+      echo $languages['error_file_extension'].$image_exstension;
       exit;
     }
 
@@ -93,7 +93,40 @@
       exit;
     }
     
+    $file = $upload_path.$customer_image_name;
+
+    list($width,$height) = getimagesize($file);
+
+    $image = new SimpleImage();
+    $image->load($file);
+
+    switch($image_exstension) {
+      case "gif" : $image_type = 1;
+        break;
+      case "jpg" : $image_type = 2;
+        break;
+      case "jpeg" : $image_type = 2;
+        break;
+      case "png" : $image_type = 3;
+        break;
+    }
+
+    if($width > $height) {
+      
+      if($width > 150) {
+        $image->resizeToWidth(150);
+        $image->save($file,$image_type);
+      }
+
+    }
+    else {
+      if($height > 150) {
+        $image->resizeToHeight(150);
+        $image->save($file,$image_type);
+      }
+    }
+    
     $_SESSION['customer_image'] = $customer_image_name;
-    $image['image'] = $display_path.$customer_image_name;
-    echo json_encode($image);
+    $display_image['image'] = $display_path.$customer_image_name;
+    echo json_encode($display_image);
   }
