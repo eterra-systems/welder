@@ -830,9 +830,13 @@ function list_content_types() {
   
   global $db_link;
   global $current_lang;
+  global $current_language_id;
   global $languages;
   
-  $query_content_types = "SELECT `contents_types`.* FROM `contents_types` ORDER  BY `content_type_sort_order` ASC";
+  $query_content_types = "SELECT `contents_types`.*,`ctl`.`content_type_name`
+                            FROM `contents_types` 
+                       LEFT JOIN `contents_types_languages` as `ctl` ON (`ctl`.`content_type_id` = `contents_types`.`content_type_id` AND `ctl`.`language_id` = '$current_language_id')
+                       ORDER  BY `contents_types`.`content_type_sort_order` ASC";
   $result_content_types = mysqli_query($db_link, $query_content_types);
   if(!$result_content_types) echo mysqli_error($db_link);
   $content_type_count = mysqli_num_rows($result_content_types);
@@ -846,7 +850,7 @@ function list_content_types() {
       $content_type = $row_content_types['content_type'];
       $content_type_is_active = $row_content_types['content_type_is_active'];
       $content_type_sort_order = $row_content_types['content_type_sort_order'];
-      $content_type_lang = $languages[$content_type];
+      $content_type_name = $row_content_types['content_type_name'];
       if(!isset($class)) $class = "even";
       $class = (($class == "odd") ? "even" : "odd");
       $edit_link = "/".$_SESSION['admin_dir_name']."/content/content-types-details.php?content_type_id=$content_type_id";
@@ -856,7 +860,7 @@ function list_content_types() {
           <tr class="<?=$class?>">
             <td width="3%" class="text_left"><?=$content_type_id;?></td>
             <td width="40%" class="text_left">
-              <span class="red_link"><?=$content_type_lang;?></span>
+              <span class="red_link"><?=$content_type_name;?></span>
             </td>
             <td width="30%" class="text_left"><?=$content_type;?></td>
             <td width="5%">
