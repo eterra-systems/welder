@@ -20,7 +20,7 @@
   
   if(!empty($customer_email)) {
     if(!filter_var($customer_email, FILTER_VALIDATE_EMAIL)) {
-     echo "<span class='alert alert-danger'>".$languages['error_email_is_not_valid']."</span>";
+     echo "<div class='alert alert-danger'>".$languages['error_email_is_not_valid']."</div>";
      exit;
     }
     else {
@@ -30,7 +30,7 @@
       $result = mysqli_query($db_link, $query);
       if(!$result) echo mysqli_error($db_link);
       if(mysqli_num_rows($result) > 0) {
-        echo "<br><span class='alert alert-danger'>".$languages['error_create_customer_email_taken']."</span>";
+        echo "<div class='alert alert-danger'>".$languages['error_create_customer_email_taken']."</div>";
       }
       else {
         //echo "<p class='green'>ok</p>";

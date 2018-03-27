@@ -14,7 +14,7 @@ function print_html_login_header($page_title,$page_description) {
     <meta name="viewport" content="width=device-width">
     <meta name="robots" content="noindex, nofollow" />
     <meta name="author" content="Eterrasystems Ltd.">
-    <link href="<?=SITEFOLDERSL;?>/images/favicon.png" rel="shortcut icon">
+    <link href="<?=SITEFOLDERSL;?>/images/ico/favicon.png" rel="shortcut icon">
     <link href="/<?=$_SESSION['admin_dir_name'];?>/css/mainstyle.css" rel="stylesheet" type="text/css"  media="screen" />
 </head>
 <body>
@@ -68,7 +68,7 @@ function print_html_admin_header($page_title,$page_description = "",$additional_
     <meta name="viewport" content="width=device-width">
     <meta name="robots" content="noindex, nofollow" />
     <meta name="author" content="Eterrasystems Ltd.">
-    <link href="<?=SITEFOLDERSL;?>/images/favicon.png" rel="shortcut icon">
+    <link href="<?=SITEFOLDERSL;?>/images/ico/favicon.png" rel="shortcut icon">
     <link href="/<?=$_SESSION['admin_dir_name'];?>/css/bootstrap.min.css" rel="stylesheet" type="text/css"  media="screen" />
     <link href="/<?=$_SESSION['admin_dir_name'];?>/css/mainstyle.css" rel="stylesheet" type="text/css"  media="screen" />
     <link href="/<?=$_SESSION['admin_dir_name'];?>/css/responsive.css" rel="stylesheet" type="text/css"  media="screen" />
@@ -823,6 +823,133 @@ function list_menus_for_reorder($parent_id, $path_number) {
       echo "</li>";
     }
     mysqli_free_result($result);
+  }
+}
+
+function list_content_types() {
+  
+  global $db_link;
+  global $current_lang;
+  global $languages;
+  
+  $query_content_types = "SELECT `contents_types`.* FROM `contents_types` ORDER  BY `content_type_sort_order` ASC";
+  $result_content_types = mysqli_query($db_link, $query_content_types);
+  if(!$result_content_types) echo mysqli_error($db_link);
+  $content_type_count = mysqli_num_rows($result_content_types);
+  if($content_type_count > 0) {
+    
+    $key = 0;
+    
+    while($row_content_types = mysqli_fetch_assoc($result_content_types)) {
+
+      $content_type_id = $row_content_types['content_type_id'];
+      $content_type = $row_content_types['content_type'];
+      $content_type_is_active = $row_content_types['content_type_is_active'];
+      $content_type_sort_order = $row_content_types['content_type_sort_order'];
+      $content_type_lang = $languages[$content_type];
+      if(!isset($class)) $class = "even";
+      $class = (($class == "odd") ? "even" : "odd");
+      $edit_link = "/".$_SESSION['admin_dir_name']."/content/content-types-details.php?content_type_id=$content_type_id";
+?>
+      <table id="ct_<?=$content_type_id;?>" class="row_over">
+        <tbody>
+          <tr class="<?=$class?>">
+            <td width="3%" class="text_left"><?=$content_type_id;?></td>
+            <td width="40%" class="text_left">
+              <span class="red_link"><?=$content_type_lang;?></span>
+            </td>
+            <td width="30%" class="text_left"><?=$content_type;?></td>
+            <td width="5%">
+              <a href="javascript:;" class="edit_link" onclick="SetContentTypeActiveInactive(this,'<?=$content_type_id;?>', '<?=$set_content;?>')">
+                <?php if($content_type_is_active == 1) { ?>
+                  <img src="/<?=$_SESSION['admin_dir_name'];?>/images/true.gif" class="systemicon img_active" alt="<?=$languages['alt_deactivate'];?>" title="<?=$languages['title_deactivate'];?>" width="16" height="16" />
+                <?php } else { ?>
+                  <img src="/<?=$_SESSION['admin_dir_name'];?>/images/false.gif" class="systemicon img_inactive" alt="<?=$languages['alt_activate'];?>" title="<?=$languages['title_activate'];?>" width="16" height="16" />
+                <?php } ?>
+              </a>
+            </td>
+            <td width="10%">
+              <?php
+                // if($content_type_count > 1) we gonna give the appropriate moveing options
+                // else we gonna leave this empty
+                if($content_type_count > 1) { 
+                  if($key == 0) {
+              ?>
+                <a href="javascript:;" class="edit_link" onclick="MoveContentTypeForwardBackward('<?=$content_type_id;?>','<?=$content_menu_order;?>','backward')">
+                  <img src="/<?=$_SESSION['admin_dir_name'];?>/images/arrow-d.gif" class="systemicon" alt="<?=$languages['alt_move_content_backward'];?>" title="<?=$languages['title_move_content_backward'];?>" width="16" height="16" />
+                </a>
+              <?php } elseif($key == $content_type_count-1) { ?>
+                <a href="javascript:;" class="edit_link" onclick="MoveContentTypeForwardBackward('<?=$content_type_id;?>','<?=$content_menu_order;?>','forward')">
+                  <img src="/<?=$_SESSION['admin_dir_name'];?>/images/arrow-u.gif" class="systemicon" alt="<?=$languages['alt_move_content_forward'];?>" title="<?=$languages['title_move_content_forward'];?>" width="16" height="16" />
+                </a>
+              <?php } else { ?>
+                <a href="javascript:;" class="edit_link" onclick="MoveContentTypeForwardBackward('<?=$content_type_id;?>','<?=$content_menu_order;?>','backward')">
+                  <img src="/<?=$_SESSION['admin_dir_name'];?>/images/arrow-d.gif" class="systemicon" alt="<?=$languages['alt_move_content_backward'];?>" title="<?=$languages['title_move_content_backward'];?>" width="16" height="16" />
+                </a>
+                <a href="javascript:;" class="edit_link" onclick="MoveContentTypeForwardBackward('<?=$content_type_id;?>','<?=$content_menu_order;?>','forward')">
+                  <img src="/<?=$_SESSION['admin_dir_name'];?>/images/arrow-u.gif" class="systemicon" alt="<?=$languages['alt_move_content_forward'];?>" title="<?=$languages['title_move_content_forward'];?>" width="16" height="16" />
+                </a>
+              <?php 
+                  }
+                } // if($content_type_count > 1)
+              ?>
+            </td>
+            <td width="4%">
+              <a href="<?=$edit_link;?>" class="edit_link">
+                <img src="/<?=$_SESSION['admin_dir_name'];?>/images/edit.gif" class="systemicon" alt="<?=$languages['alt_edit_content'];?>" title="<?=$languages['title_edit_content'];?>" width="16" height="16" />
+              </a>
+            </td>
+            <td width="4%">
+              <a href="javascript:;" class="delete_content_type_link delete_link" data-id="<?=$content_type_id;?>">
+                <img src="/<?=$_SESSION['admin_dir_name'];?>/images/delete.gif" class="systemicon" alt="<?=$languages['alt_delete_content'];?>" title="<?=$languages['title_delete_content'];?>" width="16" height="16" />
+              </a>
+            </td>
+            <td width="4%">
+              <input type="checkbox" class="multicontent" value="<?=$content_type_id;?>" name="multicontent[]" title="<?=$languages['title_toggle_checkbox'];?>"/>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+<?php
+      $key++;
+    }
+    mysqli_free_result($result_content_types);
+    
+    if($_SESSION['users_rights_delete'] == 1) {
+?>
+    <div style="display:none;" id="modal_confirm" class="clearfix" title="<?=$languages['text_are_you_sure']?>">
+      <p style="padding:0;margin:0;width:100%;float:left;"><?=$languages['delete_content_type_warning']?></p>
+    </div>
+    <script>
+    $(function() {
+      $("#modal_confirm").dialog({
+        resizable: false,
+        width: 400,
+        height: 200,
+        autoOpen: false,
+        modal: true,
+        draggable: false,
+        closeOnEscape: true,
+        dialogClass: "modal_confirm",
+        buttons: {
+          "<?=$languages['btn_delete'];?>": function() {
+            DeleteContentType();
+          },
+          "<?=$languages['btn_cancel'];?>": function() {
+            $(".delete_content_type_link").removeClass("active");
+            $(this).dialog("close");
+          }
+        }
+      });
+      $(".delete_content_type_link").click(function() {
+        $(".delete_content_type_link").removeClass("active");
+        $(this).addClass("active");
+        $("#modal_confirm").dialog("open");
+      });
+    });
+    </script>
+<?php
+    }
   }
 }
 

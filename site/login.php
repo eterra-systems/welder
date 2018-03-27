@@ -156,7 +156,9 @@
           </div>
 
           <?php if(isset($_SESSION['error_login']['text'])) { ?>
+          <div class="col-md-12">
             <div class="alert alert-danger"><?=$_SESSION['error_login']['text'];?></div>
+          </div>
           <?php } ?>
 
           <div class="col-sm-12 col-md-12">
