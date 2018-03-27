@@ -6329,6 +6329,10 @@ ul.static-page-menu li.active a {
   margin-bottom: 4px;
   padding: 0 15px;
 }
+.tree li.level_2 {
+  width: 50%;
+  float: left;
+}
 .tree li label {
   display: block;
   position: relative;

@@ -849,6 +849,7 @@ function list_content_types() {
       $content_type_id = $row_content_types['content_type_id'];
       $content_type = $row_content_types['content_type'];
       $content_type_is_active = $row_content_types['content_type_is_active'];
+      $set_content_type = ($content_type_is_active == 1) ? 0 : 1;
       $content_type_sort_order = $row_content_types['content_type_sort_order'];
       $content_type_name = $row_content_types['content_type_name'];
       if(!isset($class)) $class = "even";
@@ -864,7 +865,7 @@ function list_content_types() {
             </td>
             <td width="30%" class="text_left"><?=$content_type;?></td>
             <td width="5%">
-              <a href="javascript:;" class="edit_link" onclick="SetContentTypeActiveInactive(this,'<?=$content_type_id;?>', '<?=$set_content;?>')">
+              <a href="javascript:;" class="edit_link" onclick="SetContentTypeActiveInactive(this,'<?=$content_type_id;?>', '<?=$set_content_type;?>')">
                 <?php if($content_type_is_active == 1) { ?>
                   <img src="/<?=$_SESSION['admin_dir_name'];?>/images/true.gif" class="systemicon img_active" alt="<?=$languages['alt_deactivate'];?>" title="<?=$languages['title_deactivate'];?>" width="16" height="16" />
                 <?php } else { ?>
@@ -879,18 +880,18 @@ function list_content_types() {
                 if($content_type_count > 1) { 
                   if($key == 0) {
               ?>
-                <a href="javascript:;" class="edit_link" onclick="MoveContentTypeForwardBackward('<?=$content_type_id;?>','<?=$content_menu_order;?>','backward')">
+                <a href="javascript:;" class="edit_link" onclick="MoveContentTypeForwardBackward('<?=$content_type_id;?>','<?=$content_type_sort_order;?>','backward')">
                   <img src="/<?=$_SESSION['admin_dir_name'];?>/images/arrow-d.gif" class="systemicon" alt="<?=$languages['alt_move_content_backward'];?>" title="<?=$languages['title_move_content_backward'];?>" width="16" height="16" />
                 </a>
               <?php } elseif($key == $content_type_count-1) { ?>
-                <a href="javascript:;" class="edit_link" onclick="MoveContentTypeForwardBackward('<?=$content_type_id;?>','<?=$content_menu_order;?>','forward')">
+                <a href="javascript:;" class="edit_link" onclick="MoveContentTypeForwardBackward('<?=$content_type_id;?>','<?=$content_type_sort_order;?>','forward')">
                   <img src="/<?=$_SESSION['admin_dir_name'];?>/images/arrow-u.gif" class="systemicon" alt="<?=$languages['alt_move_content_forward'];?>" title="<?=$languages['title_move_content_forward'];?>" width="16" height="16" />
                 </a>
               <?php } else { ?>
-                <a href="javascript:;" class="edit_link" onclick="MoveContentTypeForwardBackward('<?=$content_type_id;?>','<?=$content_menu_order;?>','backward')">
+                <a href="javascript:;" class="edit_link" onclick="MoveContentTypeForwardBackward('<?=$content_type_id;?>','<?=$content_type_sort_order;?>','backward')">
                   <img src="/<?=$_SESSION['admin_dir_name'];?>/images/arrow-d.gif" class="systemicon" alt="<?=$languages['alt_move_content_backward'];?>" title="<?=$languages['title_move_content_backward'];?>" width="16" height="16" />
                 </a>
-                <a href="javascript:;" class="edit_link" onclick="MoveContentTypeForwardBackward('<?=$content_type_id;?>','<?=$content_menu_order;?>','forward')">
+                <a href="javascript:;" class="edit_link" onclick="MoveContentTypeForwardBackward('<?=$content_type_id;?>','<?=$content_type_sort_order;?>','forward')">
                   <img src="/<?=$_SESSION['admin_dir_name'];?>/images/arrow-u.gif" class="systemicon" alt="<?=$languages['alt_move_content_forward'];?>" title="<?=$languages['title_move_content_forward'];?>" width="16" height="16" />
                 </a>
               <?php 

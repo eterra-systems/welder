@@ -598,7 +598,7 @@ function list_categories_with_checkboxes($category_parent_id,$category_root_id,$
 
       if ($category_has_children == 1) {
 ?>
-      <li id="<?=$category_id_tree;?>" data-level="<?= $category_hierarchy_level; ?>" class="level_<?= "$category_hierarchy_level $class_li"; ?> col-lg-8 col-md-8 col-sm-12 col-xs-12">
+      <li id="<?=$category_id_tree;?>" data-level="<?= $category_hierarchy_level; ?>" class="level_<?= "$category_hierarchy_level $class_li"; ?> col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <label for="<?=$category_id_tree;?>" class="btn btn-default" <?=$label_title?> data-root="<?=$category_root_id;?>">
           <?php if($category_hierarchy_level != 1 && false) { ?>
           <input type="checkbox" value="<?=$category_id_tree;?>" id="<?=$category_id_tree;?>" class="categories_<?=$category_root_id;?>" name="categories[]" <?=$checkbox_checked;?> />
