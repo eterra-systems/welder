@@ -12,6 +12,7 @@ $languages = array(
 
   //pages meta titles and descriptions
   "page_title_content_details" => "Редактиране на страница",
+  "page_title_content_types" => "Типове страници",
   "page_title_contents" => "Текущи страници",
   "page_title_contacts" => "Контакти",
   "page_title_sliders" => "Слайдери",
@@ -79,6 +80,7 @@ $languages = array(
 
   //menu and links
   "menu_home" => "Начало",
+  "menu_content_types" => "Типове страници",
   "menu_contents" => "Текущи страници",
   "menu_contacts" => "Контакти",
   "menu_contact_socials" => "Социални мрежи",
@@ -118,6 +120,7 @@ $languages = array(
   "menu_collapse_all_sections" => "Затвори всички секции",
   "menu_categories_options" => "Опции",
   "menu_categories_import_from_excel_file" => "Импортиране от Excel файл",
+  "link_add_new_content_type" => "Добави тип съдържание",
   "link_add_new_content" => "Добави съдържание",
   "link_add_new_language" => "Добави език",
   "link_add_new_news" => "Добави новина",
@@ -164,6 +167,7 @@ $languages = array(
   "header_header" => "Заглавие",
   "header_author" => "Автор",
   "header_name" => "Име",
+  "header_alias" => "Всевдоним",
   "header_menu" => "Меню",
   "header_all_filters" => "По всички филтри",
   "header_at_least_one_filter" => "Поне един филтър",
@@ -717,6 +721,7 @@ $languages = array(
   "alt_language_is_default_frontend" => "Този език е направен за начален по подразбиране за сайта",
   "alt_language_is_default_backend" => "Този език е направен за начален по подразбиране администраторския панел",
   "alt_set_language_default" => "Направи този език за начален по подразбиране",
+  "alt_add_new" => "Добавяне",
   "alt_add_new_manufacturer" => "Добавяне на марка",
   "alt_add_new_content" => "Добавяне на съдържание",
   "alt_add_new_language" => "Добавяне на език",

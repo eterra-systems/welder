@@ -16,11 +16,6 @@
       $certificates[] = $certificate_row;
     }
   }
-
-  if(!empty($errors)) {
-
-    //foreach($errors as $error) echo "<div class='warning_field'>$error</div>";
-  }
 ?>
   <input type="hidden" name="customer_id" id="customer_id" value="<?=$customer_id;?>">
   <div class="row">

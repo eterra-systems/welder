@@ -422,7 +422,7 @@ function print_html_welder_profile_menu() {
         <li<?php if (is_active_page("user-profile-password")) echo ' class="active"'; ?>>
           <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-password" rel="nofollow">
             <i class="fa fa-key" aria-hidden="true"></i>
-            <span><?= $languages['header_customer_new_password']; ?></span>
+            <span><?= $languages['header_user_profile_password']; ?></span>
           </a>
         </li>
         <li<?php if (is_active_page("user-profile-skills")) echo ' class="active"'; ?>>
@@ -891,14 +891,13 @@ function print_error_page() {
   global $db_link;
   global $current_lang;
   global $current_language_id;
-  
-  $content_type_id = 3;
 
   //error page
   $query_content = "SELECT `contents_descriptions`.`content_pretty_url`
                       FROM `contents`
                 INNER JOIN `contents_descriptions` ON `contents_descriptions`.`content_id` = `contents`.`content_id`
-                     WHERE `content_type_id` = '$content_type_id' 
+                INNER JOIN `contents_types` ON `contents_types`.`content_type_id` = `contents`.`content_type_id`
+                     WHERE `contents_types`.`content_type` = 'error_page' 
                        AND `contents_descriptions`.`language_id` = '$current_language_id'";
   //echo $query_content."<br><br>";
   $result_content = mysqli_query($db_link, $query_content);

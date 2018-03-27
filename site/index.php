@@ -238,7 +238,6 @@
                                     var btn_browse = "'.$languages['btn_browse'].'"
                                     var btn_cancel = "'.$languages['btn_cancel'].'"
                                   </script>
-                                  <script type="text/javascript" src="'.SITEFOLDERSL.'/js/jquery.cropit.js"></script>
                                   <script type="text/javascript" src="'.SITEFOLDERSL.'/js/fileinput.min.js"></script>
                                   <script type="text/javascript" src="'.SITEFOLDERSL.'/js/customs-fileinput.js"></script>';
     print_html_header($content_meta_title, $content_meta_description, $content_meta_keywords, $additional_css_javascript, $body_css);

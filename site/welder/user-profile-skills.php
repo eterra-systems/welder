@@ -51,9 +51,7 @@
 <?php
     if(isset($success)) {
 ?>
-  <div class="row">
-    <p class="alert alert-success">Промерните бяха запазени успешно</p>
-  </div>
+    <p class="alert alert-success mb-15"><?=$languages['text_update_was_successfull'];?></p>
 <?php
     }
     if(!empty($errors)) {

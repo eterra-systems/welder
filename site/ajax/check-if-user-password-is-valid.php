@@ -21,7 +21,7 @@
 
     if(!$uppercase || !$lowercase || !$number || strlen($customer_password) < 8) {
       // tell the user something went wrong
-      echo '<span class="alert alert-danger">'.$languages['error_registration_password_is_not_valid'].'</span>';
+      echo '<div class="alert alert-danger">'.$languages['error_registration_password_is_not_valid'].'</div>';
     }
   } 
 ?>
