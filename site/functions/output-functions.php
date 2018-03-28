@@ -30,7 +30,7 @@ function print_html_header($meta_title, $meta_description, $meta_keywords, $addi
   //session_destroy();
 
   if(!$body_css) $body_css = "home";
- ?>
+?>
 <!DOCTYPE html>
 <html dir="ltr" lang="<?=$current_lang;?>">
   <head>
@@ -553,9 +553,9 @@ function list_categories_with_checkboxes($category_parent_id,$category_root_id,$
   $result_categories = mysqli_query($db_link, $query_categories);
   if (!$result_categories) echo mysqli_error($db_link);
   $category_count = mysqli_num_rows($result_categories);
-  if ($category_count > 0) {
+  if($category_count > 0) {
 
-    while ($category_row = mysqli_fetch_assoc($result_categories)) {
+    while($category_row = mysqli_fetch_assoc($result_categories)) {
 
       $category_id = $category_row['category_id'];
       $category_root_id = $category_row['category_root_id'];
@@ -567,10 +567,11 @@ function list_categories_with_checkboxes($category_parent_id,$category_root_id,$
       $cd_name = $category_row['cd_name'];
 
       $class_li = "";
+      $class_li_col_lg = "";
       $class_label = "";
       $label_title = "";
       if($category_hierarchy_level == 1) {
-        $class_label = 'class="btn btn-default"';
+        $class_label = 'recent-job-item clearfix';
         $label_title = ' title="Кликнете ако искате да изберете цялото дърво надолу"';
         $label_title = "";
       }
@@ -578,7 +579,11 @@ function list_categories_with_checkboxes($category_parent_id,$category_root_id,$
         $class_li = "expandable";
       }
       $category_is_last_child = false;
-      if($category_hierarchy_level > 1) { $category_is_last_child = check_if_this_is_category_last_child($category_root_id, $category_parent_id, $category_sort_order); }
+      if($category_hierarchy_level > 1) { 
+        $category_is_last_child = check_if_this_is_category_last_child($category_root_id, $category_parent_id, $category_sort_order); 
+        $class_li_col = 12/$category_count;
+        $class_li_col_lg = "col-lg-$class_li_col col-md-$class_li_col";
+      }
       if(is_array($category_ids_tree)) {
         if(in_array($category_id_tree, $category_ids_tree)) {
           $checkbox_checked = "checked='checked'";
@@ -598,7 +603,7 @@ function list_categories_with_checkboxes($category_parent_id,$category_root_id,$
 
       if ($category_has_children == 1) {
 ?>
-      <li id="<?=$category_id_tree;?>" data-level="<?= $category_hierarchy_level; ?>" class="level_<?= "$category_hierarchy_level $class_li"; ?> col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <li id="<?=$category_id_tree;?>" data-level="<?= $category_hierarchy_level; ?>" class="level_<?= "$category_hierarchy_level $class_label $class_li $class_li_col_lg"; ?> col-sm-12 col-xs-12">
         <label for="<?=$category_id_tree;?>" class="btn btn-default" <?=$label_title?> data-root="<?=$category_root_id;?>">
           <?php if($category_hierarchy_level != 1 && false) { ?>
           <input type="checkbox" value="<?=$category_id_tree;?>" id="<?=$category_id_tree;?>" class="categories_<?=$category_root_id;?>" name="categories[]" <?=$checkbox_checked;?> />

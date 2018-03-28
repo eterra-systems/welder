@@ -62,9 +62,10 @@
       <input type="hidden" name="customer_id" id="customer_id" value="<?=$customer_id;?>">
       
       <?php if(!empty($errors['categories'])) { ?><span class="alert alert-danger"><?=$errors['categories'];?></span><?php } ?>
-      <div class="tree row">
-        <ul>
+      <div class="tree">
+        <ul class="recent-job-wrapper">
           <?php list_categories_with_checkboxes($category_parent_id = 0, $category_root_id = 0, $category_ids_tree) ;?>
+          <li class="level_1 clearfix"></li>
         </ul>
       </div>
       <p class="clearfix">&nbsp;</p>
