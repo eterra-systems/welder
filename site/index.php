@@ -80,7 +80,6 @@
         </div>
 
         <div class="row mb-30">
-          <div class="col-md-12">
 <?php
           if(isset($page_params)) {
             include_once "$page_params".DIRECTORY_SEPARATOR."$current_page_pretty_url.php";
@@ -96,13 +95,22 @@
               $customer_group_name = $customers_group['customer_group_name'];
               $customer_group_code = $customers_group['customer_group_code'];
 ?>
-            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-              <div class="option_box inner-box">
-                <h3><?= $customer_group_name; ?></h3>
-                <p>.........</p>
-                <a href="/<?= $current_lang; ?>/registration/<?= $customer_group_code; ?>" class="btn btn-primary" rel="nofollow"><?= $languages['login_sign_up']; ?></a>
+              <div class="col-sm-4 mb-30">
+
+                <div class="featured-icon-png">
+
+                  <div class="image hidden">
+                    <img src="images/colored-line-icons/06.png" alt="Images" />
+                  </div>
+
+                  <h5><?= $customer_group_name; ?></h5>
+                  <p>....</p>
+
+                  <a href="/<?= $current_lang; ?>/registration/<?= $customer_group_code; ?>" class="btn btn-primary" rel="nofollow"><?= $languages['login_sign_up']; ?></a>
+
+                </div>
+
               </div>
-            </div>
 <?php
             }
 ?>
@@ -110,7 +118,6 @@
 <?php
           }
 ?>
-          </div>
         </div>
       </div>
     </div>

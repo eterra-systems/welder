@@ -30,7 +30,7 @@
     exit;
   }
   
-  echo $all_queries;mysqli_query($db_link,"ROLLBACK");exit;
+  //echo $all_queries;mysqli_query($db_link,"ROLLBACK");exit;
   mysqli_query($db_link,"COMMIT");
 
   list_content_types();

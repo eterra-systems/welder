@@ -1306,8 +1306,8 @@ function MoveContentTypeForwardBackward(content_type_id, content_type_sort_order
     }
   }).done(function (contents) {
 
-    $("#contents_list").html(contents);
-    $("#ct_" + content_type_id).effect("highlight", {}, 1000);
+    $("#content_types_list").html(contents);
+    $("#ct_" + content_type_id+" td").effect("highlight", {}, 1000);
 
     HideAjaxLoader();
   }).fail(function (error) {
