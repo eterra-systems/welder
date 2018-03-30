@@ -315,33 +315,31 @@ function print_html_company_profile_menu() {
     global $languages;
     global $current_lang;
     
-    $customer_fullname = $_SESSION['customer_name']; 
+    $customer_company_name = $_SESSION['company']['company_name'];
+    $customer_id = $_SESSION['customer_id'];
+    $customer_image = $_SESSION['customer_image'];
+    $profile_image = (empty($customer_image)) ? SITEFOLDERSL."/images/no-profile-man-medium.jpg" : 
+                                                SITEFOLDERSL.DIRECTORY_SEPARATOR.$_SESSION['customer_group_code']."/profile-images/$customer_id/$customer_image";
 ?>
   <div class="GridLex-col-3_sm-4_xs-12">
     <div class="admin-sidebar">
-
-      <div class="admin-user-item">
+        
+        <div class="admin-user-item">
 
         <div class="image">
-          <img src="images/man/01.jpg" alt="image" class="img-circle" />
+          <img src="<?=$profile_image;?>" width="100" height="100" alt="<?=$customer_company_name;?>" class="img-circle" />
         </div>
 
-        <h4><?=$customer_fullname;?></h4>
+        <h4><?=$customer_company_name;?></h4>
         <!--<p class="user-role">Professional</p>-->
 
       </div>
 
       <ul class="admin-user-menu clearfix">
-      <li<?php if (is_active_page("user-profile-dashboard")) echo ' class="active"'; ?>>
-        <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-dashboard" rel="nofollow">
-          <i class="fa fa-tachometer" aria-hidden="true"></i>
-          <span><?= $languages['header_user_dashboard']; ?></span>
-        </a>
-      </li>
       <li<?php if (is_active_page("user-profile-data")) echo ' class="active"'; ?>>
         <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-data" rel="nofollow">
           <i class="fa fa-user" aria-hidden="true"></i>
-          <span><?= $languages['header_user_data']; ?></span>
+          <span><?= $languages['header_company_data']; ?></span>
         </a>
       </li>
       <li<?php if (is_active_page("user-profile-password")) echo ' class="active"'; ?>>
@@ -353,13 +351,7 @@ function print_html_company_profile_menu() {
       <li<?php if (is_active_page("user-profile-skills")) echo ' class="active"'; ?>>
         <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-skills" rel="nofollow">
           <i class="fa fa-wrench" aria-hidden="true"></i>
-          <span><?= $languages['header_skills']; ?></span>
-        </a>
-      </li>
-      <li<?php if (is_active_page("user-profile-certificates")) echo ' class="active"'; ?>>
-        <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-certificates" rel="nofollow">
-          <i class="fa fa-newspaper-o" aria-hidden="true"></i>
-          <span><?= $languages['header_certificates']; ?></span>
+          <span><?= $languages['header_new_jobs']; ?></span>
         </a>
       </li>
       <li<?php if (is_active_page("user-profile-bookmarks")) echo ' class="active"'; ?>>
