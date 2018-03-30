@@ -315,7 +315,7 @@ function print_html_company_profile_menu() {
     global $languages;
     global $current_lang;
     
-    $customer_fullname = $_SESSION['customer_name']; 
+    $customer_company_name = $_SESSION['company']['company_name']; 
 ?>
   <div class="GridLex-col-3_sm-4_xs-12">
     <div class="admin-sidebar">
@@ -326,7 +326,7 @@ function print_html_company_profile_menu() {
           <img src="images/man/01.jpg" alt="image" class="img-circle" />
         </div>
 
-        <h4><?=$customer_fullname;?></h4>
+        <h4><?=$customer_company_name;?></h4>
         <!--<p class="user-role">Professional</p>-->
 
       </div>
@@ -341,7 +341,7 @@ function print_html_company_profile_menu() {
       <li<?php if (is_active_page("user-profile-data")) echo ' class="active"'; ?>>
         <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-data" rel="nofollow">
           <i class="fa fa-user" aria-hidden="true"></i>
-          <span><?= $languages['header_user_data']; ?></span>
+          <span><?= $languages['header_company_data']; ?></span>
         </a>
       </li>
       <li<?php if (is_active_page("user-profile-password")) echo ' class="active"'; ?>>

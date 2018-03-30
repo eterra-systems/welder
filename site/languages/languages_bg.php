@@ -185,6 +185,7 @@ $languages = array(
   "header_add_certificates" => "Добави сертификати",
   "header_forgotten_password" => "Забравена паролата",
   "header_get_new_password" => "възстановете забравената си парола",
+  "header_company_data" => "Фирмени данни",
   "header_user_certificates" => "Вашите сертификати",
   "header_user_dashboard" => "Потребителско табло",
   "header_user_data" => "Лични данни",
