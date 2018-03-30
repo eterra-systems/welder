@@ -147,8 +147,8 @@
             }
           }
         });
-        $(".delete_customer_group_link").click(function() {
-          $(".delete_customer_group_link").removeClass("active");
+        $(".delete_customer_group").click(function() {
+          $(".delete_customer_group").removeClass("active");
           $(this).addClass("active");
           $("#modal_confirm").dialog("open");
         });

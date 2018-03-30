@@ -1185,7 +1185,7 @@ function DeleteCustomerGroup() {
   if (CheckDeleteRights() === false)
     return;
   ShowAjaxLoader();
-  var customer_group_id = $(".delete_customer_group_link.active").attr("data-id");
+  var customer_group_id = $(".delete_customer_group.active").attr("data-id");
   $.ajax({
     url: "/" + admin_dir_name + "/customers/ajax/delete/delete-customer-group.php",
     type: "POST",

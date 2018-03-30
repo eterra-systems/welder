@@ -13,7 +13,7 @@
 
   if(isset($_POST['add_customer_group'])) {
    
-    //echo"<pre>";print_r($_POST);print_r($_FILES);exit;
+    //echo"<pre>";print_r($_POST);exit;
     
     mysqli_query($db_link,"BEGIN");
     
@@ -21,6 +21,7 @@
     $all_queries = "";
     
     $customer_group_code = $_POST['customer_group_code'];
+      if(empty($customer_group_code)) $customer_group_errors['customer_group_code'] = $languages['required_field_error'];
     foreach($_POST['customer_group_name'] as $language_id => $customer_group_name) {
       if(empty($customer_group_name)) $customer_group_errors['customer_group_name'][$language_id] = $languages['required_field_error'];
       
@@ -95,14 +96,39 @@
       <form method="post" name="add_customer_group" id="add_customer_group" class="input_form row" action="<?=htmlspecialchars($_SERVER['REQUEST_URI']);?>" enctype="multipart/form-data">
         
         <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
-          <label for="customer_group_name" class="title"><?=$languages['header_customer_group_code'];?></label>
+          <label for="customer_group_name" class="title"><?=$languages['header_customer_group_code'];?><span class="red">*</span></label>
+          <?php
+            if(isset($customer_group_errors['customer_group_code'])) {
+              echo "<div class='error'>".$customer_group_errors['customer_group_code']."</div>";
+            }
+          ?>
           <input type="text" name="customer_group_code" value="<?php if(isset($customer_group_code)) echo $customer_group_code;?>" />
         </div>
-        <p class="clearfix"></p>
+        <div class="clearfix"></div>
+        <p>&nbsp;</p>
+        
+        <ul id="languages" class="language_tabs tabs">
+<?php
+        if(!empty($languages_array)) {
+          foreach($languages_array as $row_languages) {
+
+            $language_id = $row_languages['language_id'];
+            $language_code = $row_languages['language_code'];
+            $language_menu_name = $row_languages['language_menu_name'];
+            $class_error = (isset($testimonial_errors['testimonial_author'][$language_id]) || isset($testimonial_errors['testimonial_text'][$language_id])) ? ' class="red"' : "";
+?>
+            <li<?=$class_error;?>>
+              <a href="#<?=$language_code;?>">
+                <img src="/<?=$_SESSION['admin_dir_name'];?>/images/flags/<?=$language_code;?>.png" title="<?=$language_menu_name;?>" /> <?=$language_menu_name;?>
+              </a>
+            </li>
+<?php
+          }
+        }
+?>
+        </ul>
 <?php
       if(!empty($languages_array)) {
-        
-        $key = 0;
         
         foreach($languages_array as $row_languages) {
 
@@ -111,7 +137,7 @@
 ?>
         <div id="<?=$language_code;?>" class="language_tab tab row">
           <div class="col-lg-6 col-md-10 col-sm-12 col-xs-12">
-            <label for="customer_group_name" class="title"><?=$languages['header_author'];?><span class="red">*</span></label>
+            <label for="customer_group_name" class="title"><?=$languages['header_name'];?><span class="red">*</span></label>
             <?php
               if(isset($customer_group_errors['customer_group_name'][$language_id])) {
                 echo "<div class='error'>".$customer_group_errors['customer_group_name'][$language_id]."</div>";
@@ -122,7 +148,7 @@
           <div class="clearfix"></div>
 
           <div>
-            <label for="customer_group_text" class="title"><?=$languages['header_text'];?><span class="red">*</span></label>
+            <label for="customer_group_text" class="title"><?=$languages['header_text'];?></label>
             <?php
               if(isset($customer_group_errors['customer_group_text'][$language_id])) {
                 echo "<div class='error'>".$customer_group_errors['customer_group_text'][$language_id]."</div>";

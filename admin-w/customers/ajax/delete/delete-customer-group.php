@@ -37,13 +37,13 @@
       exit;
     }
     
-    $query_selectcg_translations = "SELECT `customer_group_id` FROM `customers_groups_translations` WHERE `customer_group_id` = '$customer_group_id'";
+    $query_selectcg_translations = "SELECT `customer_group_id` FROM `customers_groups_languages` WHERE `customer_group_id` = '$customer_group_id'";
     $all_queries .= $query_selectcg_translations."\n<br>";
     //echo $query;exit;
     $result_selectcg_translations = mysqli_query($db_link, $query_selectcg_translations);
     if(mysqli_num_rows($result_selectcg_translations) > 0) {
 
-      $query = "DELETE FROM `customers_groups_translations` WHERE `customer_group_id` = '$customer_group_id'";
+      $query = "DELETE FROM `customers_groups_languages` WHERE `customer_group_id` = '$customer_group_id'";
       //echo $query;exit;
       $all_queries .= "\n".$query;
       $result = mysqli_query($db_link, $query);
@@ -58,5 +58,3 @@
     //echo $all_queries;mysqli_query($db_link,"ROLLBACK");exit;
     mysqli_query($db_link,"COMMIT");
   }
-  
-  DB_CloseI($db_link);

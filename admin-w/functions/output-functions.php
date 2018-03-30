@@ -1035,26 +1035,26 @@ function list_contents($parent_id, $path_number) {
       $name_dashes = "";
       $empty_spaces = "";
       if($content_hierarchy_level == 1) {
-          $path_number++;
-          $content_path_number = $path_number;
+        $path_number++;
+        $content_path_number = $path_number;
       } else {
-          $content_path_number = "$path_number.$content_menu_order";
-          if($content_hierarchy_level == 2) {
-            $empty_spaces = "&nbsp;";
-            $name_dashes = "- ";
-          }
-          if($content_hierarchy_level == 3) {
-            $empty_spaces = "&nbsp;&nbsp;";
-            $name_dashes = "- - ";
-          }
-          if($content_hierarchy_level == 4) {
-            $empty_spaces = "&nbsp;&nbsp;&nbsp;";
-            $name_dashes = "- - - ";
-          }
-          if($content_hierarchy_level == 5) {
-            $empty_spaces = "&nbsp;&nbsp;&nbsp;&nbsp;";
-            $name_dashes = "- - - - ";
-          }
+        $content_path_number = "$path_number.$content_menu_order";
+        if($content_hierarchy_level == 2) {
+          $empty_spaces = "&nbsp;";
+          $name_dashes = "- ";
+        }
+        if($content_hierarchy_level == 3) {
+          $empty_spaces = "&nbsp;&nbsp;";
+          $name_dashes = "- - ";
+        }
+        if($content_hierarchy_level == 4) {
+          $empty_spaces = "&nbsp;&nbsp;&nbsp;";
+          $name_dashes = "- - - ";
+        }
+        if($content_hierarchy_level == 5) {
+          $empty_spaces = "&nbsp;&nbsp;&nbsp;&nbsp;";
+          $name_dashes = "- - - - ";
+        }
       }
       $edit_link = "/".$_SESSION['admin_dir_name']."/content/content-details.php?content_id=$content_id";
 ?>

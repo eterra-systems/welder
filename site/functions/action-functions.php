@@ -343,7 +343,7 @@ function get_customers_groups() {
   global $db_link;
   global $current_language_id;
   
-  $query_customers_groups = "SELECT `customers_groups`.`customer_group_id`,`customers_groups`.`customer_group_code`,`cgl`.`customer_group_name`
+  $query_customers_groups = "SELECT `customers_groups`.`customer_group_id`,`customers_groups`.`customer_group_code`,`cgl`.*
                                FROM `customers_groups`
                          INNER JOIN `customers_groups_languages` as `cgl` ON `cgl`.`customer_group_id` = `customers_groups`.`customer_group_id`
                               WHERE `cgl`.`language_id` = '$current_language_id'

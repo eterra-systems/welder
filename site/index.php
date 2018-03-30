@@ -94,6 +94,7 @@
               
               $customer_group_name = $customers_group['customer_group_name'];
               $customer_group_code = $customers_group['customer_group_code'];
+              $customer_group_text = (empty($customers_group['customer_group_text'])) ? "..." : $customers_group['customer_group_text'];
 ?>
               <div class="col-sm-4 mb-30">
 
@@ -104,7 +105,7 @@
                   </div>
 
                   <h5><?= $customer_group_name; ?></h5>
-                  <p>....</p>
+                  <p><?= $customer_group_text; ?></p>
 
                   <a href="/<?= $current_lang; ?>/registration/<?= $customer_group_code; ?>" class="btn btn-primary" rel="nofollow"><?= $languages['login_sign_up']; ?></a>
 

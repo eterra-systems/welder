@@ -25,18 +25,20 @@
     mysqli_query($db_link,"BEGIN");
     
     $customer_group_errors = array();
-    $all_queries = "";
+    $all_queries = ""; 
     
+    $customer_group_code = $_POST['customer_group_code'];
+      if(empty($customer_group_code)) $customer_group_errors['customer_group_code'] = $languages['required_field_error'];
     foreach($_POST['customer_group_name'] as $language_id => $customer_group_name) {
       if(empty($customer_group_name)) $customer_group_errors['customer_group_name'][$language_id] = $languages['required_field_error'];
       
       $customer_group_names_array[$language_id] = $_POST['customer_group_name'][$language_id];
+      $customer_group_texts_array[$language_id] = $_POST['customer_group_text'][$language_id];
     }
 
     if(empty($customer_group_errors)) {
       //if there are no form errors we can insert the information
       
-      $customer_group_code = $_POST['customer_group_code'];
       $query_update = "UPDATE `customers_groups` SET `customer_group_code` = '$customer_group_code' WHERE `customer_group_id` = '$current_customer_group_id'";
       //echo $query_update;
       $all_queries .= "<br>".$query_update;
@@ -50,7 +52,7 @@
       foreach($customer_group_names_array as $language_id => $customer_group_name) {
         
         $customer_group_name = mysqli_real_escape_string($db_link, $customer_group_name);
-        $customer_group_text = mysqli_real_escape_string($db_link, $_POST['customer_group_text']);
+        $customer_group_text_db = mysqli_real_escape_string($db_link, $customer_group_texts_array[$language_id]);
 
         if(isset($_POST['new_entry'][$language_id])) {
           /*
@@ -59,7 +61,7 @@
            */
           
           $query_customer_group = "INSERT INTO `customers_groups_languages`(`customer_group_id`,`language_id`,`customer_group_name`,`customer_group_text`) 
-                                                                    VALUES ('$current_customer_group_id','$language_id','$customer_group_name','$customer_group_text')";
+                                                                    VALUES ('$current_customer_group_id','$language_id','$customer_group_name','$customer_group_text_db')";
           //echo $query_customer_group;
           $all_queries .= "<br>".$query_customer_group;
           $result_inser_customer_group_name = mysqli_query($db_link, $query_customer_group);
@@ -70,7 +72,7 @@
           }
         }
         else {
-          $query_update_customer_group = "UPDATE `customers_groups_languages` SET `customer_group_name` = '$customer_group_name',`customer_group_text` = '$customer_group_text'
+          $query_update_customer_group = "UPDATE `customers_groups_languages` SET `customer_group_name` = '$customer_group_name',`customer_group_text` = '$customer_group_text_db'
                                            WHERE `customer_group_id` = '$current_customer_group_id' AND `language_id` = '$language_id'";
           //echo $query_update_customer_group;
           $all_queries .= "<br>".$query_update_customer_group;
@@ -124,20 +126,44 @@
       <form method="post" name="edit_customer_group" id="edit_customer_group" class="input_form" action="<?=htmlspecialchars($_SERVER['REQUEST_URI']);?>" enctype="multipart/form-data">
         
         <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
-          <label for="customer_group_name" class="title"><?=$languages['header_customer_group_code'];?></label>
-          <input type="text" name="customer_group_code" value="<?php if(isset($customer_group_code)) echo $customer_group_code;?>" />
+          <label for="customer_group_code" class="title"><?=$languages['header_customer_group_code'];?></label>
+          <?php
+            if(isset($customer_group_errors['customer_group_code'])) {
+              echo "<div class='error'>".$customer_group_errors['customer_group_code']."</div>";
+            }
+          ?>
+          <input type="text" name="customer_group_code" id="customer_group_code" value="<?php if(isset($customer_group_code)) echo $customer_group_code;?>" />
         </div>
-        <p class="clearfix"></p>
+        <div class="clearfix"></div>
+        <p>&nbsp;</p>
+        
+        <ul id="languages" class="language_tabs tabs">
 <?php
         if(!empty($languages_array)) {
-        
-          $key = 0;
-        
           foreach($languages_array as $row_languages) {
 
             $language_id = $row_languages['language_id'];
             $language_code = $row_languages['language_code'];
             $language_menu_name = $row_languages['language_menu_name'];
+            $class_error = (isset($testimonial_errors['testimonial_author'][$language_id]) || isset($testimonial_errors['testimonial_text'][$language_id])) ? ' class="red"' : "";
+?>
+            <li<?=$class_error;?>>
+              <a href="#<?=$language_code;?>">
+                <img src="/<?=$_SESSION['admin_dir_name'];?>/images/flags/<?=$language_code;?>.png" title="<?=$language_menu_name;?>" /> <?=$language_menu_name;?>
+              </a>
+            </li>
+<?php
+          }
+        }
+?>
+        </ul>
+<?php
+        if(!empty($languages_array)) {
+        
+          foreach($languages_array as $row_languages) {
+
+            $language_id = $row_languages['language_id'];
+            $language_code = $row_languages['language_code'];
 
             
             if(!isset($_POST['submit_customer_group'])) {
@@ -154,33 +180,30 @@
               }
             }
 ?>
-          <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
-            <?php
-              if($key == 0) {
-            ?>
-              <label for="customer_group_name" class="title"><?=$languages['header_name'];?>
-                <span class="red">*</span>
-              </label>
-            <?php
-              }
-              if(isset($customer_group_errors['customer_group_name'][$language_id])) {
-                echo "<div class='error'>".$customer_group_errors['customer_group_name'][$language_id]."</div>";
-              }
-              if(!isset($customer_group_names_array[$language_id])) {
-                /*
-                 * no record for this language, because the language was added after the first time the status was created
-                 */
-            ?>
-              <input type="hidden" name="new_entry[<?=$language_id;?>]" value="1" />
-            <?php 
-              }
-            ?>
-            <input type="text" name="customer_group_name[<?=$language_id;?>]" class="customer_group_name" value="<?php if(isset($customer_group_names_array[$language_id])) echo $customer_group_names_array[$language_id];?>" />
-            &nbsp;&nbsp;<img src="/<?=$_SESSION['admin_dir_name'];?>/images/flags/<?=$language_code;?>.png" title="<?=$language_menu_name;?>" />
+          <div id="<?=$language_code;?>" class="language_tab tab row">
+            <div class="col-lg-6 col-md-10 col-sm-12 col-xs-12">
+              <label for="customer_group_name" class="title"><?=$languages['header_name'];?><span class="red">*</span></label>
+              <?php
+                if(isset($customer_group_errors['customer_group_name'][$language_id])) {
+                  echo "<div class='error'>".$customer_group_errors['customer_group_name'][$language_id]."</div>";
+                }
+              ?>
+              <input type="text" name="customer_group_name[<?=$language_id;?>]" class="customer_group_name" value="<?php if(isset($customer_group_names_array[$language_id])) echo $customer_group_names_array[$language_id];?>" />
+            </div>
+            <div class="clearfix"></div>
+
+            <div>
+              <label for="customer_group_text" class="title"><?=$languages['header_text'];?></label>
+              <?php
+                if(isset($customer_group_errors['customer_group_text'][$language_id])) {
+                  echo "<div class='error'>".$customer_group_errors['customer_group_text'][$language_id]."</div>";
+                }
+              ?>
+              <textarea name="customer_group_text[<?=$language_id;?>]" id="ckeditor_customer_group_text_<?=$language_code;?>" class="default_text"><?php if(isset($customer_group_texts_array[$language_id])) echo $customer_group_texts_array[$language_id];?></textarea>
+            </div>
+            <div class="clearfix"></div>
           </div>
-          <p class="clearfix"></p>
 <?php
-          $key++;
         }
       }
 ?>
@@ -203,5 +226,36 @@
   print_html_admin_footer();
   
 ?>
+  <script type="text/javascript" src="/modules/ckeditor/ckeditor/ckeditor.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+<?php
+      if(!empty($languages_array)) {
+        foreach($languages_array as $row_languages) {
+              
+          $language_code = $row_languages['language_code'];
+?>
+          CKEDITOR.replace('ckeditor_customer_group_text_<?=$language_code;?>');
+<?php
+        }
+      }
+?>
+      // language tab switcher
+      $(".language_tabs li").removeClass("active");
+      $(".language_tab").hide();
+      $(".language_tabs li:first").addClass("active");
+      $(".language_tab:first").show();
+      $(".language_tabs a").click(function() {
+        var this_link = $(this);
+        var clicked_tab = this_link.attr("href");
+        $(".language_tabs li").removeClass("active");
+        this_link.parent().addClass("active");
+        $(".language_tab").hide();
+        $(clicked_tab).fadeIn();
+        event.preventDefault();
+      });
+      // end language tab switcher
+    });
+  </script>
 </body>
 </html>

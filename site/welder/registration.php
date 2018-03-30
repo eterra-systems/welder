@@ -457,7 +457,7 @@
       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
         <label for="customer_email"><?=$languages['header_customer_email'];?><span class="text-danger">*</span></label>
         <input type="text" name="customer_email" id="customer_email" class="form-control" value="<?php if(isset($customer_email)) echo $customer_email;?>" onBlur="CheckIfUserEmailIsValid(this.value,'<?=$current_lang;?>')" />
-        <input type="hidden" name="customer_email_status" id="customer_email_status" value="<?php if(!empty($errors['customer_email_status'])) echo "error"; else echo "ok"?>" />
+        <input type="hidden" name="customer_email_status" id="customer_email_status" autocomplete="off" value="<?php if(!empty($errors['customer_email_status'])) echo "error"; else echo "ok"?>" />
         <span id="customer_email_is_valid"></span>
         <?php if(!empty($errors['customer_email'])) { ?><div class="alert alert-danger"><?=$errors['customer_email'];?></div><?php } ?>
         <?php if(!empty($errors['customer_email_status'])) { ?><div class="alert alert-danger"><?=$errors['customer_email_status'];?></div><?php } ?>
@@ -466,7 +466,7 @@
       
       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
         <label for="customer_email_retype"><?=$languages['header_customer_email_retype'];?><span class="text-danger">*</span></label>
-        <input type="text" name="customer_email_retype" id="customer_email_retype" class="form-control" value="<?php if(isset($customer_email_retype)) echo $customer_email_retype;?>" />
+        <input type="text" name="customer_email_retype" id="customer_email_retype" autocomplete="off" class="form-control" value="<?php if(isset($customer_email_retype)) echo $customer_email_retype;?>" />
         <?php if(!empty($errors['customer_emails_mismatch'])) { ?><div class="alert alert-danger"><?=$errors['customer_emails_mismatch'];?></div><?php } ?>
       </div>
     </div>
