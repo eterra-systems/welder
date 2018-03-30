@@ -62,9 +62,10 @@
       <input type="hidden" name="customer_id" id="customer_id" value="<?=$customer_id;?>">
       
       <?php if(!empty($errors['categories'])) { ?><span class="alert alert-danger"><?=$errors['categories'];?></span><?php } ?>
-      <div class="tree row">
-        <ul>
+      <div class="tree">
+        <ul class="recent-job-wrapper">
           <?php list_categories_with_checkboxes($category_parent_id = 0, $category_root_id = 0, $category_ids_tree) ;?>
+          <li class="level_1 clearfix"></li>
         </ul>
       </div>
       <p class="clearfix">&nbsp;</p>
@@ -77,45 +78,45 @@
    
       <div class="clearfix">&nbsp;</div>
     </form>
-  <script>
-  $(function() {
-    
-    //start family tree
-    $('.select_all').on('click', function (e) {
-      var state = true;
-      var root = $(this).attr("data-root");
-      if($(this).hasClass("active")) {
-        $(this).removeClass("active")
-        state = false;
-      }
-      else {
-        $(this).addClass("active")
-        state = true;
-      }
-      var checkboxes = document.getElementsByClassName("categories_"+root);
-      for(var i=0; i<checkboxes.length ; i++) {
-        if(checkboxes[i].type == "checkbox") {
-          checkboxes[i].checked = state;
-        }
-      }
-    });
-    $('.tree li.expandable label').on('click', function (e) {
-        var current_tree_parent = $(this).parent('.expandable');
-        var current_tree_id = current_tree_parent.attr('id');
-        var child_ul = $(this).parent('.expandable').find(".expandable_ul_"+current_tree_id);
-        if(child_ul.is(":visible")) {
-          child_ul.hide('fast');
-          current_tree_parent.removeClass("active_parent_tree");
-          current_tree_parent.find(".fa_"+current_tree_id).removeClass("fa-minus-square-o").addClass("fa-plus-square-o");
-        }
-        else {
-          child_ul.show('fast');
-          current_tree_parent.addClass("active_parent_tree");
-          current_tree_parent.find(".fa_"+current_tree_id).removeClass("fa-plus-square-o").addClass("fa-minus-square-o");
-        }
-        e.stopPropagation();
-    });
-    //end family tree
-      
-  });
-  </script>
+    <script>
+      $(function() {
+
+        //start family tree
+        $('.select_all').on('click', function (e) {
+          var state = true;
+          var root = $(this).attr("data-root");
+          if($(this).hasClass("active")) {
+            $(this).removeClass("active")
+            state = false;
+          }
+          else {
+            $(this).addClass("active")
+            state = true;
+          }
+          var checkboxes = document.getElementsByClassName("categories_"+root);
+          for(var i=0; i<checkboxes.length ; i++) {
+            if(checkboxes[i].type == "checkbox") {
+              checkboxes[i].checked = state;
+            }
+          }
+        });
+        $('.tree li.expandable label').on('click', function (e) {
+            var current_tree_parent = $(this).parent('.expandable');
+            var current_tree_id = current_tree_parent.attr('id');
+            var child_ul = $(this).parent('.expandable').find(".expandable_ul_"+current_tree_id);
+            if(child_ul.is(":visible")) {
+              child_ul.hide('fast');
+              current_tree_parent.removeClass("active_parent_tree");
+              current_tree_parent.find(".fa_"+current_tree_id).removeClass("fa-minus-square-o").addClass("fa-plus-square-o");
+            }
+            else {
+              child_ul.show('fast');
+              current_tree_parent.addClass("active_parent_tree");
+              current_tree_parent.find(".fa_"+current_tree_id).removeClass("fa-plus-square-o").addClass("fa-minus-square-o");
+            }
+            e.stopPropagation();
+        });
+        //end family tree
+
+      });
+    </script>

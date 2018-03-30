@@ -50,6 +50,7 @@
       foreach($customer_group_names_array as $language_id => $customer_group_name) {
         
         $customer_group_name = mysqli_real_escape_string($db_link, $customer_group_name);
+        $customer_group_text = mysqli_real_escape_string($db_link, $_POST['customer_group_text']);
 
         if(isset($_POST['new_entry'][$language_id])) {
           /*
@@ -57,8 +58,8 @@
            * so we have to make a new record for the language, and not update an old one
            */
           
-          $query_customer_group = "INSERT INTO `customers_groups_languages`(`customer_group_id`,`language_id`,`customer_group_name`) 
-                                                                    VALUES ('$current_customer_group_id','$language_id','$customer_group_name')";
+          $query_customer_group = "INSERT INTO `customers_groups_languages`(`customer_group_id`,`language_id`,`customer_group_name`,`customer_group_text`) 
+                                                                    VALUES ('$current_customer_group_id','$language_id','$customer_group_name','$customer_group_text')";
           //echo $query_customer_group;
           $all_queries .= "<br>".$query_customer_group;
           $result_inser_customer_group_name = mysqli_query($db_link, $query_customer_group);
@@ -69,7 +70,7 @@
           }
         }
         else {
-          $query_update_customer_group = "UPDATE `customers_groups_languages` SET `customer_group_name` = '$customer_group_name'
+          $query_update_customer_group = "UPDATE `customers_groups_languages` SET `customer_group_name` = '$customer_group_name',`customer_group_text` = '$customer_group_text'
                                            WHERE `customer_group_id` = '$current_customer_group_id' AND `language_id` = '$language_id'";
           //echo $query_update_customer_group;
           $all_queries .= "<br>".$query_update_customer_group;
@@ -140,7 +141,7 @@
 
             
             if(!isset($_POST['submit_customer_group'])) {
-              $query_customer_group = "SELECT `customer_group_name` FROM `customers_groups_languages` 
+              $query_customer_group = "SELECT `customer_group_name`,`customer_group_text` FROM `customers_groups_languages` 
                                         WHERE `customer_group_id` = '$current_customer_group_id' AND `language_id` = '$language_id'";
               //echo $query_customer_group;
               $result_customer_group = mysqli_query($db_link, $query_customer_group);
@@ -148,6 +149,7 @@
               if(mysqli_num_rows($result_customer_group) > 0) {
                 $customer_group_array = mysqli_fetch_assoc($result_customer_group);
                 //echo"<pre>";print_r($attribute_group_array);
+                $customer_group_texts_array[$language_id] = $customer_group_array['customer_group_text'];
                 $customer_group_names_array[$language_id] = $customer_group_array['customer_group_name'];
               }
             }

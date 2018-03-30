@@ -25,6 +25,7 @@
       if(empty($customer_group_name)) $customer_group_errors['customer_group_name'][$language_id] = $languages['required_field_error'];
       
       $customer_group_names_array[$language_id] = $_POST['customer_group_name'][$language_id];
+      $customer_group_texts_array[$language_id] = $_POST['customer_group_text'][$language_id];
     }
 
     if(empty($customer_group_errors)) {
@@ -49,9 +50,10 @@
       foreach($customer_group_names_array as $language_id => $customer_group_name) {
         
         $customer_group_name = mysqli_real_escape_string($db_link, $customer_group_name);
+        $customer_group_text_db = mysqli_real_escape_string($db_link, $customer_group_texts_array[$language_id]);
         
-        $query_users_type_desc = "INSERT INTO `customers_groups_languages`(`customer_group_id`,`language_id`,`customer_group_name`) 
-                                                                  VALUES ('$customer_group_id','$language_id','$customer_group_name')";
+        $query_users_type_desc = "INSERT INTO `customers_groups_languages`(`customer_group_id`,`language_id`,`customer_group_name`,`customer_group_text`) 
+                                                                  VALUES ('$customer_group_id','$language_id','$customer_group_name','$customer_group_text_db')";
         //echo $query_users_type_desc;
         $all_queries .= "<br>".$query_users_type_desc;
         mysqli_query($db_link, $query_users_type_desc);
@@ -106,35 +108,31 @@
 
           $language_id = $row_languages['language_id'];
           $language_code = $row_languages['language_code'];
-          $language_menu_name = $row_languages['language_menu_name'];
 ?>
-          <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
+        <div id="<?=$language_code;?>" class="language_tab tab row">
+          <div class="col-lg-6 col-md-10 col-sm-12 col-xs-12">
+            <label for="customer_group_name" class="title"><?=$languages['header_author'];?><span class="red">*</span></label>
             <?php
-              if($key == 0) {
-            ?>
-              <label for="customer_group_name" class="title"><?=$languages['header_name'];?>
-                <span class="red">*</span>
-              </label>
-            <?php
-              }
               if(isset($customer_group_errors['customer_group_name'][$language_id])) {
                 echo "<div class='error'>".$customer_group_errors['customer_group_name'][$language_id]."</div>";
               }
-              if(!isset($customer_group_names_array[$language_id])) {
-                /*
-                 * no record for this language, because the language was added after the first time the status was created
-                 */
-            ?>
-              <input type="hidden" name="new_entry[<?=$language_id;?>]" value="1" />
-            <?php 
-              }
             ?>
             <input type="text" name="customer_group_name[<?=$language_id;?>]" class="customer_group_name" value="<?php if(isset($customer_group_names_array[$language_id])) echo $customer_group_names_array[$language_id];?>" />
-            &nbsp;&nbsp;<img src="/<?=$_SESSION['admin_dir_name'];?>/images/flags/<?=$language_code;?>.png" title="<?=$language_menu_name;?>" />
           </div>
-          <p class="clearfix"></p>
+          <div class="clearfix"></div>
+
+          <div>
+            <label for="customer_group_text" class="title"><?=$languages['header_text'];?><span class="red">*</span></label>
+            <?php
+              if(isset($customer_group_errors['customer_group_text'][$language_id])) {
+                echo "<div class='error'>".$customer_group_errors['customer_group_text'][$language_id]."</div>";
+              }
+            ?>
+            <textarea name="customer_group_text[<?=$language_id;?>]" id="ckeditor_customer_group_text_<?=$language_code;?>" class="default_text"><?php if(isset($customer_group_texts_array[$language_id])) echo $customer_group_texts_array[$language_id];?></textarea>
+          </div>
+          <div class="clearfix"></div>
+        </div>
 <?php
-          $key++;
         }
       }
 ?>
@@ -157,5 +155,36 @@
   print_html_admin_footer();
   
 ?>
+  <script type="text/javascript" src="/modules/ckeditor/ckeditor/ckeditor.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+<?php
+      if(!empty($languages_array)) {
+        foreach($languages_array as $row_languages) {
+              
+          $language_code = $row_languages['language_code'];
+?>
+          CKEDITOR.replace('ckeditor_customer_group_text_<?=$language_code;?>');
+<?php
+        }
+      }
+?>
+      // language tab switcher
+      $(".language_tabs li").removeClass("active");
+      $(".language_tab").hide();
+      $(".language_tabs li:first").addClass("active");
+      $(".language_tab:first").show();
+      $(".language_tabs a").click(function() {
+        var this_link = $(this);
+        var clicked_tab = this_link.attr("href");
+        $(".language_tabs li").removeClass("active");
+        this_link.parent().addClass("active");
+        $(".language_tab").hide();
+        $(clicked_tab).fadeIn();
+        event.preventDefault();
+      });
+      // end language tab switcher
+    });
+  </script>
 </body>
 </html>

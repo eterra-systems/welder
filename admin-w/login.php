@@ -116,9 +116,11 @@ if(isset($_POST['login'])) {
           $_SESSION['admin']['user_type_is_superuser'] = $user_type_is_superuser;
           $_SESSION['admin']['user_username'] = $user_username;
           $_SESSION['admin']['user_fullname'] = (empty($contact_last_name) ? "$contact_first_name" : "$contact_first_name $contact_last_name");
+          $redirect_link = $_SESSION['redirect_link'];
+          unset($_SESSION['redirect_link']);
           unset($_SESSION['login_error']);
           ?>
-            <script>window.location.href="<?=$_SESSION['redirect_link'];?>"</script>
+            <script>window.location.href="<?=$redirect_link;?>"</script>
           <?php
         }
         else {

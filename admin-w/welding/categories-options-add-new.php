@@ -381,7 +381,7 @@
             <input type="checkbox" name="select_all" class="select_all" <?php if($select_all == 1) echo 'checked="checked"';?>> <?=$languages['text_select_all'];?>
             <div class="tree">
               <ul>
-                <?php list_categories_with_checkboxes($category_parent_id = 0, $category_ids); ?>
+                <?php list_categories_with_checkboxes($category_parent_id = 0,$category_root_id = 0,$category_ids); ?>
               </ul>
             </div>
           </div>

@@ -52,7 +52,7 @@
     if(!isset($testimonial_errors)) {
       //if there are no form errors we can insert the information
       
-      $testimonial_sort_order = get_testimonial_last_order_value()+1;
+      $testimonial_sort_order = get_last_sort_order("testimonials","testimonial_sort_order")+1;
       $testimonial_image_name_db = ($testimonial_image_set) ? "'$image_name_full'" : "NULL";
       
       $query_insert_testimonial = "INSERT INTO `testimonials`(`testimonial_id`, `testimonial_image`, `testimonial_is_active`, `testimonial_sort_order`) 

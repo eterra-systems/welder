@@ -28,7 +28,7 @@
         //echo $query_update_slider_1;
       $result_update_slider_1 = mysqli_query($db_link, $query_update_slider_1);
       if(!$result_update_slider_1) {
-        echo $sliders['sql_error_update']." - ".mysqli_error($db_link);
+        echo $languages['sql_error_update']." - ".mysqli_error($db_link);
         mysqli_query($db_link,"ROLLBACK");
         exit;
       }
@@ -37,7 +37,7 @@
         //echo $query_update_slider_2;
       $result_update_slider_2 = mysqli_query($db_link, $query_update_slider_2);
       if(!$result_update_slider_2) {
-        echo $sliders['sql_error_update']." - ".mysqli_error($db_link);
+        echo $languages['sql_error_update']." - ".mysqli_error($db_link);
         mysqli_query($db_link,"ROLLBACK");
         exit;
       }
@@ -49,7 +49,7 @@
         //echo $query_update_slider_1;
       $result_update_slider_1 = mysqli_query($db_link, $query_update_slider_1);
       if(!$result_update_slider_1) {
-        echo $sliders['sql_error_update']." - ".mysqli_error($db_link);
+        echo $languages['sql_error_update']." - ".mysqli_error($db_link);
         mysqli_query($db_link,"ROLLBACK");
         exit;
       }
@@ -58,7 +58,7 @@
         //echo $query_update_slider_2;
       $result_update_slider_2 = mysqli_query($db_link, $query_update_slider_2);
       if(!$result_update_slider_2) {
-        echo $sliders['sql_error_update']." - ".mysqli_error($db_link);
+        echo $languages['sql_error_update']." - ".mysqli_error($db_link);
         mysqli_query($db_link,"ROLLBACK");
         exit;
       }

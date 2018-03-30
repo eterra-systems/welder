@@ -830,9 +830,13 @@ function list_content_types() {
   
   global $db_link;
   global $current_lang;
+  global $current_language_id;
   global $languages;
   
-  $query_content_types = "SELECT `contents_types`.* FROM `contents_types` ORDER  BY `content_type_sort_order` ASC";
+  $query_content_types = "SELECT `contents_types`.*,`ctl`.`content_type_name`
+                            FROM `contents_types` 
+                       LEFT JOIN `contents_types_languages` as `ctl` ON (`ctl`.`content_type_id` = `contents_types`.`content_type_id` AND `ctl`.`language_id` = '$current_language_id')
+                       ORDER  BY `contents_types`.`content_type_sort_order` ASC";
   $result_content_types = mysqli_query($db_link, $query_content_types);
   if(!$result_content_types) echo mysqli_error($db_link);
   $content_type_count = mysqli_num_rows($result_content_types);
@@ -845,8 +849,9 @@ function list_content_types() {
       $content_type_id = $row_content_types['content_type_id'];
       $content_type = $row_content_types['content_type'];
       $content_type_is_active = $row_content_types['content_type_is_active'];
+      $set_content_type = ($content_type_is_active == 1) ? 0 : 1;
       $content_type_sort_order = $row_content_types['content_type_sort_order'];
-      $content_type_lang = $languages[$content_type];
+      $content_type_name = $row_content_types['content_type_name'];
       if(!isset($class)) $class = "even";
       $class = (($class == "odd") ? "even" : "odd");
       $edit_link = "/".$_SESSION['admin_dir_name']."/content/content-types-details.php?content_type_id=$content_type_id";
@@ -856,11 +861,11 @@ function list_content_types() {
           <tr class="<?=$class?>">
             <td width="3%" class="text_left"><?=$content_type_id;?></td>
             <td width="40%" class="text_left">
-              <span class="red_link"><?=$content_type_lang;?></span>
+              <span class="red_link"><?=$content_type_name;?></span>
             </td>
             <td width="30%" class="text_left"><?=$content_type;?></td>
             <td width="5%">
-              <a href="javascript:;" class="edit_link" onclick="SetContentTypeActiveInactive(this,'<?=$content_type_id;?>', '<?=$set_content;?>')">
+              <a href="javascript:;" class="edit_link" onclick="SetContentTypeActiveInactive(this,'<?=$content_type_id;?>', '<?=$set_content_type;?>')">
                 <?php if($content_type_is_active == 1) { ?>
                   <img src="/<?=$_SESSION['admin_dir_name'];?>/images/true.gif" class="systemicon img_active" alt="<?=$languages['alt_deactivate'];?>" title="<?=$languages['title_deactivate'];?>" width="16" height="16" />
                 <?php } else { ?>
@@ -875,18 +880,18 @@ function list_content_types() {
                 if($content_type_count > 1) { 
                   if($key == 0) {
               ?>
-                <a href="javascript:;" class="edit_link" onclick="MoveContentTypeForwardBackward('<?=$content_type_id;?>','<?=$content_menu_order;?>','backward')">
+                <a href="javascript:;" class="edit_link" onclick="MoveContentTypeForwardBackward('<?=$content_type_id;?>','<?=$content_type_sort_order;?>','backward')">
                   <img src="/<?=$_SESSION['admin_dir_name'];?>/images/arrow-d.gif" class="systemicon" alt="<?=$languages['alt_move_content_backward'];?>" title="<?=$languages['title_move_content_backward'];?>" width="16" height="16" />
                 </a>
               <?php } elseif($key == $content_type_count-1) { ?>
-                <a href="javascript:;" class="edit_link" onclick="MoveContentTypeForwardBackward('<?=$content_type_id;?>','<?=$content_menu_order;?>','forward')">
+                <a href="javascript:;" class="edit_link" onclick="MoveContentTypeForwardBackward('<?=$content_type_id;?>','<?=$content_type_sort_order;?>','forward')">
                   <img src="/<?=$_SESSION['admin_dir_name'];?>/images/arrow-u.gif" class="systemicon" alt="<?=$languages['alt_move_content_forward'];?>" title="<?=$languages['title_move_content_forward'];?>" width="16" height="16" />
                 </a>
               <?php } else { ?>
-                <a href="javascript:;" class="edit_link" onclick="MoveContentTypeForwardBackward('<?=$content_type_id;?>','<?=$content_menu_order;?>','backward')">
+                <a href="javascript:;" class="edit_link" onclick="MoveContentTypeForwardBackward('<?=$content_type_id;?>','<?=$content_type_sort_order;?>','backward')">
                   <img src="/<?=$_SESSION['admin_dir_name'];?>/images/arrow-d.gif" class="systemicon" alt="<?=$languages['alt_move_content_backward'];?>" title="<?=$languages['title_move_content_backward'];?>" width="16" height="16" />
                 </a>
-                <a href="javascript:;" class="edit_link" onclick="MoveContentTypeForwardBackward('<?=$content_type_id;?>','<?=$content_menu_order;?>','forward')">
+                <a href="javascript:;" class="edit_link" onclick="MoveContentTypeForwardBackward('<?=$content_type_id;?>','<?=$content_type_sort_order;?>','forward')">
                   <img src="/<?=$_SESSION['admin_dir_name'];?>/images/arrow-u.gif" class="systemicon" alt="<?=$languages['alt_move_content_forward'];?>" title="<?=$languages['title_move_content_forward'];?>" width="16" height="16" />
                 </a>
               <?php 
@@ -957,12 +962,15 @@ function list_content_types_in_select($cct_id) {
   
   global $db_link;
   global $current_lang;
+  global $current_language_id;
   global $languages;
   
   //don't show language type beacause language contents are inserted automatically when adding new language WHERE `content_type_id` <> '6'
-  $query_content_types = "SELECT `content_type_id`, `content_type` FROM `contents_types` 
-                           WHERE `content_type_is_active` = '1'
-                       ORDER  BY `content_type_sort_order` ASC";
+  $query_content_types = "SELECT `contents_types`.`content_type_id`,`contents_types`.`content_type`,`ctl`.`content_type_name`
+                            FROM `contents_types` 
+                       LEFT JOIN `contents_types_languages` as `ctl` ON (`ctl`.`content_type_id` = `contents_types`.`content_type_id` AND `ctl`.`language_id` = '$current_language_id')
+                           WHERE `contents_types`.`content_type_is_active` = '1'
+                       ORDER  BY `contents_types`.`content_type_sort_order` ASC";
   $result_content_types = mysqli_query($db_link, $query_content_types);
   if(!$result_content_types) echo mysqli_error($db_link);
   if(mysqli_num_rows($result_content_types) > 0) {
@@ -970,10 +978,10 @@ function list_content_types_in_select($cct_id) {
 
       $content_type_id = $row_content_types['content_type_id'];
       $content_type = $row_content_types['content_type'];
-      $content_type_lang = $languages[$content_type];
+      $content_type_name = $row_content_types['content_type_name'];
       $selected = ($content_type_id == $cct_id) ? ' selected="selected"' : "";
 
-      echo "<option value='$content_type_id'$selected>$content_type_lang</option>";
+      echo "<option value='$content_type_id'$selected>$content_type_name</option>";
     }
     mysqli_free_result($result_content_types);
   }
@@ -990,10 +998,11 @@ function list_contents($parent_id, $path_number) {
   $query_content = "SELECT `contents`.`content_id`,`contents`.`content_parent_id`,`content_is_home_page`,`contents`.`content_has_children`,
                            `contents`.`content_hierarchy_level`,`contents`.`content_menu_order`,`contents`.`content_collapsed`,`contents`.`content_is_active`,
                            `contents_descriptions`.`content_name`,`contents_descriptions`.`content_menu_text`,
-                           `contents_descriptions`.`content_text`,`contents_descriptions`.`content_pretty_url`,`contents_types`.*
+                           `contents_descriptions`.`content_text`,`contents_descriptions`.`content_pretty_url`,`contents_types`.*,`ctl`.`content_type_name`
                       FROM `contents`
                 INNER JOIN `contents_descriptions` ON `contents_descriptions`.`content_id` = `contents`.`content_id`
                 INNER JOIN `contents_types` ON `contents_types`.`content_type_id` = `contents`.`content_type_id`
+                 LEFT JOIN `contents_types_languages` as `ctl` ON (`ctl`.`content_type_id` = `contents_types`.`content_type_id` AND `ctl`.`language_id` = '$current_language_id')
                      WHERE `contents`.`content_parent_id` = '$parent_id' AND `contents_descriptions`.`language_id` = '$current_language_id'
                   ORDER BY `content_menu_order` ASC";
   //echo $query_content;exit;
@@ -1009,7 +1018,7 @@ function list_contents($parent_id, $path_number) {
       $content_is_home_page = $content_row['content_is_home_page'];
       $content_type_id = $content_row['content_type_id'];
       $content_type = $content_row['content_type'];
-      $content_type_lang = $languages[$content_type];
+      $content_type_name = $content_row['content_type_name'];
       $content_hierarchy_level = $content_row['content_hierarchy_level'];
       $content_has_children = $content_row['content_has_children'];
       $content_name = $content_row['content_name'];
@@ -1073,7 +1082,7 @@ function list_contents($parent_id, $path_number) {
               <span class="red_link"><?="$name_dashes $content_menu_text";?></span>
             </td>
             <td width="15%" class="text_left"><?=$content_pretty_url;?></td>
-            <td width="10%"><?=$content_type_lang;?></td>
+            <td width="10%"><?=$content_type_name;?></td>
             <td width="10%">
               <a href="javascript:;" class="edit_link" onclick="SetContentActiveInactive(this,'<?=$content_id;?>', '<?=$set_content;?>')">
                 <?php if($content_is_active == 1) { ?>

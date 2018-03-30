@@ -670,3 +670,23 @@ function AddProductRating(product_id) {
     console.log(e)
   })
 }
+
+function DeleteCertificate(certificate_id,certificate_name) {
+  ShowAjaxLoader();
+  $.ajax({
+    url: "/"+sitefolder+"/ajax/delete-certificate.php",
+    type: "POST",
+    data: {
+      certificate_id: certificate_id,
+      certificate_name: certificate_name
+    }
+  }).done(function (content_types) {
+
+    $("#modal_confirm").dialog("close");
+    $("#cert_"+certificate_id).remove();
+
+    HideAjaxLoader();
+  }).fail(function (error) {
+    console.log(error);
+  });
+}

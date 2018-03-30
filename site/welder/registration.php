@@ -441,9 +441,10 @@
     
     <label for="customer_skills"><?=$languages['header_skills'];?><span class="text-danger">*</span></label>
     <?php if(!empty($errors['categories'])) { ?><div class="alert alert-danger"><?=$errors['categories'];?></div><?php } ?>
-    <div class="tree row">
-      <ul>
+    <div class="tree">
+      <ul class="recent-job-wrapper">
         <?php list_categories_with_checkboxes($category_parent_id = 0, $category_root_id = 0, $category_ids_tree) ;?>
+        <li class="level_1 clearfix"></li>
       </ul>
     </div>
     <div class="clearfix">&nbsp;</div>

@@ -1,5 +1,5 @@
 <?php
-define("DOMAIN", "zavarka.bg");
+define("DOMAIN", "welder.eterrasystems.com");
 define("PROTOCOL", "http://");
 define("SITEFOLDER", "site");
 define("SITEFOLDERSL", "/site");
