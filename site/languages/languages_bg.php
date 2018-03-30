@@ -179,6 +179,7 @@ $languages = array(
   "header_invoice_address" => "Адрес за фактуриране",
   "header_skills" => "Умения",
   "header_certificates" => "Сертификати",
+  "header_new_jobs" => "Създаване на обяви",
   "header_saved_jobs" => "Записани обяви",
   "header_wishlist" => "Списък с любими",
   "header_newsletter" => "Абонирай се",

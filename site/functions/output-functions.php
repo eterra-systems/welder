@@ -332,12 +332,6 @@ function print_html_company_profile_menu() {
       </div>
 
       <ul class="admin-user-menu clearfix">
-      <li<?php if (is_active_page("user-profile-dashboard")) echo ' class="active"'; ?>>
-        <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-dashboard" rel="nofollow">
-          <i class="fa fa-tachometer" aria-hidden="true"></i>
-          <span><?= $languages['header_user_dashboard']; ?></span>
-        </a>
-      </li>
       <li<?php if (is_active_page("user-profile-data")) echo ' class="active"'; ?>>
         <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-data" rel="nofollow">
           <i class="fa fa-user" aria-hidden="true"></i>
@@ -353,13 +347,7 @@ function print_html_company_profile_menu() {
       <li<?php if (is_active_page("user-profile-skills")) echo ' class="active"'; ?>>
         <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-skills" rel="nofollow">
           <i class="fa fa-wrench" aria-hidden="true"></i>
-          <span><?= $languages['header_skills']; ?></span>
-        </a>
-      </li>
-      <li<?php if (is_active_page("user-profile-certificates")) echo ' class="active"'; ?>>
-        <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-certificates" rel="nofollow">
-          <i class="fa fa-newspaper-o" aria-hidden="true"></i>
-          <span><?= $languages['header_certificates']; ?></span>
+          <span><?= $languages['header_new_jobs']; ?></span>
         </a>
       </li>
       <li<?php if (is_active_page("user-profile-bookmarks")) echo ' class="active"'; ?>>

@@ -57,6 +57,10 @@
     if(!$result_customer) echo mysqli_error($db_link);
     if(mysqli_num_rows($result_customer) > 0) {
       $customer = mysqli_fetch_assoc($result_customer);
+      $customer_site_id = $customer['site_id'];
+      $customer_image = $customer['customer_image'];
+      $profile_image = (empty($customer_image)) ? SITEFOLDERSL."/images/no-profile-man-medium.jpg" : 
+                                                  SITEFOLDERSL.DIRECTORY_SEPARATOR.$_SESSION['customer_group_code']."/profile-images/$customer_id/$customer_image";
       $customer_email = $customer['customer_email'];
       $customer_phone = $customer['customer_phone'];
       $customer_companyname = $customer['company_name'];
@@ -70,6 +74,18 @@
       //$customer_work_abroad_long_term = $customer['long_term'];
       $customer_explanation_text = $customer['explanation_text'];
       $customer_is_in_mailist = $customer['customer_is_in_mailist'];
+      if($customer_site_id != 0) {
+        $query_customer_site = "SELECT `site_type`, `site_name`, `site_postcode` FROM `sites` WHERE `site_id` = '$customer_site_id'";
+        $result_customer_site = mysqli_query($db_link, $query_customer_site);
+        if(!$result_customer_site) echo mysqli_error($db_link);
+        if(mysqli_num_rows($result_customer_site) > 0) {
+          $site = mysqli_fetch_assoc($result_customer_site);
+
+          $customer_site_type = $site['site_type'];
+          $customer_site_name = mb_convert_case($site['site_name'], MB_CASE_TITLE, "UTF-8");
+          $customer_site_postcode = $site['site_postcode'];
+        }
+      }
     }
     //echo "<pre>";print_r($_SERVER);
   }
@@ -78,9 +94,7 @@
 <?php
     if(isset($success)) {
 ?>
-  <div class="row">
-    <p class="alert alert-success">Промерните бяха запазени успешно</p>
-  </div>
+    <p class="alert alert-success mb-15"><?=$languages['text_update_was_successfull'];?></p>
 <?php
     }
     if(!empty($errors)) {
@@ -89,6 +103,19 @@
     }
 ?>
       <input type="hidden" name="customer_id" id="customer_id" value="<?=$customer_id;?>">
+      
+      <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+          <div class="form-group bootstrap-fileinput-style-01">
+            <label for="profile_image"><?=$languages['header_image'];?></label>
+            <input type="hidden" name="profile_image_preview" id="profile_image_preview" value="<?=$profile_image;?>">
+            <input type="hidden" id="upload_url" value="<?=SITEFOLDERSL.DIRECTORY_SEPARATOR.$_SESSION['customer_group_code']."/ajax/upload-profile-image.php";?>">
+            <input type="file" name="profile_image" id="profile_image">
+            <span class="font12 font-italic hidden"><i class="fa fa-info-circle"></i> photo must not bigger than 250kb</span>
+          </div>
+        </div>
+      </div>
+      <p class="clearfix"></p>
       
       <div class="row">
       <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -101,7 +128,7 @@
 
       <div class="row">
         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-          <label for="customer_firstname"><?=$languages['header_firstname'];?><span class="red">*</span></label>
+          <label for="customer_firstname"><?=$languages['header_customer_contactperson'].' / '.$languages['header_customer_firstname'];?><span class="red">*</span></label>
           <input type="text" name="customer_firstname" id="customer_firstname" class="form-control" value="<?php if(isset($customer_firstname)) echo $customer_firstname;?>" />
           <?php if(!empty($errors['customer_firstname'])) { ?><div class="alert alert-danger"><?=$errors['customer_firstname'];?></div><?php } ?>
         </div>
@@ -132,24 +159,6 @@
           <input type="hidden" name="customer_address_site_postcode" id="customer_address_site_postcode" value="<?php if(isset($customer_address_site_postcode)) echo $customer_address_site_postcode;?>" />
           <?php if(!empty($errors['customer_address_site_name'])) { ?>&nbsp;&nbsp;<span class="alert alert-danger"><?=$errors['customer_address_site_name'];?></span><?php } ?>
         </div>
-      </div>
-    </div>
-    <div class="clearfix">&nbsp;</div>
-    
-      <p class="alert alert-info"><i><?=$languages['text_email_specs'];?></i></p>
-    <div class="row<?php if(!empty($errors['customer_password'])) echo ' form-error';?>">
-      <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-        <label for="customer_password"><?=$languages['header_customer_password'];?><span class="red">*</span></label>
-        <input type="password" name="customer_password" id="customer_password" class="form-control" value="<?php if(isset($customer_password)) echo $customer_password;?>" onBlur="ValidateUserPassword(this.value,'<?=$current_lang;?>')"  />
-        <span id="customer_password_is_valid"></span>
-        <?php if(!empty($errors['customer_password'])) { ?><span class="alert alert-danger"><?=$errors['customer_password'];?></span><?php } ?>
-      </div>
-      <p class="clearfix hidden-lg hidden-md"></p>
-      
-      <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12<?php if(!empty($errors['customer_password_retype'])) echo ' form-error';?>">
-        <label for="customer_password_retype"><?=$languages['header_customer_password_retype'];?><span class="red">*</span></label>
-        <input type="password" name="customer_password_retype" id="customer_password_retype" class="form-control" value="<?php if(isset($customer_password_retype)) echo $customer_password_retype;?>" />
-        <?php if(!empty($errors['customer_passwords_mismatch'])) { ?><span class="alert alert-danger"><?=$errors['customer_passwords_mismatch'];?></span><?php } ?>
       </div>
     </div>
     <div class="clearfix">&nbsp;</div>

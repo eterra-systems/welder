@@ -64,7 +64,7 @@
     }
 ?>
       <input type="hidden" name="customer_id" id="customer_id" value="<?=$customer_id;?>">
-    
+    <p class="alert alert-info"><i><?=$languages['text_email_specs'];?></i></p>
       <div class="row">
         <?php if(!empty($errors['error_required_field'])) { ?><br><span class="alert alert-danger"><?=$errors['error_required_field'];?></span><?php } ?>
         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
