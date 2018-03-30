@@ -107,7 +107,7 @@
       <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
           <div class="form-group bootstrap-fileinput-style-01">
-            <label for="profile_image"><?=$languages['header_image'];?></label>
+            <label for="profile_image"><?=$languages['header_image_company'];?></label>
             <input type="hidden" name="profile_image_preview" id="profile_image_preview" value="<?=$profile_image;?>">
             <input type="hidden" id="upload_url" value="<?=SITEFOLDERSL.DIRECTORY_SEPARATOR.$_SESSION['customer_group_code']."/ajax/upload-profile-image.php";?>">
             <input type="file" name="profile_image" id="profile_image">

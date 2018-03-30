@@ -315,15 +315,19 @@ function print_html_company_profile_menu() {
     global $languages;
     global $current_lang;
     
-    $customer_company_name = $_SESSION['company']['company_name']; 
+    $customer_company_name = $_SESSION['company']['company_name'];
+    $customer_id = $_SESSION['customer_id'];
+    $customer_image = $_SESSION['customer_image'];
+    $profile_image = (empty($customer_image)) ? SITEFOLDERSL."/images/no-profile-man-medium.jpg" : 
+                                                SITEFOLDERSL.DIRECTORY_SEPARATOR.$_SESSION['customer_group_code']."/profile-images/$customer_id/$customer_image";
 ?>
   <div class="GridLex-col-3_sm-4_xs-12">
     <div class="admin-sidebar">
-
-      <div class="admin-user-item">
+        
+        <div class="admin-user-item">
 
         <div class="image">
-          <img src="images/man/01.jpg" alt="image" class="img-circle" />
+          <img src="<?=$profile_image;?>" width="100" height="100" alt="<?=$customer_company_name;?>" class="img-circle" />
         </div>
 
         <h4><?=$customer_company_name;?></h4>

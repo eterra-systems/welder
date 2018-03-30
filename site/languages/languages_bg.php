@@ -92,6 +92,7 @@ $languages = array(
   "header_location" => "Местоположение",
   "header_menu" => "Меню",
   "header_image" => "Снимка",
+  "header_image_company" => "Фирмено лого",
   "header_phone" => "Телефон",
   "header_fax" => "Факс",
   "header_email" => "Email",
