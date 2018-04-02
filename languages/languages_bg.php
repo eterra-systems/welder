@@ -452,6 +452,7 @@ $languages = array(
   "header_default_product_image" => "Снимка по подразбиране",
   "header_change_image" => "Смени снимката",
   "header_current_image" => "Текуща снимка",
+  "header_choose_customer_group" => "Избери потребителска група",
   "header_customer_group" => "Потребителска група",
   "header_customer_group_code" => "Код на групата",
   "header_choose_new_default_image" => "Избери нова снимка по подразбиране",

@@ -1065,21 +1065,24 @@ function DeleteMenuLinkNote() {
   });
 }
 
-function DeleteCustomer() {
-  if (CheckDeleteRights() === false)
-    return;
+function GetCustomersForGroup() {
   ShowAjaxLoader();
-  var customer_id = $(".delete_customer_link.active").attr("data-id");
+  var customer_group_id = $(".selected_customer_group a").attr("data-id");
+  var customer_group_code = $(".selected_customer_group a").attr("data-code");
+  //alert(friendly_url);return;
   $.ajax({
-    url: "/" + admin_dir_name + "/customers/ajax/delete/delete-customer.php",
+    url: "/" + admin_dir_name + "/customers/ajax/get/get-customers-for-group.php",
     type: "POST",
     data: {
-      customer_id: customer_id
+      customer_group_id: customer_group_id,
+      customer_group_code: customer_group_code
     }
-  }).done(function () {
-    //alert(data);
-    $("#modal_confirm").dialog("close");
-    $("div#customer_" + customer_id).remove();
+  }).done(function(customers_list) {
+
+    $(".contents_options").show();
+    $("#right_column").show();
+    $("#customers_list").html(customers_list);
+
     HideAjaxLoader();
   }).fail(function (error) {
     console.log(error);
@@ -1128,6 +1131,27 @@ function ToggleCustomerDetails(customer_id) {
     $("#customer_" + customer_id + " .toggle_user_details").html("&minus;");
     $("#customer_" + customer_id + " tr").removeClass("hover");
   }
+}
+
+function DeleteCustomer() {
+  if (CheckDeleteRights() === false)
+    return;
+  ShowAjaxLoader();
+  var customer_id = $(".delete_customer_link.active").attr("data-id");
+  $.ajax({
+    url: "/" + admin_dir_name + "/customers/ajax/delete/delete-customer.php",
+    type: "POST",
+    data: {
+      customer_id: customer_id
+    }
+  }).done(function () {
+    //alert(data);
+    $("#modal_confirm").dialog("close");
+    $("div#customer_" + customer_id).remove();
+    HideAjaxLoader();
+  }).fail(function (error) {
+    console.log(error);
+  });
 }
 
 function GetCustomerLog(customer_id) {

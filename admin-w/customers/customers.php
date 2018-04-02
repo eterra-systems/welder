@@ -135,35 +135,35 @@
     }
     $query_customers = "SELECT `customers`.* FROM `customers` ORDER BY $order_by";
   }
-  echo $query_customers;
-  $result_customers = mysqli_query($db_link,$query_customers);
-  if(!$result_customers) echo mysqli_error($db_link);
-  if(!isset($customers_count)) {
-    $customers_count = mysqli_num_rows($result_customers);
-    $query_customers .= " LIMIT $offset,$page_offset";
-    $result_customers = mysqli_query($db_link,$query_customers);
-    if(!$result_customers) echo mysqli_error($db_link);
-  }
-  else {
-    $query_customers .= " LIMIT $offset,$page_offset";
-    $result_customers = mysqli_query($db_link,$query_customers);
-    if(!$result_customers) echo mysqli_error($db_link);
-  }
-  $customers = array();
-  if(mysqli_num_rows($result_customers) > 0) {
-    
-    // if the results are more then $page_offset
-    // making a pagination, finding how many pages will be needed
-    $current_page = ($offset/$page_offset)+1;
-
-    if($customers_count > $page_offset) {
-      $page_count = ceil($customers_count/$page_offset);
-    }
-
-    while($row = mysqli_fetch_assoc($result_customers)) {
-      $customers[] = $row;
-    }
-  }
+  
+//  $result_customers = mysqli_query($db_link,$query_customers);
+//  if(!$result_customers) echo mysqli_error($db_link);
+//  if(!isset($customers_count)) {
+//    $customers_count = mysqli_num_rows($result_customers);
+//    $query_customers .= " LIMIT $offset,$page_offset";
+//    $result_customers = mysqli_query($db_link,$query_customers);
+//    if(!$result_customers) echo mysqli_error($db_link);
+//  }
+//  else {
+//    $query_customers .= " LIMIT $offset,$page_offset";
+//    $result_customers = mysqli_query($db_link,$query_customers);
+//    if(!$result_customers) echo mysqli_error($db_link);
+//  }
+//  $customers = array();
+//  if(mysqli_num_rows($result_customers) > 0) {
+//    
+//    // if the results are more then $page_offset
+//    // making a pagination, finding how many pages will be needed
+//    $current_page = ($offset/$page_offset)+1;
+//
+//    if($customers_count > $page_offset) {
+//      $page_count = ceil($customers_count/$page_offset);
+//    }
+//
+//    while($row = mysqli_fetch_assoc($result_customers)) {
+//      $customers[] = $row;
+//    }
+//  }
   //echo "<pre>";print_r($customers);echo "</pre>";
   //echo $query_customers."<br>";
   
@@ -206,13 +206,13 @@
 ?>
       <!--begin of left_col-->
       <div id="left_column">
-        <table id="choose_user_type" class="list_container margin_bottom">
+        <table id="choose_customer_group" class="list_container margin_bottom">
           <thead>
-            <tr><th><?=$languages['header_choose_user_group'];?></th></tr>
+            <tr><th><?=$languages['header_choose_customer_group'];?></th></tr>
           </thead>
           <tbody>
 <?php
-          $query_customers_groups = "SELECT `customers_groups`.`customer_group_id`,`customers_groups`.`customer_group_sort_order`,`cgl`.`customer_group_name`
+          $query_customers_groups = "SELECT `customers_groups`.`customer_group_id`,`customers_groups`.`customer_group_code`,`cgl`.`customer_group_name`
                                        FROM `customers_groups`
                                  INNER JOIN `customers_groups_languages` as `cgl` ON `cgl`.`customer_group_id` = `customers_groups`.`customer_group_id`
                                       WHERE `cgl`.`language_id` = '$current_language_id'
@@ -228,14 +228,15 @@
             while($customers_groups = mysqli_fetch_assoc($result_customers_groups)) {
 
               $customer_group_id = $customers_groups['customer_group_id'];
+              $customer_group_code = $customers_groups['customer_group_code'];
               $customer_group_name = stripslashes($customers_groups['customer_group_name']);
 
-             echo "<tr><td class='text_left'><a data-id='$customer_group_id' class='red_link'>$customer_group_name</a></td></tr>";
+             echo "<tr><td class='text_left'><a data-id='$customer_group_id' data-code='$customer_group_code' class='red_link'>$customer_group_name</a></td></tr>";
             }
           }
           else {   
 ?>
-            <tr><td><?=$languages['no_user_types_yet'];?></td></tr>
+            <tr><td><?=$languages['no_customer_types_yet'];?></td></tr>
 <?php    
           }
 ?>
@@ -248,14 +249,12 @@
         <table>
           <thead>
             <tr>
-              <th style="width:5%"><?=$languages['btn_save'];?></th>
               <th style="width:15%" class="text_left">
                 <a href="<?php echo "$page_href_for_sort&sort_by=fullname&order="; if($sort_by == "fullname") echo ($order == "ASC") ? "DESC" : "ASC"; else echo "ASC";?>" class="<?php if($sort_by == "fullname") echo $link_order_class;?>">
                   <?=$languages['header_fullname'];?>
                 </a>
               </th>
-              <th style="width:10%"><?=$languages['header_customer_group'];?></th>
-              <th style="width:16%" class="text_left">
+              <th style="width:15%" class="text_left">
                 <a href="<?="$page_href_for_sort&sort_by=email&order="; if($sort_by == "email") echo ($order == "ASC") ? "DESC" : "ASC"; else echo "ASC";?>" class="<?php if($sort_by == "email") echo $link_order_class;?>">
                   <?=$languages['header_email'];?>
                 </a>
@@ -281,30 +280,8 @@
           <table>
             <tbody>
               <tr class="filter">
-                <td style="width:5%">
-                </td>
                 <td style="width:15%" class="text_left"><input type="text" name="filter_c_name" id="filter_c_name" value="<?php if(isset($filter_c_name)) echo $filter_c_name;?>" /></td>
-                <td style="width:10%">
-                  <select name="filter_c_group_id" id="filter_c_group_id">
-                    <option value="0"></option>
-<?php
-                  if(count($customers_groups) > 0) {
-                    foreach($customers_groups as $customers_group) {
-
-                      $customer_group_id = $customers_group['customer_group_id'];
-                      $customer_group_translation_text = $customers_group['customer_group_translation_text'];
-                      if(isset($filter_c_group_id)) {
-                        $class_selected = ($customer_group_id == $filter_c_group_id) ? 'selected="selected"' : "";
-                      }
-                      else $class_selected = "";
-
-                      echo "<option value='$customer_group_id' $class_selected>$customer_group_translation_text</option>";
-                    }
-                  }
-?>
-                  </select>
-                </td>
-                <td style="width:16%" class="text_left">
+                <td style="width:15%" class="text_left">
                   <input type="text" name="filter_c_email" id="filter_c_email" value="<?php if(isset($filter_c_email)) echo $filter_c_email;?>" />
                 </td>
                 <td style="width:10%" class="text_left">
@@ -335,183 +312,16 @@
         </form>
         <input type="hidden" id="current_page" value="<?=$_SERVER['PHP_SELF'];?>">
         <div id="customers_list" class="margin_bottom">
-<?php
-      if(count($customers) > 0) {
-        foreach($customers as $customer) {
-          
-          $customer_id = $customer['customer_id'];
-          $current_customer_group_id = $customer['customer_group_id'];
-          $customer_firstname = $customer['customer_firstname'];
-          $customer_lastname = $customer['customer_lastname'];
-          $customer_email = $customer['customer_email'];
-          $customer_phone = $customer['customer_phone'];
-          $customer_is_in_mailist = $customer['customer_is_in_mailist'];
-          $customer_is_blocked = $customer['customer_is_blocked'];
-          $customer_is_active = $customer['customer_is_active'];
-          $customer_registration_date = date("m-d-Y",  strtotime($customer['customer_registration_date']));
-          
-          if(!isset($class)) $class = "even";
-          $class = (($class == "odd") ? "even" : "odd");
-?>
-          <div id="customer_<?=$customer_id;?>" class="row_over">
-            <table>
-              <tr class="<?=$class;?>">
-                <td style="width:5%">
-                  <button class="btn_save" onClick="EditCustomer('<?=$customer_id;?>')">
-                    <?=$languages['btn_save'];?>
-                  </button>
-                </td>
-                <td style="width:15%" class="text_left"><?="$customer_firstname $customer_lastname";?></td>
-                <td style="width:10%">
-                  <select name="select_customer_group_id" class="select_customer_group_id">
-<?php
-                if(count($customers_groups) > 0) {
-                  foreach($customers_groups as $customers_group) {
 
-                    $customer_group_id = $customers_group['customer_group_id'];
-                    $customer_group_translation_text = $customers_group['customer_group_translation_text'];
-                    $class_selected = ($customer_group_id == $current_customer_group_id) ? 'selected="selected"' : "";
-
-                    echo "<option value='$customer_group_id' $class_selected>$customer_group_translation_text</option>";
-                  }
-                }
-?>
-                  </select>
-                </td>
-                <td style="width:16%" class="text_left"><?=$customer_email;?></td>
-                <td style="width:10%" class="text_left"><?=$customer_phone;?></td>
-                <td style="width:10%">
-                  <div class="checkbox<?php if ($customer_is_in_mailist == 1) echo ' checkbox_checked';?>">
-                    <input type="checkbox" name="customer_is_in_mailist" class="customer_is_in_mailist" onClick="Checkbox(this)" <?php if ($customer_is_in_mailist == 1) echo 'checked="checked"';?> />
-                  </div>
-                </td>
-                <td style="width:5%">
-                  <div class="checkbox<?php if ($customer_is_blocked == 1) echo ' checkbox_checked';?>">
-                    <input type="checkbox" name="customer_is_blocked" class="customer_is_blocked" onClick="Checkbox(this)" <?php if ($customer_is_blocked == 1) echo 'checked="checked"';?> />
-                  </div>
-                </td>
-                <td style="width:5%">
-                  <div class="checkbox<?php if ($customer_is_active == 1) echo ' checkbox_checked';?>">
-                    <input type="checkbox" name="customer_is_active" class="customer_is_active" onClick="Checkbox(this)" <?php if ($customer_is_active == 1) echo 'checked="checked"';?> />
-                  </div>
-                </td>
-                <td style="width:10%"><?=$customer_registration_date;?></td>
-                <td style="width:5%">
-                  <button class="toggle_user_details btn_toggle" onclick="ToggleCustomerDetails('<?=$customer_id;?>')">&plus;</button>
-                </td>
-                <td style="width:5%">
-                  <a href="javascript:;" class="delete_customer_link" data-id="<?=$customer_id;?>">
-                    <img src="/_admin/images/delete.gif" class="systemicon" alt="<?=$languages['alt_delete'];?>" title="<?=$languages['title_delete'];?>" style="width:16" height="16" />
-                  </a>
-                </td>
-              </tr>
-            </table>
-          </div>
-          <div id="customer_details_<?=$customer_id;?>" class="customer_details" style="display:none;">
-
-          </div>
-<?php
-        } // foreach($customers as $customer)
-        
-        // if the results are more then $page_offset make pagination
-        if(isset($page_count) && $page_count > 1) {
-?>
-        <div class="text_centered">
-          <ul id="pagination_<?=$category_id;?>" class="php_pagination pagination">
-<?php
-            $pages = 1;
-            $current_offset = $offset;
-            $offset = 0;
-            $links_arround_current = 4;
-            $is_gap = false;
-
-            if($current_page == 1) {
-              echo '<li class="disabled btn_prev_page"><a href="javascript:;" data="">&laquo;</a></li>';
-            }
-            else {
-              $prev_offset = $current_offset - $page_offset;
-              echo "<li class='btn_prev_page'><a href='$page_href_for_paging&offset=$prev_offset'>&laquo;</a></li>";
-            }
-
-            for($page = 1; $page < $page_count; $page++) { // Run through pages
-              $is_gap = false;
-              
-              // Are we at a gap?
-              // If beyond "$links_arround_current" and not first or last
-              if($links_arround_current >= 0 && $page > 1 && $page < $page_count - 1 && abs($page - $current_page) > $links_arround_current) { 
-                
-                $is_gap    = true;
-
-                // Skip to next linked item (or last if we've already run past the current page)
-                $page = ($page < $current_page) ? $current_page - $links_arround_current : $page_count - 1;
-                $page = $page-1;
-              }
-
-              $offset = ($page_offset*$page) - $page_offset;
-              $link = ($is_gap ? '...' : ($page)); // If gap, write ellipsis, else page number
-              if($page != $current_page && !$is_gap) {
-                echo "<li id='pag_$page'><a href='$page_href_for_paging&offset=$offset'>$link</a></li>";
-              }
-              else { // Do not link gaps and current
-                $li_class = ($current_page == $page) ? "active" : "disabled";
-                $a_class = ($current_page == $page) ? "" : ' class="disabled"';
-                
-                echo "<li class='$li_class'><a href='javascript:;'$a_class>$link</a></li>";
-              }
-            }
-     
-            if($current_page == $page_count) {
-              echo '<li class="disabled btn_next_page"><a href="javascript:;" data="">&raquo;</a></li>';
-            }
-            else {
-              $next_offset = $current_offset + $page_offset;
-              echo "<li class='btn_next_page'><a href='$page_href_for_paging&offset=$next_offset'>&laquo;</a></li>";
-            }
-?>
-            </ul>
-          </div>
-<?php
-        }
-        
-      } //if(count($customers) > 0) 
-      else {
-        echo "<h2>".$languages['text_no_customers_with_choosen_filters']."</h2>";
-      }
-?>
         </div>
-        <!--modal_confirm-->
-        <div style="display:none;" id="modal_confirm" class="clearfix" title="<?=$languages['are_you_sure'];?>">
-          <p style="padding:0;margin:0;width:100%;float:left;"><?=$languages['delete_customer'];?></p>
-        </div>
-        <script>
-        $(function() {
-          $(".datepicker").datepicker({ dateFormat: "dd-mm-yy" });
-          $("#modal_confirm").dialog({
-            resizable: false,
-            width: 400,
-            height: 200,
-            autoOpen: false,
-            modal: true,
-            draggable: false,
-            closeOnEscape: true,
-            dialogClass: "modal_confirm",
-            buttons: {
-              "<?=$languages['btn_delete'];?>": function() {
-                DeleteCustomer();
-                $(this).dialog("close");
-              },
-              "<?=$languages['btn_cancel'];?>": function() {
-                $(".delete_customer_link").removeClass("active");
-                $(this).dialog("close");
-              }
-            }
+        <script type="text/javascript">
+          $(document).ready(function() {
+            $("#choose_customer_group a").click(function() {
+              $("#choose_customer_group td").removeClass("selected_customer_group")
+              $(this).parent().addClass("selected_customer_group");
+              GetCustomersForGroup();
+            });
           });
-          $(".delete_customer_link").click(function() {
-            $(".delete_customer_link").removeClass("active");
-            $(this).addClass("active");
-            $("#modal_confirm").dialog("open");
-          });
-        });
         </script>
         <div class="clearfix"></div>
         

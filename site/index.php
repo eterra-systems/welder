@@ -209,16 +209,16 @@
                 //echo "remember_me on ".DOMAIN;exit;
               }
 
-              $user_type_table = "`customers_$customer_group_code`";
-              $query_user_type = "SELECT $user_type_table.* FROM $user_type_table WHERE `customer_id` = '$customer_id'";
-              //echo $query_user_type;
-              $result_user_type = mysqli_query($db_link,$query_user_type);
-              if (!$result_user_type) echo mysqli_error($db_link);
-              if(mysqli_num_rows($result_user_type) > 0) {
+              $customer_group_table = "`customers_$customer_group_code`";
+              $query_customer_group = "SELECT $customer_group_table.* FROM $customer_group_table WHERE `customer_id` = '$customer_id'";
+              //echo $query_customer_group;
+              $result_customer_group = mysqli_query($db_link,$query_customer_group);
+              if (!$result_customer_group) echo mysqli_error($db_link);
+              if(mysqli_num_rows($result_customer_group) > 0) {
 
-                $user_type = mysqli_fetch_assoc($result_user_type);
-                $customer_firstname = $user_type['first_name'];
-                $customer_lastname = $user_type['last_name'];
+                $customer_group = mysqli_fetch_assoc($result_customer_group);
+                $customer_firstname = $customer_group['first_name'];
+                $customer_lastname = $customer_group['last_name'];
 
               }
 
@@ -238,7 +238,7 @@
               $_SESSION['customer_group_code'] = $customer_group_code;
               $_SESSION['customer_name'] = "$customer_firstname $customer_lastname";
               $_SESSION['customer_image'] = $customer_image;
-              $_SESSION[$customer_group_code] = $user_type;
+              $_SESSION[$customer_group_code] = $customer_group;
               $redirect_link = $_SESSION['redirect_link'];
               unset($_SESSION['redirect_link']);
               ?>
@@ -471,8 +471,6 @@
       /*
        * if there is no result from the get page query we gonna get the error page
        */
-      
-      $content_type_id = 3; //error page set by default if no other page is found
 
       $query_content = "SELECT `contents`.`content_id`,`contents`.`content_hierarchy_ids`,`contents_descriptions`.`content_name`,`contents_types`.`content_type`,
                                `contents_descriptions`.`content_menu_text`,`contents_descriptions`.`content_meta_title`,`contents_descriptions`.`content_meta_keywords`,
@@ -480,7 +478,7 @@
                           FROM `contents`
                     INNER JOIN `contents_descriptions` ON `contents_descriptions`.`content_id` = `contents`.`content_id`
                     INNER JOIN `contents_types` ON `contents_types`.`content_type_id` = `contents`.`content_type_id`
-                         WHERE `contents`.`content_type_id` = '$content_type_id' AND `contents_descriptions`.`language_id` = '$current_language_id'";
+                         WHERE `contents_types`.`content_type` = 'error_page' AND `contents_descriptions`.`language_id` = '$current_language_id'";
       //echo $query_content."<br>";
       $result_content = mysqli_query($db_link, $query_content);
       if(!$result_content) echo mysqli_error($db_link);
@@ -575,9 +573,24 @@
           </div>
         </div>
 
-        <div class="section">
+        <div class="error-page-wrapper">
           <div class="container">
-            <?=$content_text;?>
+            <div class="row">
+
+              <div class="col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+
+                <div class="error-404">404</div>
+
+                <h3><?=$languages['header_page_not_found'];?></h3>
+
+                <p><?=$content_text;?></p>
+
+
+                <a href="<?=$home_page_url;?>" class="btn btn-primary mt-15"><?= $languages['title_goto_homepage']; ?></a>
+
+              </div>
+
+            </div>
           </div>
         </div>
 <?php
