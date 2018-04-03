@@ -82,6 +82,9 @@
       $(function() {
 
         //start family tree
+        
+        CalculateSelectedSubcategories();
+        
         $('.select_all').on('click', function (e) {
           var state = true;
           var root = $(this).attr("data-root");
@@ -116,6 +119,7 @@
             }
             e.stopPropagation();
         });
+        
         //end family tree
 
       });

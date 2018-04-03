@@ -54,7 +54,7 @@
         $file = "<i class='fa fa-file-$file_fa-o fa-lg'></i> <a href='$display_path$certificate_name' target='_blank' class='file'>$certificate_name</a>";
       }
 ?>
-      <div id="cert_<?=$certificate_id;?>" class="certificate_box col-lg-3 col-md-4 col-sm-12 col-xs-12">
+      <div id="cert_<?=$certificate_id;?>" class="certificate_box col-lg-4 col-md-4 col-sm-12 col-xs-12">
         <div class="certificate">
           <p><a href="javascript:;" class="label label-danger" onclick="DeleteCertificate('<?=$certificate_id;?>','<?=$certificate_name;?>')"><?=$languages['btn_delete'];?></a></p>
           <?=$file;?>

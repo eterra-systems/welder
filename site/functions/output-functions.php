@@ -596,13 +596,14 @@ function list_categories_with_checkboxes($category_parent_id,$category_root_id,$
       if ($category_has_children == 1) {
 ?>
       <li id="<?=$category_id_tree;?>" data-level="<?= $category_hierarchy_level; ?>" class="level_<?= "$category_hierarchy_level $class_label $class_li $class_li_col_lg"; ?> col-sm-12 col-xs-12">
-        <label for="<?=$category_id_tree;?>" class="btn btn-default" <?=$label_title?> data-root="<?=$category_root_id;?>">
+        <label for="<?=$category_id_tree;?>" class="btn btn-default dropdown_link_<?= $category_hierarchy_level; ?>" <?=$label_title?> data-root="<?=$category_root_id;?>">
           <?php if($category_hierarchy_level != 1 && false) { ?>
           <input type="checkbox" value="<?=$category_id_tree;?>" id="<?=$category_id_tree;?>" class="categories_<?=$category_root_id;?>" name="categories[]" <?=$checkbox_checked;?> />
           <input type="hidden" value="<?=$category_id;?>" name="category_ids[<?=$category_id_tree;?>]" />
           <input type="hidden" value="<?=$category_hierarchy_ids;?>" name="category_hierarchy_ids[<?=$category_id_tree;?>]" />
           <?php } ?>
           <?=$cd_name;?>
+          <span class="category_count_box">(<span class="category_count_digits"></span>)</span>
           <i class="fa fa-lg fa-angle-down" aria-hidden="true"></i>
           <i class="fa fa-lg fa-angle-up" aria-hidden="true"></i>
         </label>

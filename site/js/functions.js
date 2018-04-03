@@ -636,17 +636,17 @@ function CalculateSelectedSubcategories() {
       }
     });
     if (checked_cat > 0) {
-      current_list.find("a.dropdown_link_" + current_list_level + " .category_count_box").show();
-      current_list.find("a.dropdown_link_" + current_list_level + " .category_count_digits").html(checked_cat);
+      current_list.find("label.dropdown_link_" + current_list_level + " .category_count_box").show();
+      current_list.find("label.dropdown_link_" + current_list_level + " .category_count_digits").html(checked_cat);
       if (checked_cat > 1) {
-        current_list.find("a.dropdown_link_" + current_list_level + " .category_count_text").html("подкатегории избрани");
+        current_list.find("label.dropdown_link_" + current_list_level + " .category_count_text").html("подкатегории избрани");
       } else {
-        current_list.find("a.dropdown_link_" + current_list_level + " .category_count_text").html("подкатегория избрана");
+        current_list.find("label.dropdown_link_" + current_list_level + " .category_count_text").html("подкатегория избрана");
       }
     } else {
-      current_list.find("a.dropdown_link_" + current_list_level + " .category_count_box").hide();
-      current_list.find("a.dropdown_link_" + current_list_level + " .category_count_digits").html("");
-      current_list.find("a.dropdown_link_" + current_list_level + " .category_count_text").html("");
+      current_list.find("label.dropdown_link_" + current_list_level + " .category_count_box").hide();
+      current_list.find("label.dropdown_link_" + current_list_level + " .category_count_digits").html("");
+      current_list.find("label.dropdown_link_" + current_list_level + " .category_count_text").html("");
     }
   });
 }

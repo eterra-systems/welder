@@ -6335,14 +6335,15 @@ ul.static-page-menu li.active a {
 }
 .tree li.level_1 > label {
   padding: 20px 5px;
+  background: none;
+  border: none;
 }
 .tree li.level_1 > label:hover,
 .tree li.level_1.active_parent_tree > label {
   background: #EDF2F2;
 }
-.tree li.level_1 > .btn-default {
-  background: none;
-  border: none;
+.tree .category_count_box {
+  color: #11C4F7;
 }
 .tree li.level_1:last-child, .tree li.recent-job-item:last-child {
   padding: 0;
@@ -6404,9 +6405,13 @@ ul.static-page-menu li.active a {
 }
 
 #current_certificates .certificate {
-  padding: 2px;
+  padding: 6px;
   line-height: 16px;
   border: 1px solid #ccc;
+}
+
+#current_certificates .certificate p {
+  text-align: right;
 }
 
 #current_certificates .certificate img {
