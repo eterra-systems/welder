@@ -297,7 +297,7 @@
 
       header('Location: categories.php');
     }//if(empty($category_errors))
-//    print_r($category_errors);
+    //print_r($category_errors);
     
   }//if(isset($_POST['submit_category']))
   
@@ -324,6 +324,7 @@
       
       <ul class="category_tabs tabs">
         <li><a href="#category_main_tab"><?=$languages['header_main_tab'];?></a></li>
+        <li><a href="#category_categories_tab" ajax-fn="EditCategoryCategoriesTab"><?=$languages['header_categories_tab'];?></a></li>
         <li><a href="#category_options_tab"><?=$languages['header_options_tab'];?></a></li>
         <li><a href="#category_meta_information_tab"><?=$languages['header_meta_information_tab'];?></a></li>
       </ul>
@@ -412,29 +413,47 @@
         </div>
         <!--category_main_tab-->
         
+        <!--category_categories_tab-->
+      <div id="category_categories_tab" class="category_tab tab">
+          
+        <div class="ajax_result"></div>
+        <div>
+          <label for="category_categories" class="title"><?=$languages['header_categories'];?><span class="red">*</span></label>
+          <input type="checkbox" name="select_all" class="select_all"> Избери всички
+          <div class="tree">
+            <ul>
+              <?php list_categories_with_checkboxes($category_parent_id = 0,$category_root_id = 0, $category_ids); ?>
+            </ul>
+          </div>
+          <input type="hidden" name="old_categories_list" id="old_categories_list" value="<?=$category_ids_list;?>" />
+          <input type="hidden" name="categories_list" id="categories_list" value="<?=$category_ids_list;?>" />
+        </div>
+        <div class="clearfix"></div>
+
+        <div>
+          <label for="category_categories" class="title"><?=$languages['header_default_category'];?></label>
+          <select name="new_default_category_id" id="new_default_category_id" style="width: auto;">
+<?php
+          foreach($category_categories as $category_row) {
+
+            $category_parent_id = $category_row['category_parent_id'];
+            $category_cat_name = $category_row['cd_name'];
+            $selected = ($default_category_id == $category_parent_id) ? 'selected="selected"' : "";
+?>
+            <option value="<?=$category_parent_id;?>" <?=$selected;?>><?=$category_cat_name;?></option>
+<?php
+          }
+?>
+          </select>
+          <input type="hidden" name="old_default_category_id" id="old_default_category_id" value="<?=$default_category_id;?>" />
+        </div>
+        <div class="clearfix">&nbsp;</div>
+
+      </div>
+      <!--category_categories_tab-->
+        
         <!--category_options_tab-->
         <div id="category_options_tab" class="category_tab tab row">
-          
-          <div>
-            <label for="category_parent" class="title"><?=$languages['header_category_parent'];?></label>
-            <select name="category_parent_id_level" class="category_parent_id_level" style="width: auto;">
-              <option value="0.0" level="0"><?=$languages['option_no_category_parent'];?></option>
-              <?php list_categories_for_select($parent_id = 0, $path_number = 0, $category_parent_id = $category_parent_id, $current_category_id = 0); ?> 
-            </select>
-          </div>
-          <div class="clearfix"></div>
-          
-          <div>
-            <label for="category_is_section_header" class="title"><?=$languages['header_category_is_section_header'];?></label>
-            <?php
-              if(isset($category_is_section_header)) {
-                if($category_is_section_header == 0) echo '<input type="checkbox" name="category_is_section_header" id="category_is_section_header" />';
-                else echo '<input type="checkbox" name="category_is_section_header" id="category_is_section_header" checked="checked" />';
-              }
-              else echo '<input type="checkbox" name="category_is_section_header" id="category_is_section_header" />';
-            ?>
-          </div>
-          <div class="clearfix"></div>
           
           <div>
             <label for="category_show_in_menu" class="title"><?=$languages['header_category_show_in_menu'];?></label>
@@ -622,44 +641,58 @@
       // end languages tab switcher
       
       //start family tree
-      $.each($(".tree li.level_1.expandable"), function(){
-          var checked_cat = 0;
-          var current_list = $(this);
-          var current_list_level = current_list.attr("data-level");
-          var checkboxes = current_list.find("input");
-          $.each($(checkboxes), function(){
-              if($(this).is(":checked")) checked_cat++;
-          });
-          if(checked_cat > 0) {
-            current_list.find("a.dropdown_link_"+current_list_level+" .category_count_box").show();
-            current_list.find("a.dropdown_link_"+current_list_level+" .category_count_digits").html(checked_cat);
-            if(checked_cat > 1) {
-              current_list.find("a.dropdown_link_"+current_list_level+" .category_count_text").html("подкатегории избрани");
-            }
-            else {
-              current_list.find("a.dropdown_link_"+current_list_level+" .category_count_text").html("подкатегория избрана");
+      $('.select_all').on('click', function (e) {
+          var state = $(this).is(":checked");
+          if(state) $("#new_default_category_id").html("");
+          var checkboxes = document.getElementsByClassName("categories");
+          for (var i=0; i<checkboxes.length ; i++) {
+            if(checkboxes[i].type == "checkbox") {
+              var category_id = checkboxes[i].value;
+              var category_name = $(".tree li#"+category_id+" .category_name").html();
+              if(state) {
+                $("#new_default_category_id").append("<option value='"+category_id+"'>"+category_name+"</option>");
+                $("input.category_name_"+category_id).attr("disabled",false);
+              }
+              else {
+                $('#new_default_category_id option[value='+category_id+']').remove();
+                $("input.category_name_"+category_id).attr("disabled",true);
+              }
+              checkboxes[i].checked = state;
             }
           }
+          CalculateSelectedSubcategories();
       });
       $('.tree input[type="checkbox"]').on('click', function (e) {
           var state = $(this).is(":checked");
           var category_id = $(this).val();
-          var category_hierarchy_level = $(this).attr("data-level");
           var category_name = $(".tree li#"+category_id+" .category_name").html();
+          var categories_ids = $("#categories_list").val();
           //console.log(state);return;
-          if(state) {  
-            $("#default_category_id_level").append("<option value='"+category_id+"-"+category_hierarchy_level+"'>"+category_name+"</option>");
+          if(state) {
+            categories_ids = $("#old_categories_list").val();
+            var is_selected = categories_ids.search(category_id+","); // the method search() returns -1 if no match was found
+            //console.log(is_selected);
+            if(is_selected != '-1') {
+              categories_ids = $("#categories_list").val();
+              $("#categories_list").val(category_id + "," + categories_ids); 
+            }
+            $("#new_default_category_id").append("<option value='"+category_id+"'>"+category_name+"</option>");
+            $("input.category_name_"+category_id).attr("disabled",false);
           }
           else {
-            $('#default_category_id_level option[value='+category_id+'-'+category_hierarchy_level+']').remove();
+            var new_categories_ids = categories_ids.replace(category_id+",","");
+            $("#categories_list").val(new_categories_ids);
+            $('#new_default_category_id option[value='+category_id+']').remove();
+            $("input.category_name_"+category_id).attr("disabled",true);
           }
+          CalculateSelectedSubcategories();
           e.stopPropagation();
       });
       $('.tree li.expandable .fa, .tree li.expandable .dropdown_link').on('click', function (e) {
           var current_tree_parent = $(this).parent('.expandable');
           var current_tree_id = current_tree_parent.attr('id');
           var child_ul = $(this).parent('.expandable').find(".expandable_ul_"+current_tree_id);
-          if (child_ul.is(":visible")) {
+          if(child_ul.is(":visible")) {
             child_ul.hide('fast');
             current_tree_parent.removeClass("active_parent_tree");
             current_tree_parent.find(".fa_"+current_tree_id).removeClass("fa-minus-square-o").addClass("fa-plus-square-o");
