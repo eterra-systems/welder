@@ -630,7 +630,7 @@ function get_categories_hierarchy_ids($category_id) {
   return $category_hierarchy_ids;
 }
 
-function get_category_lаst_child_order_value($category_root_id,$category_parent_id) {
+function get_category_sort_order_value($category_root_id,$category_parent_id) {
   
   global $db_link;
   

@@ -132,7 +132,7 @@
         $category_hierarchy_level = $category_hierarchy_levels[$category_tree_id]+1;
         $category_hierarchy_ids = $category_hierarchy_ids_arr[$category_tree_id].".$category_id";
         $category_hierarchy_ids_arr_update[] = $category_hierarchy_ids_arr[$category_tree_id];
-        $category_sort_order = get_category_lаst_child_order_value($category_root_id,$category_parent_id);
+        $category_sort_order = get_category_sort_order_value($category_root_id,$category_parent_id);
         $category_has_children = 0;
         $category_is_active = 1;
         $category_show_in_menu = 1;
