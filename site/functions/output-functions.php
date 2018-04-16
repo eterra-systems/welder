@@ -324,7 +324,7 @@ function print_html_company_profile_menu() {
   <div class="GridLex-col-3_sm-4_xs-12">
     <div class="admin-sidebar">
         
-        <div class="admin-user-item">
+      <div class="admin-user-item">
 
         <div class="image">
           <img src="<?=$profile_image;?>" width="100" height="100" alt="<?=$customer_company_name;?>" class="img-circle" />
@@ -332,6 +332,12 @@ function print_html_company_profile_menu() {
 
         <h4><?=$customer_company_name;?></h4>
         <!--<p class="user-role">Professional</p>-->
+
+      </div>
+      
+      <div class="admin-user-action text-center">
+
+        <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-post-job" class="btn btn-primary btn-sm"><?=$languages['btn_post_a_job'];?></a>
 
       </div>
 
@@ -348,16 +354,10 @@ function print_html_company_profile_menu() {
           <span><?= $languages['header_customer_new_password']; ?></span>
         </a>
       </li>
-      <li<?php if (is_active_page("user-profile-post-job")) echo ' class="active"'; ?>>
-        <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-post-job" rel="nofollow">
+      <li<?php if (is_active_page("user-profile-jobs-list")) echo ' class="active"'; ?>>
+        <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-jobs-list" rel="nofollow">
           <i class="fa fa-newspaper-o" aria-hidden="true"></i>
-          <span><?= $languages['header_new_jobs']; ?></span>
-        </a>
-      </li>
-      <li<?php if (is_active_page("user-profile-bookmarks")) echo ' class="active"'; ?>>
-        <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-bookmarks" rel="nofollow">
-          <i class="fa fa-bookmark"></i>
-          <span><?= $languages['header_saved_jobs']; ?></span>
+          <span><?= $languages['header_jobs_list']; ?></span>
         </a>
       </li>
       <li>
