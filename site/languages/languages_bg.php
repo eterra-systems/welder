@@ -194,6 +194,7 @@ $languages = array(
   "header_user_profile" => "Потребителски профил",
   "header_user_profile_data" => "Лични данни",
   "header_user_profile_skills" => "Умения",
+  "header_user_profile_post_job" => "Публикуване на обява",
   "header_user_profile_certificates" => "Сертификати",
   "header_user_profile_bookmarks" => "Записани обяви",
   "header_user_profile_addresses" => "Адреси за доставка",

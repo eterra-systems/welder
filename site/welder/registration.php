@@ -278,13 +278,14 @@
       
       $to      = $_POST['customer_email'];
       $subject = $languages['email_subject_text'];
+      $company_name = $languages['company_name'];
 //      $logo_image = "http://".$_SERVER['SERVER_NAME'].SITEFOLDERSL."/images/welder-logo.jpg";
 //      $logo_image_params = getimagesize($logo_image);
 //      $logo_image_dimensions = $logo_image_params[3];
       $message = "<table>";
       $message .= "<tr>
                     <td>
-                      <a href='".$_SERVER['SERVER_NAME']."' target='_blank'><font style='color:#424242;font-size:34px;'>Welder</a>
+                      <a href='".$_SERVER['SERVER_NAME']."' target='_blank'><font style='color:#424242;font-size:34px;'>$company_name</a>
                     </td>
                   </tr>
                   <tr>

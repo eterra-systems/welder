@@ -64,7 +64,7 @@
       <?php if(!empty($errors['categories'])) { ?><span class="alert alert-danger"><?=$errors['categories'];?></span><?php } ?>
       <div class="tree">
         <ul class="recent-job-wrapper">
-          <?php list_categories_with_checkboxes($category_parent_id = 0, $category_root_id = 0, $category_ids_tree) ;?>
+          <?php list_categories_with_checkboxes($category_parent_id = 0, $category_root_id = 0, $category_ids_tree = array()) ;?>
           <li class="level_1 clearfix"></li>
         </ul>
       </div>

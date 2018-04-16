@@ -9,7 +9,7 @@
   
   $languages_array = get_languages();
   
-  $default_category_parent_id = 0;
+  $default_category_id = 0;
   $category_ids = array();
 
   if(isset($_POST['submit_category'])) {
@@ -68,6 +68,28 @@
       
       $_POST['cd_pretty_url'][$language_id] = $cd_pretty_url;
     }
+    
+    if(isset($_POST['categories'])) {
+      $category_categories =  $_POST['categories'];
+    }
+    else {
+      $category_errors['categories'] = $languages['error_choosen_category'];
+    }
+    if(isset($_POST['category_ids'])) {
+      $category_ids_arr =  $_POST['category_ids'];
+    }
+    if(isset($_POST['category_root_ids'])) {
+      $category_root_ids =  $_POST['category_root_ids'];
+    }
+    if(isset($_POST['category_hierarchy_levels'])) {
+      $category_hierarchy_levels =  $_POST['category_hierarchy_levels'];
+    }
+    if(isset($_POST['category_hierarchy_ids'])) {
+      $category_hierarchy_ids_arr =  $_POST['category_hierarchy_ids'];
+    }
+    if(isset($_POST['default_category_id'])) {
+      $default_category_id =  $_POST['default_category_id'];
+    }
 
     $category_show_in_menu = 0;
     $category_is_active = 0;
@@ -81,14 +103,15 @@
     
     $input_name = "category_image";
     $max_image_size = 4; // MB
-    $banner_image_set = false;
+    $category_image_set = false;
+    $category_image_name = "";
     if(isset($_FILES[$input_name]) && ($_FILES[$input_name]['error'] != 4)) {
-      $banner_image_set = true;
+      $category_image_set = true;
       $upload_path = $_SERVER['DOCUMENT_ROOT'].SITEFOLDERSL."/images/category-thumbs/";
-      $image_params = validate_upload_image($input_name, $upload_path, $max_image_size);
+      $image_params = validate_upload_image($input_name, $upload_path, $max_image_size, $image_is_required = false);
       //echo "<pre>";print_r($image_params);exit;
       if(!empty($image_params['error'])) {
-        $banner_errors[$input_name] = $image_params['error']; // array that may contain extension, size, upload
+        $category_errors[$input_name] = $image_params['error']; // array that may contain extension, size, upload
       }
       else {
         $image_tmp_name = $image_params['image_tmp_name'];
@@ -96,9 +119,6 @@
         $image_exstension = $image_params['image_exstension'];
         $category_image_name = $image_params['image_name_full'];
       }
-    }
-    else {
-      $category_errors['error']['empty'] = $languages['image_must_be_uploded_error']."<br>";
     }
 
     $user_id = $_SESSION['admin']['user_id'];
@@ -122,7 +142,7 @@
                                                         `category_date_added`, 
                                                         `category_date_modified`) 
                                                 VALUES (NULL,
-                                                        '$category_parent_id',
+                                                        '$default_category_id',
                                                         $category_image_name_db,
                                                         $category_attribute_1_db,
                                                         $category_attribute_2_db,
@@ -184,70 +204,65 @@
         foreach($category_categories as $category_tree_id) {
 
           $category_ids[] = $category_tree_id;
-          $category_ids_list .= "$category_tree_id,";
 
-          if(!in_array($category_tree_id, $old_categories_ids_array)) {
+          $category_parent_id = $category_ids_arr[$category_tree_id];
+          $category_root_id = $category_root_ids[$category_tree_id];
+          $category_hierarchy_level = $category_hierarchy_levels[$category_tree_id]+1;
+          $category_hierarchy_ids = $category_hierarchy_ids_arr[$category_tree_id].".$category_id";
+          $category_hierarchy_ids_arr_update[] = $category_hierarchy_ids_arr[$category_tree_id];
+          $category_sort_order = get_category_sort_order_value($category_root_id,$category_parent_id);
+          $category_has_children = 0;
+          $category_is_active = 1;
+          $category_show_in_menu = 1;
+          $category_is_collapsed = 1;
 
-            $there_is_new_parents = true;
-            $category_parent_id = $category_ids_arr[$category_tree_id];
-            $category_root_id = $category_root_ids[$category_tree_id];
-            $category_hierarchy_level = $category_hierarchy_levels[$category_tree_id]+1;
-            $category_hierarchy_ids = $category_hierarchy_ids_arr[$category_tree_id].".$category_id";
-            $category_hierarchy_ids_arr_update[] = $category_hierarchy_ids_arr[$category_tree_id];
-            $category_sort_order = get_category_sort_order_value($category_root_id,$category_parent_id);
-            $category_has_children = 0;
-            $category_is_active = 1;
-            $category_show_in_menu = 1;
-            $category_is_collapsed = 1;
+          if($category_parent_id != 0) {
 
-            if($category_parent_id != 0) {
-
-              //update the parent column `category_has_children` to 1, wich means it has children
-              //no matter if it was set to 1 or 0
-              $query_update_parent = "UPDATE `category_to_category` SET `category_has_children` = '1' WHERE `category_id` = '$category_parent_id'";
-              $all_queries .= $query_update_parent;
-              $result_update_parent = mysqli_query($db_link, $query_update_parent);
-              if(!$result_update_parent) {
-                echo $languages['sql_error_update']." - 1 ".mysqli_error($db_link);
-                mysqli_query($db_link,"ROLLBACK");
-                exit;
-              }
-            }
-
-            $query_insert_ctc = "INSERT INTO `category_to_category`(`category_id`, 
-                                                                    `category_parent_id`, 
-                                                                    `category_root_id`, 
-                                                                    `category_hierarchy_level`, 
-                                                                    `category_hierarchy_ids`, 
-                                                                    `category_sort_order`, 
-                                                                    `category_has_children`,
-                                                                    `category_is_active`,
-                                                                    `category_show_in_menu`,
-                                                                    `category_is_collapsed`)
-                                                            VALUES ('$category_id',
-                                                                    '$category_parent_id',
-                                                                    '$category_root_id',
-                                                                    '$category_hierarchy_level',
-                                                                    '$category_hierarchy_ids',
-                                                                    '$category_sort_order',
-                                                                    '$category_has_children',
-                                                                    '$category_is_active',
-                                                                    '$category_show_in_menu',
-                                                                    '$category_is_collapsed')";
-            //echo $query_insert_ctc."<br>";
-            $all_queries .= "<br>\n".$query_insert_ctc;
-            $result_insert_ctc = mysqli_query($db_link, $query_insert_ctc);
-            if(mysqli_affected_rows($db_link) <= 0) {
-              echo $languages['sql_error_insert']." - 4 insert `category_to_category`".mysqli_error($db_link);
+            //update the parent column `category_has_children` to 1, wich means it has children
+            //no matter if it was set to 1 or 0
+            $query_update_parent = "UPDATE `category_to_category` SET `category_has_children` = '1' WHERE `category_id` = '$category_parent_id'";
+            $all_queries .= $query_update_parent;
+            $result_update_parent = mysqli_query($db_link, $query_update_parent);
+            if(!$result_update_parent) {
+              echo $languages['sql_error_update']." - 3 update `category_to_category` ".mysqli_error($db_link);
               mysqli_query($db_link,"ROLLBACK");
               exit;
             }
+          }
+
+          $query_insert_ctc = "INSERT INTO `category_to_category`(`category_id`, 
+                                                                  `category_parent_id`, 
+                                                                  `category_root_id`, 
+                                                                  `category_hierarchy_level`, 
+                                                                  `category_hierarchy_ids`, 
+                                                                  `category_sort_order`, 
+                                                                  `category_has_children`,
+                                                                  `category_is_active`,
+                                                                  `category_show_in_menu`,
+                                                                  `category_is_collapsed`)
+                                                          VALUES ('$category_id',
+                                                                  '$category_parent_id',
+                                                                  '$category_root_id',
+                                                                  '$category_hierarchy_level',
+                                                                  '$category_hierarchy_ids',
+                                                                  '$category_sort_order',
+                                                                  '$category_has_children',
+                                                                  '$category_is_active',
+                                                                  '$category_show_in_menu',
+                                                                  '$category_is_collapsed')";
+          //echo $query_insert_ctc."<br>";
+          $all_queries .= "<br>\n".$query_insert_ctc;
+          $result_insert_ctc = mysqli_query($db_link, $query_insert_ctc);
+          if(mysqli_affected_rows($db_link) <= 0) {
+            echo $languages['sql_error_insert']." - 4 insert `category_to_category`".mysqli_error($db_link);
+            mysqli_query($db_link,"ROLLBACK");
+            exit;
           }
         }
       }
 
       //handling the category picture
-      if((isset($_FILES['category_image'])) && ($_FILES['category_image']['size'] < MAX_FILE_SIZE) && ($_FILES['category_image']['error'] == 0)) {
+      if(isset($_FILES[$input_name]) && ($_FILES[$input_name]['error'] != 4)) {
         $upload_path = $_SERVER['DOCUMENT_ROOT'].SITEFOLDERSL."/images/category-thumbs/";
         if(!is_dir($upload_path)) {
           mkdir($upload_path, 0777);
@@ -280,14 +295,14 @@
           $image->save($image_cat_thumb,$image_type);
         }
         else {
-          echo $languages['image_uploading_error']." - 4 ".mysqli_error($db_link);
+          echo $languages['image_uploading_error']." - 5 image ".mysqli_error($db_link);
           mysqli_query($db_link,"ROLLBACK");
           exit;
         }
       }
       //handling the category picture
     
-      echo $all_queries;mysqli_query($db_link,"ROLLBACK");exit;
+      //echo $all_queries;mysqli_query($db_link,"ROLLBACK");exit;
 
       mysqli_query($db_link,"COMMIT");
 
@@ -313,7 +328,12 @@
       </div>
       
 <?php
-  if(isset($category_errors) && !empty($category_errors)) echo '<div class="warning" style="margin-top:10px">Моля проверете дали всички задължителни полета са попълнени</div>';
+  if(isset($category_errors) && !empty($category_errors)) {
+    echo '<div class="warning" style="margin-top:10px">Моля проверете дали всички задължителни полета са попълнени</div>';
+//    foreach($category_errors as $error) {
+//      print_array_for_debug($error);
+//    }
+  }
 ?>
       
       <h1 id="pagetitle"><?=$languages['header_category_add_new'];?></h1>
@@ -421,14 +441,17 @@
               <?php list_categories_with_checkboxes($category_parent_id = 0,$category_root_id = 0, $category_ids); ?>
             </ul>
           </div>
-          <input type="hidden" name="old_categories_list" id="old_categories_list" value="<?=$category_ids_list;?>" />
-          <input type="hidden" name="categories_list" id="categories_list" value="<?=$category_ids_list;?>" />
         </div>
         <div class="clearfix"></div>
 
         <div>
           <label for="category_categories" class="title"><?=$languages['header_default_category'];?></label>
-          <select name="new_default_category_id" id="new_default_category_id" style="width: auto;">
+          <?php
+            if(isset($category_errors['categories'])) {
+              echo "<div class='error'>".$category_errors['categories']."</div>";
+            }
+          ?>
+          <select name="default_category_id" id="default_category_id" style="width: auto;">
 <?php
           foreach($category_categories as $category_row) {
 
@@ -441,7 +464,6 @@
           }
 ?>
           </select>
-          <input type="hidden" name="old_default_category_id" id="old_default_category_id" value="<?=$default_category_id;?>" />
         </div>
         <div class="clearfix">&nbsp;</div>
 
@@ -639,18 +661,18 @@
       //start family tree
       $('.select_all').on('click', function (e) {
           var state = $(this).is(":checked");
-          if(state) $("#new_default_category_id").html("");
+          if(state) $("#default_category_id").html("");
           var checkboxes = document.getElementsByClassName("categories");
           for (var i=0; i<checkboxes.length ; i++) {
             if(checkboxes[i].type == "checkbox") {
               var category_id = checkboxes[i].value;
               var category_name = $(".tree li#"+category_id+" .category_name").html();
               if(state) {
-                $("#new_default_category_id").append("<option value='"+category_id+"'>"+category_name+"</option>");
+                $("#default_category_id").append("<option value='"+category_id+"'>"+category_name+"</option>");
                 $("input.category_name_"+category_id).attr("disabled",false);
               }
               else {
-                $('#new_default_category_id option[value='+category_id+']').remove();
+                $('#default_category_id option[value='+category_id+']').remove();
                 $("input.category_name_"+category_id).attr("disabled",true);
               }
               checkboxes[i].checked = state;
@@ -662,23 +684,15 @@
           var state = $(this).is(":checked");
           var category_id = $(this).val();
           var category_name = $(".tree li#"+category_id+" .category_name").html();
-          var categories_ids = $("#categories_list").val();
           //console.log(state);return;
           if(state) {
-            categories_ids = $("#old_categories_list").val();
-            var is_selected = categories_ids.search(category_id+","); // the method search() returns -1 if no match was found
             //console.log(is_selected);
-            if(is_selected != '-1') {
-              categories_ids = $("#categories_list").val();
-              $("#categories_list").val(category_id + "," + categories_ids); 
-            }
-            $("#new_default_category_id").append("<option value='"+category_id+"'>"+category_name+"</option>");
+            $("#default_category_id").append("<option value='"+category_id+"'>"+category_name+"</option>");
             $("input.category_name_"+category_id).attr("disabled",false);
           }
           else {
             var new_categories_ids = categories_ids.replace(category_id+",","");
-            $("#categories_list").val(new_categories_ids);
-            $('#new_default_category_id option[value='+category_id+']').remove();
+            $('#default_category_id option[value='+category_id+']').remove();
             $("input.category_name_"+category_id).attr("disabled",true);
           }
           CalculateSelectedSubcategories();

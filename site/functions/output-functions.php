@@ -348,9 +348,9 @@ function print_html_company_profile_menu() {
           <span><?= $languages['header_customer_new_password']; ?></span>
         </a>
       </li>
-      <li<?php if (is_active_page("user-profile-skills")) echo ' class="active"'; ?>>
-        <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-skills" rel="nofollow">
-          <i class="fa fa-wrench" aria-hidden="true"></i>
+      <li<?php if (is_active_page("user-profile-post-job")) echo ' class="active"'; ?>>
+        <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-post-job" rel="nofollow">
+          <i class="fa fa-newspaper-o" aria-hidden="true"></i>
           <span><?= $languages['header_new_jobs']; ?></span>
         </a>
       </li>

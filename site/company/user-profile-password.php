@@ -11,7 +11,7 @@
   }
   
   if(isset($_POST['update_profile'])) {
-    print_array_for_debug($_POST);exit;
+    //print_array_for_debug($_POST);exit;
     
     if(!empty($_POST['customer_password'])) {
       $customer_password = $_POST['customer_password'];
@@ -53,9 +53,7 @@
 <?php
     if(isset($success)) {
 ?>
-  <div class="row">
-    <p class="alert alert-success">Промерните бяха запазени успешно</p>
-  </div>
+    <p class="alert alert-success mb-15"><?=$languages['text_update_was_successfull'];?></p>
 <?php
     }
     if(!empty($errors)) {
@@ -64,29 +62,31 @@
     }
 ?>
       <input type="hidden" name="customer_id" id="customer_id" value="<?=$customer_id;?>">
-    <p class="alert alert-info"><i><?=$languages['text_email_specs'];?></i></p>
+    
       <div class="row">
         <?php if(!empty($errors['error_required_field'])) { ?><br><span class="alert alert-danger"><?=$errors['error_required_field'];?></span><?php } ?>
         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
           <label for="customer_password"><?=$languages['header_customer_new_password'];?></label>
           <input type="password" name="customer_password" id="customer_password" class="form-control" onBlur="ValidateUserPassword(this.value,'<?=$current_lang;?>')"  />
-          <span id="customer_password_is_valid"></span>
-          <?php if(!empty($errors['customer_password'])) { ?><br><span class="alert alert-danger"><?=$errors['customer_password'];?></span><?php } ?>
         </div>
         <p class="clearfix hidden-lg hidden-md"></p>
         
         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
           <label for="customer_password_retype"><?=$languages['header_customer_password_retype'];?></label>
           <input type="password" name="customer_password_retype" id="customer_password_retype" class="form-control" />
-          <?php if(!empty($errors['customer_passwords_mismatch'])) { ?><br><span class="alert alert-danger"><?=$errors['customer_passwords_mismatch'];?></span><?php } ?>
         </div>
       </div>
       <div class="clearfix">&nbsp;</div>
+      <div id="customer_password_is_valid"></div>
+      <?php if(!empty($errors['customer_password'])) { ?><div class="alert alert-danger"><?=$errors['customer_password'];?></div><?php } ?>
+      <?php if(!empty($errors['customer_passwords_mismatch'])) { ?>
+        <div class="alert alert-danger"><?=$errors['customer_passwords_mismatch'];?></div>
+        <div class="clearfix">&nbsp;</div>
+      <?php } ?>
 
       <div class="row">
         <div class="col-sm-12 mt-10">
-          <button type="submit" name="update_profile" class="btn btn-primary">Save</button>
-          <button type="submit" name="cancel" class="btn btn-primary btn-inverse">Cancel</button>
+          <button type="submit" name="update_profile" class="btn btn-primary"><?=$languages['btn_save'];?></button>
         </div>
       </div>
       <div class="clearfix">&nbsp;</div>

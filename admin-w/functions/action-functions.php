@@ -189,7 +189,7 @@ function get_lаst_inserted_id($table_name, $key_name) {
   return $lаst_inserted_id;
 }
 
-function validate_upload_image($input_name, $upload_path, $max_image_size) {
+function validate_upload_image($input_name, $upload_path, $max_image_size, $image_is_required = true) {
   
   global $languages;
   
@@ -214,7 +214,7 @@ function validate_upload_image($input_name, $upload_path, $max_image_size) {
     $error['size'] = $languages['image_size_error'].$max_image_size."MB<br>";
   }
   else {
-    if($_FILES[$input_name]['error'] != 4) { // error 4 means no file was uploaded
+    if($_FILES[$input_name]['error'] != 4 && $image_is_required) { // error 4 means no file was uploaded
       $error['upload'] = $languages['image_uploading_error']."<br>";
     }
   }
