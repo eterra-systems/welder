@@ -313,7 +313,7 @@
     }
     
   }//if(isset($_POST['sign_up'])
-  //
+  
   //if not all the requered fields was filled in correct by the user make the sign up form showing the errors
   
   if($registration_was_successfull) {

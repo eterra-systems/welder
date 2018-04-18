@@ -337,7 +337,7 @@ function print_html_company_profile_menu() {
       
       <div class="admin-user-action text-center">
 
-        <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-post-job" class="btn btn-primary btn-sm"><?=$languages['btn_post_a_job'];?></a>
+        <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-post-ad" class="btn btn-primary btn-sm"><?=$languages['btn_post_a_ad'];?></a>
 
       </div>
 
@@ -354,10 +354,10 @@ function print_html_company_profile_menu() {
           <span><?= $languages['header_customer_new_password']; ?></span>
         </a>
       </li>
-      <li<?php if (is_active_page("user-profile-jobs-list")) echo ' class="active"'; ?>>
-        <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-jobs-list" rel="nofollow">
+      <li<?php if (is_active_page("user-profile-ads-list")) echo ' class="active"'; ?>>
+        <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-ads-list" rel="nofollow">
           <i class="fa fa-newspaper-o" aria-hidden="true"></i>
-          <span><?= $languages['header_jobs_list']; ?></span>
+          <span><?= $languages['header_ads_list']; ?></span>
         </a>
       </li>
       <li>
@@ -432,7 +432,7 @@ function print_html_welder_profile_menu() {
         <li<?php if (is_active_page("user-profile-bookmarks")) echo ' class="active"'; ?>>
           <a href="/<?= $current_lang; ?>/<?=$_SESSION['customer_group_code'];?>/user-profile-bookmarks" rel="nofollow">
             <i class="fa fa-bookmark"></i>
-            <span><?= $languages['header_saved_jobs']; ?></span>
+            <span><?= $languages['header_saved_ads']; ?></span>
           </a>
         </li>
         <li>
