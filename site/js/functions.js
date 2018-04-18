@@ -592,19 +592,16 @@ function RemoveCertificateRow(current_input_id) {
 }
   
 function DisplayCountryAddressForm(country_id) {
-  if($(".customer_address_country_id").length) {
-    $(".customer_address_country_id").val(country_id);
-  }
-  else {
-    $(".invoice_country_id").val(country_id);
+  if($(".country_id").length) {
+    $(".country_id").val(country_id);
   }
   if (country_id == 33) {
-      //alert("bg");return;
-      $("#not_bg_form").hide();
-      $("#bg_form").show()
+    //alert("bg");return;
+    $("#not_bg_form").hide();
+    $("#bg_form").show()
   } else {
-      $("#bg_form").hide();
-      $("#not_bg_form").show()
+    $("#bg_form").hide();
+    $("#not_bg_form").show()
   }
 }
 

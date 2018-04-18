@@ -35,6 +35,16 @@
     exit;
   }
   
+  $query = "DELETE FROM `category_to_category` WHERE `category_id` = '$category_id'";
+  $all_queries .= $query."\n";
+  //echo $query;exit;
+  $result = mysqli_query($db_link, $query);
+  if(mysqli_affected_rows($db_link) <= 0) {
+    echo $languages['sql_error_delete']." - ".mysqli_error($db_link);
+    mysqli_query($db_link,"ROLLBACK");
+    exit;
+  }
+  
   //if $category_parent_id != 0 we need to check if the old parent has any children left
   //if not setting it's `category_has_children` parameter to 0
   if($category_parent_id != 0) {

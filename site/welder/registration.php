@@ -18,7 +18,6 @@
     $exclude_fields_arr = array(
         "sign_up",
         "customer_surname",
-        "customer_info",
         "customer_site_name_label",
         "customer_site_id",
         "customer_certificates",
@@ -381,7 +380,6 @@
     </div>
       
     <div class="row">
-      
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="padding: 0">
           <label for="customer_city" style="display: block"><?=$languages['header_customer_address_site_name'];?><span class="text-danger">*</span></label>
@@ -588,12 +586,10 @@
           if(child_ul.is(":visible")) {
             child_ul.hide('fast');
             current_tree_parent.removeClass("active_parent_tree");
-            current_tree_parent.find(".fa_"+current_tree_id).removeClass("fa-minus-square-o").addClass("fa-plus-square-o");
           }
           else {
             child_ul.show('fast');
             current_tree_parent.addClass("active_parent_tree");
-            current_tree_parent.find(".fa_"+current_tree_id).removeClass("fa-plus-square-o").addClass("fa-minus-square-o");
           }
           e.stopPropagation();
       });

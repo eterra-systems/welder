@@ -6344,6 +6344,7 @@ ul.static-page-menu li.active a {
 }
 .tree .category_count_box {
   color: #11C4F7;
+  display: none;
 }
 .tree li.level_1:last-child, .tree li.recent-job-item:last-child {
   padding: 0;
@@ -6367,7 +6368,7 @@ ul.static-page-menu li.active a {
 .tree li .fa-angle-up {
   display: none;
 }
-.tree li.active_parent_tree > label:first-child > .fa-angle-down:first-child {
+.tree li.active_parent_tree > label:first-child > .fa-angle-down {
   display: none;
 }
 .tree li.active_parent_tree > label:first-child > .fa-angle-up {
