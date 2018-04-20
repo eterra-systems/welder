@@ -448,6 +448,89 @@ function print_html_welder_profile_menu() {
 <?php
 }
 
+function list_latest_ads($count) {
+
+  global $db_link;
+  global $current_language_id;
+  global $languages;
+  global $current_lang;
+  global $content_hierarchy_ids; //coming from site/index.php
+
+  $limit = ($count == 0) ? "" : "LIMIT $count";
+
+  $query_ads = "SELECT `cca`.*,`customers`.`customer_image`,`customers_company`.`company_name`,`countries`.`country_name`,
+                       `sites`.`site_name` as `bg_site_name`
+                  FROM `customers_company_ads` as `cca`
+            INNER JOIN `customers` USING(`customer_id`)
+            INNER JOIN `customers_company` USING(`customer_id`)
+             LEFT JOIN `countries` USING(`country_id`)
+             LEFT JOIN `sites` ON `sites`.`site_id` = `cca`.`site_id`
+                 WHERE `cca`.`ad_is_active` = '1'
+              ORDER BY `cca`.`ad_publish_date` DESC";
+  //echo $query_ads;exit;
+  $result_ads = mysqli_query($db_link, $query_ads);
+  if (!$result_ads) echo mysqli_error($db_link);
+  $ad_count = mysqli_num_rows($result_ads);
+  if($ad_count > 0) {
+?>
+  <div class="recent-job-wrapper">
+<?php
+    while($ad_row = mysqli_fetch_assoc($result_ads)) {
+      //print_array_for_debug($ad_row);
+      $ad_id = $ad_row['ad_id'];
+      $ad_title = stripslashes($ad_row['ad_title']);
+      $ad_title_url = str_replace(array('\\','?','!','"','.',',',', ','(',')','%',' - ',' ','--'), array('-','','','','','-','-','-','-','-','-','-','-'), mb_convert_case($ad_title, MB_CASE_LOWER, "UTF-8"));
+      $ad_details_link = "/$current_lang/$ad_title_url?aid=$ad_id";
+      $customer_id = $ad_row['customer_id'];
+      $company_name = stripslashes($ad_row['company_name']);
+      $customer_image = $ad_row['customer_image'];
+      $ad_site_name = $ad_row['site_name'];
+      $bg_site_name = $ad_row['bg_site_name'];
+      $country_name = $ad_row['country_name'];
+      $site_name = ($country_name == "България") ? $bg_site_name : $ad_site_name;
+      $company_logo = (empty($customer_image)) ? SITEFOLDERSL."/images/no-profile-man-medium.jpg" : 
+                                                  SITEFOLDERSL.DIRECTORY_SEPARATOR."company/profile-images/$customer_id/$customer_image";
+      $ad_publish_date = date_create(date("Y-m-d", strtotime($ad_row['ad_publish_date'])));
+      $today = date_create(date("Y-m-d"));
+      $interval = $today->diff($ad_publish_date);
+      //print_object_for_debug($interval);
+      $ad_published_days_ago = $interval->d;
+      $text_days = ($ad_published_days_ago > 1) ? $languages['text_days'] : $languages['text_day'];
+?>
+      <div class="recent-job-item highlight clearfix">
+        <div class="GridLex-grid-middle">
+          <div class="GridLex-col-6_xs-12">
+            <div class="job-position">
+              <div class="image">
+                <img src="<?=$company_logo;?>" alt="image" />
+              </div>
+              <div class="content">
+                <h4><?=$ad_title;?></h4>
+                <p><?=$company_name;?></p>
+              </div>
+            </div>
+          </div>
+          <div class="GridLex-col-3_xs-8_xss-12 mt-10-xss">
+            <div class="job-location">
+              <i class="fa fa-map-marker text-primary"></i> <?=$site_name;?>, <?=$country_name;?>
+            </div>
+          </div>
+          <div class="GridLex-col-3_xs-4_xss-12 text-center">
+            <a href="<?=$ad_details_link;?>" class="btn btn-primary"><?=$languages['btn_view_details'];?></a>
+            <span class="font12 block spacing1 font400"><?php echo $languages['text_published_before']." $ad_published_days_ago $text_days";?></span>
+          </div>
+        </div>
+      </div>
+<?php
+    }
+?>
+  </div>
+  <p class="clearfix">&nbsp;</p>
+<?php
+    mysqli_free_result($result_ads);
+  }
+}
+
 function print_index_sliders($count) {
 
   global $db_link;

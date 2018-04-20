@@ -25,6 +25,11 @@ function print_array_for_debug($array_for_debug) {
   echo "<pre>";print_r($array_for_debug);echo "</pre>";
 }
 
+function print_object_for_debug($object_for_debug) {
+
+  echo "<pre>";var_dump($object_for_debug);echo "</pre>";
+}
+
 function is_file_valid_format($file_exstension) {
   
   $valid_formats = array("jpg", "jpeg", "png", "gif", "pdf", "docx", "doc");

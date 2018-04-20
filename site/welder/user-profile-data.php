@@ -10,10 +10,48 @@
     header("Location: user-profile-data.php");
   }
   
+  $query_customer = "SELECT `customers`.*, `customers_welder`.*
+                       FROM `customers` 
+                 INNER JOIN `customers_welder` ON `customers_welder`.`customer_id` = `customers`.`customer_id`
+                      WHERE `customers`.`customer_id` = '$customer_id'";
+  //echo $query_customer;
+  $result_customer = mysqli_query($db_link, $query_customer);
+  if(!$result_customer) echo mysqli_error($db_link);
+  if(mysqli_num_rows($result_customer) > 0) {
+    $customer = mysqli_fetch_assoc($result_customer);
+    $customer_site_id = $customer['site_id'];
+    $customer_image = $customer['customer_image'];
+    $profile_image = (empty($customer_image)) ? SITEFOLDERSL."/images/no-profile-man-medium.jpg" : 
+                                                SITEFOLDERSL.DIRECTORY_SEPARATOR.$_SESSION['customer_group_code']."/profile-images/$customer_id/$customer_image";
+    $customer_email = $customer['customer_email'];
+    $customer_phone = $customer['customer_phone'];
+    $customer_firstname = $customer['first_name'];
+    $customer_surname = $customer['surname'];
+    $customer_lastname = $customer['last_name'];
+    $customer_age = $customer['age'];
+    $customer_gender = $customer['gender'];
+    $customer_work_abroad = $customer['work_abroad'];
+    $customer_work_abroad_short_term = $customer['short_term'];
+    $customer_work_abroad_long_term = $customer['long_term'];
+    $customer_explanation_text = $customer['explanation_text'];
+    $customer_is_in_mailist = $customer['customer_is_in_mailist'];
+    if($customer_site_id != 0) {
+      $query_customer_site = "SELECT `site_type`, `site_name`, `site_postcode` FROM `sites` WHERE `site_id` = '$customer_site_id'";
+      $result_customer_site = mysqli_query($db_link, $query_customer_site);
+      if(!$result_customer_site) echo mysqli_error($db_link);
+      if(mysqli_num_rows($result_customer_site) > 0) {
+        $site = mysqli_fetch_assoc($result_customer_site);
+
+        $customer_site_type = $site['site_type'];
+        $customer_site_name = mb_convert_case($site['site_name'], MB_CASE_TITLE, "UTF-8");
+        $customer_site_postcode = $site['site_postcode'];
+      }
+    }
+  }
+  
   if(isset($_POST['update_profile'])) {
     //print_array_for_debug($_POST);exit;
     
-    $profile_image = $_POST['profile_image_preview'];
     $customer_firstname = trim($_POST['customer_firstname']);
     $customer_surname = trim($_POST['customer_surname']);
     $customer_lastname = trim($_POST['customer_lastname']);
@@ -52,7 +90,6 @@
       $query_update_user = "UPDATE `customers_welder` SET `site_id`='$customer_site_id',
                                                           `first_name`='$customer_firstname',
                                                           `surname`='$customer_surname',
-                                                          `surname`='$customer_surname',
                                                           `last_name`='$customer_lastname',
                                                           `age`='$customer_age',
                                                           `gender`='$customer_gender',
@@ -67,46 +104,9 @@
         echo $languages['sql_error_update']." - 2 update `customers_welder` ".mysqli_error($db_link);
       }
       $success = true;
-    }
-  }
-  else {
-    $query_customer = "SELECT `customers`.*, `customers_welder`.*
-                         FROM `customers` 
-                   INNER JOIN `customers_welder` ON `customers_welder`.`customer_id` = `customers`.`customer_id`
-                        WHERE `customers`.`customer_id` = '$customer_id'";
-    //echo $query_customer;
-    $result_customer = mysqli_query($db_link, $query_customer);
-    if(!$result_customer) echo mysqli_error($db_link);
-    if(mysqli_num_rows($result_customer) > 0) {
-      $customer = mysqli_fetch_assoc($result_customer);
-      $customer_site_id = $customer['site_id'];
-      $customer_image = $customer['customer_image'];
-      $profile_image = (empty($customer_image)) ? SITEFOLDERSL."/images/no-profile-man-medium.jpg" : 
-                                                  SITEFOLDERSL.DIRECTORY_SEPARATOR.$_SESSION['customer_group_code']."/profile-images/$customer_id/$customer_image";
-      $customer_email = $customer['customer_email'];
-      $customer_phone = $customer['customer_phone'];
-      $customer_firstname = $customer['first_name'];
-      $customer_surname = $customer['surname'];
-      $customer_lastname = $customer['last_name'];
-      $customer_age = $customer['age'];
-      $customer_gender = $customer['gender'];
-      $customer_work_abroad = $customer['work_abroad'];
-      $customer_work_abroad_short_term = $customer['short_term'];
-      $customer_work_abroad_long_term = $customer['long_term'];
-      $customer_explanation_text = $customer['explanation_text'];
-      $customer_is_in_mailist = $customer['customer_is_in_mailist'];
-      if($customer_site_id != 0) {
-        $query_customer_site = "SELECT `site_type`, `site_name`, `site_postcode` FROM `sites` WHERE `site_id` = '$customer_site_id'";
-        $result_customer_site = mysqli_query($db_link, $query_customer_site);
-        if(!$result_customer_site) echo mysqli_error($db_link);
-        if(mysqli_num_rows($result_customer_site) > 0) {
-          $site = mysqli_fetch_assoc($result_customer_site);
-
-          $customer_site_type = $site['site_type'];
-          $customer_site_name = mb_convert_case($site['site_name'], MB_CASE_TITLE, "UTF-8");
-          $customer_site_postcode = $site['site_postcode'];
-        }
-      }
+      
+      $_SESSION['customer_name'] = "$customer_firstname $customer_lastname";
+      unset($_POST);
     }
   }
   //echo "<pre>";print_r($_COOKIE);
@@ -116,6 +116,12 @@
     if(isset($success)) {
 ?>
     <p class="alert alert-success mb-15"><?=$languages['text_update_was_successfull'];?></p>
+    <script>
+      // this script will prevent resubmitting the form on refresh
+      if( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+      }
+    </script>
 <?php
     }
     if(!empty($errors)) {

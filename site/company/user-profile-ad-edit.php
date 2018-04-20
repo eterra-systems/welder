@@ -7,6 +7,24 @@
   
   //print_array_for_debug($_POST);
   
+  $query_ad = "SELECT `cca`.* FROM `customers_company_ads` as `cca` WHERE `cca`.`ad_id` = '$ad_id'";
+  //echo $query_ad;exit;
+  $result_ad = mysqli_query($db_link, $query_ad);
+  if (!$result_ad) echo mysqli_error($db_link);
+  if(mysqli_num_rows($result_ad)) {
+
+    $ad_row = mysqli_fetch_assoc($result_ad);
+
+    $ad_title = $ad_row['ad_title'];
+    $current_country_id = $ad_row['country_id'];
+    $site_id = $ad_row['site_id'];
+    $site_name = $ad_row['site_name'];
+    $site_name_not_bg = $site_name;
+    $ad_summary = $ad_row['ad_summary'];
+    $ad_description = $ad_row['ad_description'];
+    $ad_start_date = $ad_row['ad_start_date'];
+  }
+    
   //if(false) {
   if(isset($_POST['post_ad'])) {
     
@@ -91,24 +109,6 @@
       mysqli_commit($db_link);
       
       ?><script>window.location="<?="/$current_lang/company/user-profile-ads-list";?>"</script><?php
-    }
-  } else {
-    $query_ad = "SELECT `cca`.* FROM `customers_company_ads` as `cca` WHERE `cca`.`ad_id` = '$ad_id'";
-    //echo $query_ad;exit;
-    $result_ad = mysqli_query($db_link, $query_ad);
-    if (!$result_ad) echo mysqli_error($db_link);
-    if(mysqli_num_rows($result_ad)) {
-      
-      $ad_row = mysqli_fetch_assoc($result_ad);
-      
-      $ad_title = $ad_row['ad_title'];
-      $current_country_id = $ad_row['country_id'];
-      $site_id = $ad_row['site_id'];
-      $site_name = $ad_row['site_name'];
-      $site_name_not_bg = $site_name;
-      $ad_summary = $ad_row['ad_summary'];
-      $ad_description = $ad_row['ad_description'];
-      $ad_start_date = $ad_row['ad_start_date'];
     }
   }
   

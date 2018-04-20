@@ -69,6 +69,14 @@
     
     require_once 'site/categories.php';
   }
+
+  if(isset($_GET['aid']) && is_int(intval($_GET['aid']))) {
+    //category_id
+    
+    $current_category_pretty_url = mysqli_real_escape_string($db_link,array_pop($page_path_array));
+    
+    require_once 'site/ad-details.php';
+  }
   elseif(isset($_GET['ncid'])) {
     //news_category_id
     

@@ -9,12 +9,47 @@
   if(isset($_POST['cancel'])) {
     header("Location: user-profile-data.php");
   }
+
+  $query_customer = "SELECT `customers`.*, `customers_company`.*
+                       FROM `customers` 
+                 INNER JOIN `customers_company` ON `customers_company`.`customer_id` = `customers`.`customer_id`
+                      WHERE `customers`.`customer_id` = '$customer_id'";
+  //echo $query_customer;
+  $result_customer = mysqli_query($db_link, $query_customer);
+  if(!$result_customer) echo mysqli_error($db_link);
+  if(mysqli_num_rows($result_customer) > 0) {
+    $customer = mysqli_fetch_assoc($result_customer);
+    $customer_site_id = $customer['site_id'];
+    $customer_image = $customer['customer_image'];
+    $profile_image = (empty($customer_image)) ? SITEFOLDERSL."/images/no-profile-man-medium.jpg" : 
+                                                SITEFOLDERSL.DIRECTORY_SEPARATOR.$_SESSION['customer_group_code']."/profile-images/$customer_id/$customer_image";
+    $customer_email = $customer['customer_email'];
+    $customer_phone = $customer['customer_phone'];
+    $customer_companyname = $customer['company_name'];
+    $customer_firstname = $customer['first_name'];
+    $customer_lastname = $customer['last_name'];
+    $customer_explanation_text = $customer['explanation_text'];
+    $customer_is_in_mailist = $customer['customer_is_in_mailist'];
+    if($customer_site_id != 0) {
+      $query_customer_site = "SELECT `site_type`, `site_name`, `site_postcode` FROM `sites` WHERE `site_id` = '$customer_site_id'";
+      $result_customer_site = mysqli_query($db_link, $query_customer_site);
+      if(!$result_customer_site) echo mysqli_error($db_link);
+      if(mysqli_num_rows($result_customer_site) > 0) {
+        $site = mysqli_fetch_assoc($result_customer_site);
+
+        $customer_site_type = $site['site_type'];
+        $customer_site_name = mb_convert_case($site['site_name'], MB_CASE_TITLE, "UTF-8");
+        $customer_site_postcode = $site['site_postcode'];
+      }
+    }
+  }
+  //echo "<pre>";print_r($_SERVER);
   
   if(isset($_POST['update_profile'])) {
     //print_array_for_debug($_POST);exit;
     
+    $customer_companyname = mysqli_real_escape_string($db_link, trim($_POST['customer_companyname']));
     $customer_firstname = trim($_POST['customer_firstname']);
-    $customer_surname = trim($_POST['customer_surname']);
     $customer_lastname = trim($_POST['customer_lastname']);
     $customer_site_id = $_POST['customer_site_id'];
     $customer_site_name = $_POST['customer_site_name'];
@@ -33,46 +68,25 @@
       //echo $query_update_user."<br>";
       $result_update_user = mysqli_query($db_link, $query_update_user);
       if(!$result_update_user) {
-        echo $languages['sql_error_update']." - 2 ".mysqli_error($db_link);
+        echo $languages['sql_error_update']." - 1 update `customers`".mysqli_error($db_link);
+      }
+      
+      $query_update_user = "UPDATE `customers_company` SET `site_id`='$customer_site_id',
+                                                           `company_name`='$customer_companyname',
+                                                           `first_name`='$customer_firstname',
+                                                           `last_name`='$customer_lastname'
+                                                     WHERE `customer_id` = '$customer_id'";
+      //echo $query_update_user."<br>";
+      $result_update_user = mysqli_query($db_link, $query_update_user);
+      if(!$result_update_user) {
+        echo $languages['sql_error_update']." - 2 update `customers_company`".mysqli_error($db_link);
       }
       else $success = true;
+      
+      $_SESSION['customer_name'] = "$customer_firstname $customer_lastname";
+      $_SESSION['company']['company_name'] = $customer_companyname;
+      unset($_POST);
     }
-  }
-  else {
-    $query_customer = "SELECT `customers`.*, `customers_company`.*
-                         FROM `customers` 
-                   INNER JOIN `customers_company` ON `customers_company`.`customer_id` = `customers`.`customer_id`
-                        WHERE `customers`.`customer_id` = '$customer_id'";
-    //echo $query_customer;
-    $result_customer = mysqli_query($db_link, $query_customer);
-    if(!$result_customer) echo mysqli_error($db_link);
-    if(mysqli_num_rows($result_customer) > 0) {
-      $customer = mysqli_fetch_assoc($result_customer);
-      $customer_site_id = $customer['site_id'];
-      $customer_image = $customer['customer_image'];
-      $profile_image = (empty($customer_image)) ? SITEFOLDERSL."/images/no-profile-man-medium.jpg" : 
-                                                  SITEFOLDERSL.DIRECTORY_SEPARATOR.$_SESSION['customer_group_code']."/profile-images/$customer_id/$customer_image";
-      $customer_email = $customer['customer_email'];
-      $customer_phone = $customer['customer_phone'];
-      $customer_companyname = $customer['company_name'];
-      $customer_firstname = $customer['first_name'];
-      $customer_lastname = $customer['last_name'];
-      $customer_explanation_text = $customer['explanation_text'];
-      $customer_is_in_mailist = $customer['customer_is_in_mailist'];
-      if($customer_site_id != 0) {
-        $query_customer_site = "SELECT `site_type`, `site_name`, `site_postcode` FROM `sites` WHERE `site_id` = '$customer_site_id'";
-        $result_customer_site = mysqli_query($db_link, $query_customer_site);
-        if(!$result_customer_site) echo mysqli_error($db_link);
-        if(mysqli_num_rows($result_customer_site) > 0) {
-          $site = mysqli_fetch_assoc($result_customer_site);
-
-          $customer_site_type = $site['site_type'];
-          $customer_site_name = mb_convert_case($site['site_name'], MB_CASE_TITLE, "UTF-8");
-          $customer_site_postcode = $site['site_postcode'];
-        }
-      }
-    }
-    //echo "<pre>";print_r($_SERVER);
   }
 ?>
     <form name="user_profile_data" id="user_profile_data" class="form-group" method="post" action="<?=htmlspecialchars($_SERVER['REQUEST_URI']);?>">
@@ -80,6 +94,12 @@
     if(isset($success)) {
 ?>
     <p class="alert alert-success mb-15"><?=$languages['text_update_was_successfull'];?></p>
+    <script>
+      // this script will prevent resubmitting the form on refresh
+      if( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+      }
+    </script>
 <?php
     }
     if(!empty($errors)) {
@@ -105,7 +125,7 @@
       <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
           <label for="customer_companyname"><?=$languages['header_customer_companyname'];?><span class="red">*</span></label>
-          <input type="text" name="customer_companyname" id="customer_copanyname" class="form-control" value="<?php if(isset($customer_companyname)) echo $customer_companyname;?>" />
+          <input type="text" name="customer_companyname" id="customer_companyname" class="form-control" value="<?php if(isset($customer_companyname)) echo $customer_companyname;?>" />
           <?php if(!empty($errors['customer_companyname'])) { ?><span class="alert alert-danger"><?=$errors['customer_companyname'];?></span><?php } ?>
         </div>
       </div>
@@ -147,15 +167,25 @@
         </div>
       </div>
       <div class="clearfix">&nbsp;</div>
-
-      <div class="row<?php if(!empty($errors['customer_phone'])) echo ' form-error';?>">
+      
+      <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
           <label for="customer_phone"><?=$languages['header_customer_phone'];?><span class="red">*</span></label>
           <input type="text" name="customer_phone" id="customer_phone" class="form-control" value="<?php if(isset($customer_phone)) echo $customer_phone;?>" />
-          <?php if(!empty($errors['customer_phone'])) { ?><span class="alert alert-danger"><?=$errors['customer_phone'];?></span><?php } ?>
+          <?php if(!empty($errors['customer_phone'])) { ?><div class="alert alert-danger"><?=$errors['customer_phone'];?></div><?php } ?>
+          <span class="font12 font-italic"><i class="fa fa-info-circle"></i> <?=$languages['text_phone_example'];?></span>
+        </div>
+        <p class="clearfix hidden-lg hidden-md"></p>
+        
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+          <label for="customer_email"><?=$languages['header_customer_email'];?></label>
+          <input type="text" name="customer_email" id="customer_email" class="form-control" value="<?php if(isset($customer_email)) echo $customer_email;?>" onBlur="CheckIfUserEmailIsValidForUpdate(this.value,'<?=$current_lang;?>')" />
+          <input type="hidden" name="customer_email_status" id="customer_email_status" value="<?php if(!empty($errors['customer_email_status'])) echo "error"; else echo "ok"?>" />
+          <span id="customer_email_is_valid"></span>
+          <?php if(!empty($errors['customer_email'])) { ?>&nbsp;&nbsp;<span class="alert alert-danger"><?=$errors['customer_email'];?></span><?php } ?>
+          <?php if(!empty($errors['customer_email_status'])) { ?>&nbsp;&nbsp;<span class="alert alert-danger"><?=$errors['customer_email_status'];?></span><?php } ?>
         </div>
       </div>
-      <p><i class="fa fa-info-circle"></i> <i><?=$languages['text_phone_example'];?></i></p>
       <div class="clearfix">&nbsp;</div>
 
       <div class="row">
