@@ -14,7 +14,7 @@
     $country_id = $_POST['country_id'];
     $site_id = $_POST['site_id'];
     $site_name = $_POST['site_name'];
-    $site_name_not_bg = $_POST['site_name_not_bg'];
+    $site_name_not_bg = (!empty($site_name)) ? $site_name : $_POST['site_name_not_bg'];
     $site_postcode = $_POST['site_postcode'];
     $ad_summary = $_POST['ad_summary'];
         if(empty($ad_title)) $errors['ad_summary'] = $languages['error_required_field'];

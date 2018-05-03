@@ -458,12 +458,16 @@ function list_latest_ads($count) {
 
   $limit = ($count == 0) ? "" : "LIMIT $count";
 
+  if(isset($_SESSION['customer_id'])) {
+    $customer_id = $_SESSION['customer_id'];
+  }
+  
   $query_ads = "SELECT `cca`.*,`customers`.`customer_image`,`customers_company`.`company_name`,`countries`.`country_name`,
                        `sites`.`site_name` as `bg_site_name`
                   FROM `customers_company_ads` as `cca`
             INNER JOIN `customers` USING(`customer_id`)
             INNER JOIN `customers_company` USING(`customer_id`)
-             LEFT JOIN `countries` USING(`country_id`)
+             LEFT JOIN `countries` ON `countries`.`country_id` = `cca`.`country_id`
              LEFT JOIN `sites` ON `sites`.`site_id` = `cca`.`site_id`
                  WHERE `cca`.`ad_is_active` = '1'
               ORDER BY `cca`.`ad_publish_date` DESC";

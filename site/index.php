@@ -289,9 +289,11 @@
 <?php
   }
   elseif(isset($current_page_pretty_url) && $current_page_pretty_url == "confirm-account") {
-    //print_array_for_debug($page_path_array);
-    $customer_id = intval($page_params[0]);
-    
+    //print_array_for_debug($page_params);
+    if(is_array($page_params)) {
+      $customer_id = intval($page_params[0]);
+    }
+    else $customer_id = intval($page_params);
     if(!empty($customer_id)) {
 
       $body_css = "not-transparent-header confirm-account";

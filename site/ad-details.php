@@ -12,7 +12,7 @@
                  FROM `customers_company_ads` as `cca`
            INNER JOIN `customers` USING(`customer_id`)
            INNER JOIN `customers_company` USING(`customer_id`)
-            LEFT JOIN `countries` USING(`country_id`)
+            LEFT JOIN `countries` ON `countries`.`country_id` = `cca`.`country_id`
             LEFT JOIN `sites` ON `sites`.`site_id` = `cca`.`site_id`
                 WHERE `cca`.`ad_id` = '$current_ad_id'";
   //echo $query_ad;exit;

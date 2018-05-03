@@ -17,25 +17,23 @@
         "sign_up",
         "customer_surname",
         "customer_site_name_label",
+        "customer_site_name",
+        "customer_site_type",
+        "customer_site_postcode",
         "customer_site_id",
         "customer_certificates",
-        "customer_work_abroad",
-        "customer_work_abroad_long_term",
-        "customer_work_abroad_short_term",
-        "customer_explanation_text",
         "categories",
         "category_ids",
         "category_hierarchy_ids",
         "g-recaptcha-response",
     );
     foreach($_POST as $name => $value) {
-      $trimed_value = trim($value);
-      if(empty($trimed_value) && ($name != "sign_up" && $name != "customer_site_name_label" && $name != "customer_site_id"
-        && $name != "customer_work_abroad" && $name != "customer_work_abroad_long_term" && $name != "customer_work_abroad_short_term" 
-        && $name != "customer_explanation_text" && $name != "g-recaptcha-response")) {
-        $field_name = "header_".$name;
-        $field_name_text = mb_convert_case($languages[$field_name], MB_CASE_LOWER, "UTF-8");
-        $errors[$name] = $languages['error_registration_empty_field'].$field_name_text;
+      if(!in_array($name, $exclude_fields_arr)) {
+        if(empty(trim($value))) {
+          $field_name = "header_".$name;
+          $field_name_text = mb_convert_case($languages[$field_name], MB_CASE_LOWER, "UTF-8");
+          $errors[$name] = $languages['error_registration_empty_field'].$field_name_text;
+        }
       }
     }
     
@@ -43,14 +41,11 @@
     $customer_companyname = trim($_POST['customer_companyname']);
     $customer_firstname = trim($_POST['customer_firstname']);
     $customer_lastname = trim($_POST['customer_lastname']);
+    $current_country_id = $_POST['country_id'];
     $customer_site_id = $_POST['customer_site_id'];
     $customer_site_name = $_POST['customer_site_name'];
+    $site_name_not_bg = (!empty($site_name)) ? $site_name : $_POST['site_name_not_bg'];
     $customer_site_postcode = $_POST['customer_site_postcode'];
-    $customer_work_abroad = 0;
-      if(isset($_POST['customer_work_abroad_long_term'])) $customer_work_abroad_long_term = 1;
-    $customer_work_abroad_short_term = 0;
-      if(isset($_POST['customer_work_abroad_short_term'])) $customer_work_abroad_short_term = 1;
-    $customer_explanation_text = $_POST['customer_explanation_text'];
     $customer_email = trim($_POST['customer_email']);
     $customer_email_retype = trim($_POST['customer_email_retype']);
     if($customer_email != $customer_email_retype) {
@@ -148,23 +143,23 @@
       
       $customer_firstname = mysqli_real_escape_string($db_link,$customer_firstname);
       $customer_lastname = mysqli_real_escape_string($db_link,$customer_lastname);
-      $customer_age = mysqli_real_escape_string($db_link,$customer_age);
-      $explanation_text_db = prepare_for_null_row(mysqli_real_escape_string($db_link, $customer_explanation_text));
       
       $query_insert_welder = "INSERT INTO `customers_company`(`customer_company_id`,
                                                             `customer_id`,
+                                                            `country_id`,
                                                             `site_id`,
+                                                            `site_name`,
                                                             `company_name`,
                                                             `first_name`,
-                                                            `last_name`,
-                                                            `explanation_text`) 
+                                                            `last_name`) 
                                                     VALUES (NULL,
                                                             '$customer_id',
+                                                            '$current_country_id',
                                                             '$customer_site_id',
+                                                            '$site_name_not_bg',
                                                             '$customer_companyname',
                                                             '$customer_firstname',
-                                                            '$customer_lastname',
-                                                            $explanation_text_db)";
+                                                            '$customer_lastname')";
       //echo $query_insert_welder;
       $all_queries .= "<br>".$query_insert_welder;
       $result_insert_welder = mysqli_query($db_link, $query_insert_welder);
@@ -213,8 +208,22 @@
     }
     
   }//if(isset($_POST['sign_up'])
-  //
   //if not all the requered fields was filled in correct by the user make the sign up form showing the errors
+  
+  $bg_form_style = 'style="display:none"';
+  $not_bg_form_style = 'style="display:none"';
+
+  if(isset($current_country_id)) {
+    if($current_country_id == 33) {
+      $bg_form_style = "";
+    }
+    else {
+      $not_bg_form_style = "";
+    }
+  }
+  else {
+    $bg_form_style = "";
+  }
   
   if($registration_was_successfull) {
 ?>
@@ -259,8 +268,34 @@
     <div class="clearfix">&nbsp;</div>
       
     <div class="row">
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+        <label for="country_id"><?=$languages['header_customer_address_country'];?><span class="text-danger">*</span></label>
+        <select name="country_id" id="country_id" class="form-control" onChange="DisplayCountryAddressForm(this.value)">
+        <?php
+          $country_list = "WHERE `country_id` IN(14,21,33,53,55,56,57)";
+          $query_countries = "SELECT `country_id`,`country_name` FROM  `countries` ORDER BY `country_name` ASC ";
+          //echo $query_countries;
+          $result_countries = mysqli_query($db_link, $query_countries);
+          if (!$result_countries) echo mysqli_error($db_link);
+          if(mysqli_num_rows($result_countries) > 0) {
+
+            while ($country = mysqli_fetch_assoc($result_countries)) {
+
+              $country_id = $country['country_id'];
+              $country_name = stripslashes($country['country_name']);
+              $selected = (isset($current_country_id) && $current_country_id == $country_id) ? 'selected="selected"' : ""; //$country_id_db
+
+              echo "<option value='$country_id' $selected>$country_name</option>";
+
+            }
+            mysqli_free_result($result_countries);
+          }
+        ?> 
+        </select>
+      </div>
+      <p class="clearfix"></p>
       
-      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div id="bg_form" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" <?=$bg_form_style;?>>
         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="padding: 0">
           <label for="customer_city" style="display: block"><?=$languages['header_customer_address_site_name'];?><span class="text-danger">*</span></label>
           <input type="text" name="customer_site_type" class="pull-left form-control" id="customer_site_type" disabled="disabled" value="<?php if(isset($customer_site_type)) echo $customer_site_type;else echo $languages['header_customer_address_site_type'];?>" style="width: 25%; margin-right: 1%;padding: 8px 10px" />
@@ -275,16 +310,12 @@
           <input type="hidden" name="customer_site_postcode" id="customer_site_postcode" value="<?php if(isset($customer_site_postcode)) echo $customer_site_postcode;?>" />
         </div>
       </div>
-    </div>
-    <div class="clearfix">&nbsp;</div>
       
-    <div class="row">
-      
-      <div class="col-lg-9 col-md-8 col-sm-12 col-xs-12">
-        <label for="customer_explanation_text"><?=$languages['header_customer_work_abroad_explanation_text'];?></label>
-        <textarea name="customer_explanation_text" id="customer_explanation_text" class="form-control"><?php if(isset($customer_explanation_text)) echo $customer_explanation_text;?></textarea>
+      <div id="not_bg_form" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" <?=$not_bg_form_style;?>>
+        <label for="site_name_not_bg"><?=$languages['header_customer_address_site_name'];?><span class="text-danger">*</span></label>
+        <input type="text" name="site_name_not_bg" id="site_name_not_bg" class="form-control" value="<?php if(isset($site_name_not_bg)) echo $site_name_not_bg;?>" />
+        <?php if(!empty($errors['site_name_not_bg'])) { ?><div class="alert alert-danger"><?=$errors['site_name_not_bg'];?></div><?php } ?>
       </div>
-      
     </div>
     <div class="clearfix">&nbsp;</div>
 

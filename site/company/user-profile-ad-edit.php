@@ -20,9 +20,33 @@
     $site_id = $ad_row['site_id'];
     $site_name = $ad_row['site_name'];
     $site_name_not_bg = $site_name;
+    if($site_id != 0) {
+      $query_site = "SELECT `site_type`, `site_name`, `site_postcode` FROM `sites` WHERE `site_id` = '$site_id'";
+      $result_site = mysqli_query($db_link, $query_site);
+      if(!$result_site) echo mysqli_error($db_link);
+      if(mysqli_num_rows($result_site) > 0) {
+        $site = mysqli_fetch_assoc($result_site);
+
+        $site_type = $site['site_type'];
+        $site_name = mb_convert_case($site['site_name'], MB_CASE_TITLE, "UTF-8");
+        $site_postcode = $site['site_postcode'];
+      }
+    }
     $ad_summary = $ad_row['ad_summary'];
     $ad_description = $ad_row['ad_description'];
     $ad_start_date = $ad_row['ad_start_date'];
+  }
+  
+  $category_ids_tree = array();
+  $query_categories = "SELECT `category_hierarchy_ids` FROM `ads_to_categories` WHERE `ad_id` = '$ad_id'";
+  //echo $query_categories;
+  $result_categories = mysqli_query($db_link, $query_categories);
+  if(!$result_categories) echo mysqli_error($db_link);
+  if(mysqli_num_rows($result_categories) > 0) {
+    while($categories = mysqli_fetch_assoc($result_categories)) {
+      
+      $category_ids_tree[] = str_replace(".", "", $categories['category_hierarchy_ids']);
+    }
   }
     
   //if(false) {
@@ -56,53 +80,53 @@
       $ad_is_active = 1;
       $ad_start_date_db = prepare_for_null_row($ad_start_date);
       
-      $q_insert_ad = "INSERT INTO `customers_company_ads`(`ad_id`, 
-                                                          `customer_id`, 
-                                                          `country_id`, 
-                                                          `site_id`, 
-                                                          `site_name`, 
-                                                          `ad_title`, 
-                                                          `ad_summary`, 
-                                                          `ad_description`, 
-                                                          `ad_start_date`,
-                                                          `ad_views`,
-                                                          `ad_is_active`,
-                                                          `ad_publish_date`) 
-                                                  VALUES (NULL,
-                                                          '$customer_id',
-                                                          '$current_country_id',
-                                                          '$site_id',
-                                                          '$site_name_not_bg',
-                                                          '$ad_title',
-                                                          '$ad_summary',
-                                                          '$ad_description',
-                                                          $ad_start_date_db,
-                                                          '$ad_views',
-                                                          '$ad_is_active',
-                                                          NOW())";
-      $all_queries .= "<br>".$q_insert_ad;
-      $result_insert_ad = mysqli_query($db_link, $q_insert_ad);
-      if(mysqli_affected_rows($db_link) <= 0) {
-        echo $languages['sql_error_insert']." - 1 `customers_to_categories` ".mysqli_error($db_link);
-        mysqli_query($db_link,"ROLLBACK");
-        exit;
-      }
-      
-      $ad_id = mysqli_insert_id($db_link);
-        
-      foreach($categories as $key) {
-        
-        $category_hierarchy_ids = $_POST['category_hierarchy_ids'][$key];
-        
-        $q_insert_ctc = "INSERT INTO `ads_to_categories`(`ad_id`, `category_hierarchy_ids`) VALUES ('$ad_id','$category_hierarchy_ids')";
-        $all_queries .= "<br>".$q_insert_ctc;
-        $result_insert_ctc = mysqli_query($db_link, $q_insert_ctc);
-        if(mysqli_affected_rows($db_link) <= 0) {
-          echo $languages['sql_error_insert']." - 3 `customers_to_categories` ".mysqli_error($db_link);
-          mysqli_query($db_link,"ROLLBACK");
-          exit;
-        }
-      }
+//      $q_insert_ad = "INSERT INTO `customers_company_ads`(`ad_id`, 
+//                                                          `customer_id`, 
+//                                                          `country_id`, 
+//                                                          `site_id`, 
+//                                                          `site_name`, 
+//                                                          `ad_title`, 
+//                                                          `ad_summary`, 
+//                                                          `ad_description`, 
+//                                                          `ad_start_date`,
+//                                                          `ad_views`,
+//                                                          `ad_is_active`,
+//                                                          `ad_publish_date`) 
+//                                                  VALUES (NULL,
+//                                                          '$customer_id',
+//                                                          '$current_country_id',
+//                                                          '$site_id',
+//                                                          '$site_name_not_bg',
+//                                                          '$ad_title',
+//                                                          '$ad_summary',
+//                                                          '$ad_description',
+//                                                          $ad_start_date_db,
+//                                                          '$ad_views',
+//                                                          '$ad_is_active',
+//                                                          NOW())";
+//      $all_queries .= "<br>".$q_insert_ad;
+//      $result_insert_ad = mysqli_query($db_link, $q_insert_ad);
+//      if(mysqli_affected_rows($db_link) <= 0) {
+//        echo $languages['sql_error_insert']." - 1 `customers_to_categories` ".mysqli_error($db_link);
+//        mysqli_query($db_link,"ROLLBACK");
+//        exit;
+//      }
+//      
+//      $ad_id = mysqli_insert_id($db_link);
+//        
+//      foreach($categories as $key) {
+//        
+//        $category_hierarchy_ids = $_POST['category_hierarchy_ids'][$key];
+//        
+//        $q_insert_ctc = "INSERT INTO `ads_to_categories`(`ad_id`, `category_hierarchy_ids`) VALUES ('$ad_id','$category_hierarchy_ids')";
+//        $all_queries .= "<br>".$q_insert_ctc;
+//        $result_insert_ctc = mysqli_query($db_link, $q_insert_ctc);
+//        if(mysqli_affected_rows($db_link) <= 0) {
+//          echo $languages['sql_error_insert']." - 3 `customers_to_categories` ".mysqli_error($db_link);
+//          mysqli_query($db_link,"ROLLBACK");
+//          exit;
+//        }
+//      }
       
       //echo $all_queries;mysqli_query($db_link,"ROLLBACK");exit;
       
@@ -216,7 +240,7 @@
     <label for="ad_description"><?=$languages['header_categories'];?><span class="text-danger">*</span></label>
     <div class="tree">
       <ul class="recent-job-wrapper">
-        <?php list_categories_with_checkboxes($category_parent_id = 0, $category_root_id = 0, $category_ids_tree = array()) ;?>
+        <?php list_categories_with_checkboxes($category_parent_id = 0, $category_root_id = 0, $category_ids_tree) ;?>
         <li class="level_1 clearfix"></li>
       </ul>
     </div>
@@ -255,6 +279,9 @@
       });
 
       //start family tree
+      
+      CalculateSelectedSubcategories();
+        
       $('.select_all').on('click', function (e) {
         var state = true;
         var root = $(this).attr("data-root");

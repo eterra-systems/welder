@@ -322,6 +322,7 @@ $languages = array(
   "text_clear_files" => "Изчисти избраните файлове",
   "text_upload_files" => "Качи избраните файлове",
   "text_upload_photo" => "Качи снимка",
+  "text_or" => "или",
   "text_day" => "ден",
   "text_days" => "дни",
   "text_arrow" => "Стрелка",
